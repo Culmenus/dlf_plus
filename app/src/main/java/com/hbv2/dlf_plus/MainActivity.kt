@@ -2,10 +2,49 @@ package com.hbv2.dlf_plus
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    // sama og að gera
+    //      var toggle: ActionBarDrawerToggle? = null
+    // nema að þetta þarf fult af null checks
+    lateinit var toggle: ActionBarDrawerToggle
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+
+        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout, R.string.open, R.string.close)
+        viewBinding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        viewBinding.navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.miItem1 -> Toast.makeText(applicationContext,
+                    "Clicked item 1", Toast.LENGTH_SHORT).show()
+                R.id.miItem2 -> Toast.makeText(applicationContext,
+                    "Clicked item 2", Toast.LENGTH_SHORT).show()
+                R.id.miItem3 -> Toast.makeText(applicationContext,
+                    "Clicked item 3", Toast.LENGTH_SHORT).show()
+            }
+            true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
