@@ -4,5 +4,5 @@
     <string name="close">Close</string>
     <string name="cover">Course Cover</string>
     <string name="title_placeholder_text">Title Placeholder Text</string>
-
+    <string name="dummy_goto_forum">Go to forum</string>
 </resources>
