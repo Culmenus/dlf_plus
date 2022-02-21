@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // dha dummy button yfir i forumActivity... skipta ut fyrir onclick a cards
-        val dummyButton : Button = viewBinding.forumDummyButton;
-        dummyButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, ForumActivity::class.java)
-            startActivity(intent)
-
-        }
+        // val dummyButton : Button = viewBinding.forumDummyButton;
+        // dummyButton.setOnClickListener {
+        //     val intent = Intent(this@MainActivity, ForumActivity::class.java)
+        //     startActivity(intent)
+//
+        // }
 
     }
 
