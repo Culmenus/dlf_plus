@@ -1,16 +1,16 @@
-package com.hbv2.dlf_plus
+package com.hbv2.dlf_plus.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.GridLayoutManager
+import com.hbv2.dlf_plus.CardAdapter
+import com.hbv2.dlf_plus.Forum
+import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
+import com.hbv2.dlf_plus.forumList
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,15 +36,6 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(applicationContext, 2)
             adapter = CardAdapter(forumList)
         }
-
-        // dha dummy button yfir i forumActivity... skipta ut fyrir onclick a cards
-        val dummyButton : Button = viewBinding.forumDummyButton;
-        dummyButton.setOnClickListener {
-             val intent = Intent(this@MainActivity, ForumActivity::class.java)
-             startActivity(intent)
-
-        }
-
     }
 
 
@@ -57,7 +48,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+            R.string.open,
+            R.string.close
+        )
         viewBinding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 

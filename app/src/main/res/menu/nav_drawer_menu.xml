@@ -2,17 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        style = "@styles/boigahStyle"
         android:id="@+id/miItem1"
-        android:title="@string/home"
-        android:textSize="40sp" />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/miItem2"
-        android:title="@string/my_forums"
-        android:textSize="40sp" />
+        android:title="@string/my_forums" />
 
     <item
         android:id="@+id/miItem3"
-        android:title="@string/user_profile"
-        android:textSize="40sp" />
+        android:title="@string/user_profile" />
 </menu>

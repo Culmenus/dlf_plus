@@ -1,39 +1,28 @@
-package com.hbv2.dlf_plus
+package com.hbv2.dlf_plus.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.hbv2.dlf_plus.databinding.ActivityForumBinding
+import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.databinding.ActivityUserProfileBinding
 
 
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewBinding: ActivityForumBinding
+    private lateinit var viewBinding: ActivityUserProfileBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = ActivityForumBinding.inflate(layoutInflater)
+        viewBinding = ActivityUserProfileBinding.inflate(layoutInflater)
 
         setContentView(viewBinding.root)
 
         initBoigah()
 
-        val dummyBackButton: Button = findViewById(R.id.btnOpenMain)
-        dummyBackButton.setOnClickListener {
-            val i = Intent(this@UserProfileActivity, MainActivity::class.java)
-            startActivity(i)
-        }
-
-        val dummyThreadButton : Button = findViewById(R.id.dummybtnOpenThread)
-        dummyThreadButton.setOnClickListener {
-            val intent = Intent(this@UserProfileActivity, ThreadActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     // boigah
@@ -45,7 +34,10 @@ class UserProfileActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+            R.string.open,
+            R.string.close
+        )
         viewBinding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
