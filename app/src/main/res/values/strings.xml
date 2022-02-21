@@ -5,4 +5,7 @@
     <string name="cover">Course Cover</string>
     <string name="title_placeholder_text">Title Placeholder Text</string>
     <string name="dummy_goto_forum">Go to forum</string>
+    <string name="my_forums">My Forums</string>
+    <string name="home">Home</string>
+    <string name="user_profile">User Profile</string>
 </resources>

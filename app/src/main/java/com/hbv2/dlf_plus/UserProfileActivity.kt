@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 
 
-class ForumActivity : AppCompatActivity() {
+class UserProfileActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var viewBinding: ActivityForumBinding
 
@@ -25,13 +25,13 @@ class ForumActivity : AppCompatActivity() {
 
         val dummyBackButton: Button = findViewById(R.id.btnOpenMain)
         dummyBackButton.setOnClickListener {
-            val i = Intent(this@ForumActivity, MainActivity::class.java)
+            val i = Intent(this@UserProfileActivity, MainActivity::class.java)
             startActivity(i)
         }
 
         val dummyThreadButton : Button = findViewById(R.id.dummybtnOpenThread)
         dummyThreadButton.setOnClickListener {
-            val intent = Intent(this@ForumActivity, ThreadActivity::class.java)
+            val intent = Intent(this@UserProfileActivity, ThreadActivity::class.java)
             startActivity(intent)
         }
     }
@@ -53,11 +53,11 @@ class ForumActivity : AppCompatActivity() {
 
         viewBinding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.miItem1 -> { val intent = Intent(this@ForumActivity, MainActivity::class.java)
+                R.id.miItem1 -> { val intent = Intent(this@UserProfileActivity, MainActivity::class.java)
                     startActivity(intent) }
-                R.id.miItem2 -> { val intent = Intent(this@ForumActivity, MyForumsActivity::class.java)
+                R.id.miItem2 -> { val intent = Intent(this@UserProfileActivity, MyForumsActivity::class.java)
                     startActivity(intent) }
-                R.id.miItem3 -> { val intent = Intent(this@ForumActivity, UserProfileActivity::class.java)
+                R.id.miItem3 -> { val intent = Intent(this@UserProfileActivity, UserProfileActivity::class.java)
                     startActivity(intent) }
             }
             true
