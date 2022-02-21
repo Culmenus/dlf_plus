@@ -1,8 +1,10 @@
 package com.hbv2.dlf_plus
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
@@ -13,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     //      var toggle: ActionBarDrawerToggle? = null
     // nema að þetta þarf fult af null checks
     lateinit var toggle: ActionBarDrawerToggle
+
+
 
 
 
@@ -39,6 +43,14 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        // dha dummy button yfir i forumActivity... skipta ut fyrir onclick a cards
+        val dummyButton : Button = viewBinding.forumDummyButton;
+        dummyButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, ForumActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

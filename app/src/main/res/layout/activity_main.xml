@@ -21,6 +21,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/forum_dummy_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/dummy_goto_forum"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
