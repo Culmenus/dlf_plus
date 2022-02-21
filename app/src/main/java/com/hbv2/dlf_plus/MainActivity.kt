@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         val viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+
+
         toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout, R.string.open, R.string.close)
         viewBinding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -44,11 +47,21 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
+        populateForums()
+
+
+        viewBinding.recyclerView.apply {
+            layoutManager = GridLayoutManager(applicationContext, 2)
+            adapter = CardAdapter(forumList)
+        }
+
         // dha dummy button yfir i forumActivity... skipta ut fyrir onclick a cards
         val dummyButton : Button = viewBinding.forumDummyButton;
         dummyButton.setOnClickListener {
             val intent = Intent(this@MainActivity, ForumActivity::class.java)
             startActivity(intent)
+
         }
 
     }
@@ -58,5 +71,21 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun populateForums() {
+        val forum1 = Forum(
+            R.drawable.pallas,
+            "Tol999",
+            "Forritun",
+        )
+        forumList.add(forum1)
+
+        val forum2 = Forum(
+            R.drawable.pallas,
+            "Stæ999",
+            "Stærðfræði",
+        )
+        forumList.add(forum2)
     }
 }
