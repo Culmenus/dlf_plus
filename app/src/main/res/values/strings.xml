@@ -2,4 +2,7 @@
     <string name="app_name">dlf_plus</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="cover">Course Cover</string>
+    <string name="title_placeholder_text">Title Placeholder Text</string>
+
 </resources>
