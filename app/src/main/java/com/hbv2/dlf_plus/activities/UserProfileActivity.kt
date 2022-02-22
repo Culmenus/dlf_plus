@@ -11,15 +11,15 @@ import com.hbv2.dlf_plus.databinding.ActivityUserProfileBinding
 
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewBinding: ActivityUserProfileBinding
+    private lateinit var binding: ActivityUserProfileBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = ActivityUserProfileBinding.inflate(layoutInflater)
+        binding = ActivityUserProfileBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         initBoigah()
 
@@ -34,16 +34,16 @@ class UserProfileActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
-        viewBinding.drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewBinding.navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.miItem1 -> { val intent = Intent(this@UserProfileActivity, MainActivity::class.java)
                     startActivity(intent) }

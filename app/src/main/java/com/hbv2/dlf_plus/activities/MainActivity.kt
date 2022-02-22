@@ -18,21 +18,21 @@ class MainActivity : AppCompatActivity() {
     //      var toggle: ActionBarDrawerToggle? = null
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewBinding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         initBoigah()
 
         populateForums()
 
 
-        viewBinding.recyclerView.apply {
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(applicationContext, 2)
             adapter = CardAdapter(forumList)
         }
@@ -48,16 +48,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
-        viewBinding.drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewBinding.navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.miItem1 -> { val intent = Intent(this@MainActivity, MainActivity::class.java)
                     startActivity(intent) }

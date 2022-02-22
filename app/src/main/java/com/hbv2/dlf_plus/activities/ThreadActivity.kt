@@ -11,15 +11,15 @@ import com.hbv2.dlf_plus.databinding.ActivityThreadBinding
 
 class ThreadActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewBinding: ActivityThreadBinding
+    private lateinit var binding: ActivityThreadBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = ActivityThreadBinding.inflate(layoutInflater)
+        binding = ActivityThreadBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         initBoigah()
 
@@ -34,16 +34,16 @@ class ThreadActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
-        viewBinding.drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewBinding.navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.miItem1 -> { val intent = Intent(this@ThreadActivity, MainActivity::class.java)
                     startActivity(intent) }

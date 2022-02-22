@@ -12,15 +12,15 @@ import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 
 class ForumActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var viewBinding: ActivityForumBinding
+    private lateinit var binding: ActivityForumBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = ActivityForumBinding.inflate(layoutInflater)
+        binding = ActivityForumBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         initBoigah()
 
@@ -46,16 +46,16 @@ class ForumActivity : AppCompatActivity() {
     }
 
     fun initBoigah() {
-        toggle = ActionBarDrawerToggle(this, viewBinding.drawerLayout,
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
-        viewBinding.drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewBinding.navView.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.miItem1 -> { val intent = Intent(this@ForumActivity, MainActivity::class.java)
                     startActivity(intent) }
