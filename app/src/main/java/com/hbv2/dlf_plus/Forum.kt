@@ -4,6 +4,8 @@ package com.hbv2.dlf_plus
 
 var forumList = mutableListOf<Forum>()
 
+val FORUM_ID_EXTRA = "forumExtra"
+
 class Forum (
     var cover: Int,
     var courseId: String,

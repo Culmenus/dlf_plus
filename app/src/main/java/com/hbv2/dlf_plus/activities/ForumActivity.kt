@@ -6,8 +6,11 @@ import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import com.hbv2.dlf_plus.FORUM_ID_EXTRA
+import com.hbv2.dlf_plus.Forum
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
+import com.hbv2.dlf_plus.forumList
 
 
 class ForumActivity : AppCompatActivity() {
@@ -24,6 +27,9 @@ class ForumActivity : AppCompatActivity() {
 
         initBoigah()
 
+        val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
+        val forum = forumFromID(forumID)
+        /*
         val dummyBackButton: Button = findViewById(R.id.btnOpenMain)
         dummyBackButton.setOnClickListener {
             val i = Intent(this@ForumActivity, MainActivity::class.java)
@@ -34,6 +40,11 @@ class ForumActivity : AppCompatActivity() {
         dummyThreadButton.setOnClickListener {
             val intent = Intent(this@ForumActivity, ThreadActivity::class.java)
             startActivity(intent)
+        }*/
+        if(forum != null) {
+            binding.cover.setImageResource(forum.cover)
+            binding.name.text = forum.name
+            binding.courseId.text = forum.courseId
         }
     }
 
@@ -43,6 +54,14 @@ class ForumActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun forumFromID(forumID: Int): Forum? {
+        for(forum in forumList) {
+            if (forum.id == forumID)
+                return forum
+        }
+        return null
     }
 
     fun initBoigah() {

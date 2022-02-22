@@ -4,21 +4,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hbv2.dlf_plus.CardAdapter
-import com.hbv2.dlf_plus.Forum
-import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
-import com.hbv2.dlf_plus.forumList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ForumClickListener {
 
     // sama og að gera
     //      var toggle: ActionBarDrawerToggle? = null
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +31,10 @@ class MainActivity : AppCompatActivity() {
         populateForums()
 
 
+        val mainActivity = this
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(applicationContext, 2)
-            adapter = CardAdapter(forumList)
+            adapter = CardAdapter(forumList, mainActivity)
         }
     }
 
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+
     }
 
     fun initBoigah() {
@@ -80,11 +81,17 @@ class MainActivity : AppCompatActivity() {
         forumList.add(forum1)
 
         val forum2 = Forum(
-            R.drawable.pallas,
+            R.drawable.pallasblue,
             "Stæ999",
             "Stærðfræði",
         )
         forumList.add(forum2)
+        val forum3 = Forum(
+            R.drawable.img,
+            "Cov19",
+            "Veikur",
+        )
+        forumList.add(forum3)
     }
 
     /*
@@ -94,5 +101,9 @@ class MainActivity : AppCompatActivity() {
         return true
     }*/
 
-
+    override fun onClick(forum: Forum) {
+        val intent = Intent(applicationContext, ForumActivity::class.java)
+        intent.putExtra(FORUM_ID_EXTRA, forum.id)
+        startActivity(intent)
+    }
 }
