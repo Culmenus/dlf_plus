@@ -28,18 +28,6 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
 
         val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
         val forum = forumFromID(forumID)
-        /*
-        val dummyBackButton: Button = findViewById(R.id.btnOpenMain)
-        dummyBackButton.setOnClickListener {
-            val i = Intent(this@ForumActivity, MainActivity::class.java)
-            startActivity(i)
-        }
-
-        val dummyThreadButton : Button = findViewById(R.id.dummybtnOpenThread)
-        dummyThreadButton.setOnClickListener {
-            val intent = Intent(this@ForumActivity, ThreadActivity::class.java)
-            startActivity(intent)
-        }*/
 
         if(forum != null) {
             binding.cover.setImageResource(forum.cover)
@@ -53,14 +41,6 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
         }
     }
 
-    // boigah
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun forumFromID(forumID: Int): Forum? {
         for(forum in forumList) {
             if (forum.id == forumID)
@@ -68,6 +48,15 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
         }
         return null
     }
+
+    // burger
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     fun initBoigah() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,

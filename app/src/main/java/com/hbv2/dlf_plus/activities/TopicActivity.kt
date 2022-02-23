@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import com.hbv2.dlf_plus.TOPIC_ID_EXTRA
 import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.Topic
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
+import com.hbv2.dlf_plus.topicList
 
 
 class TopicActivity : AppCompatActivity() {
@@ -23,9 +26,25 @@ class TopicActivity : AppCompatActivity() {
 
         initBoigah()
 
+        val topicID = intent.getIntExtra(TOPIC_ID_EXTRA, -1)
+        val topic = topicFromID(topicID)
+
+        if(topic != null) {
+            binding.title.text = topic.title
+            binding.description.text = topic.description
+        }
+
     }
 
-    // boigah
+
+    private fun topicFromID(topicID: Int): Topic? {
+        for(topic in topicList) {
+            if(topic.id == topicID)
+                return topic
+        }
+        return null
+    }
+    // burger
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)) {
             return true
