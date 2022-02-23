@@ -7,7 +7,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
+import com.hbv2.dlf_plus.adapters.TopicAdapter
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
+import com.hbv2.dlf_plus.interfaces.TopicClickListener
 
 
 class ForumActivity : AppCompatActivity(), TopicClickListener {

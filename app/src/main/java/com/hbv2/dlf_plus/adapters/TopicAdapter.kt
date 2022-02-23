@@ -1,8 +1,11 @@
-package com.hbv2.dlf_plus
+package com.hbv2.dlf_plus.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hbv2.dlf_plus.Topic
+import com.hbv2.dlf_plus.interfaces.TopicClickListener
+import com.hbv2.dlf_plus.viewholders.TopicViewHolder
 import com.hbv2.dlf_plus.databinding.CardTopicBinding
 
 class TopicAdapter(
