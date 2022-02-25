@@ -24,7 +24,7 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
         val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
         val forum = forumFromID(forumID)
@@ -58,7 +58,7 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
     }
 
 
-    fun initBoigah() {
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close

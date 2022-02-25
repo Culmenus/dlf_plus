@@ -24,7 +24,7 @@ class TopicActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
         val topicID = intent.getIntExtra(TOPIC_ID_EXTRA, -1)
         val topic = topicFromID(topicID)
@@ -52,7 +52,7 @@ class TopicActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun initBoigah() {
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close

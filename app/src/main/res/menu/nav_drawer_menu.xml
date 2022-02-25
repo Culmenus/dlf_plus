@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        style = "@styles/boigahStyle"
+        style = "@styles/DrawerStyle"
         android:id="@+id/miItem1"
         android:title="@string/home" />
 

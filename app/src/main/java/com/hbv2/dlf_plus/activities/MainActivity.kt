@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
         populateForums()
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     }
 
 
-    // boigah
+    // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)) {
             return true
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
     }
 
-    fun initBoigah() {
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
