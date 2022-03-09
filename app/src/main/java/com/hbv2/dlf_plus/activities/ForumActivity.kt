@@ -26,6 +26,24 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
 
         initDrawer()
 
+        binding.bottomNavigation.setOnItemReselectedListener { item ->
+            when(item.itemId) {
+                R.id.botItem1 -> {
+                    // Respond to navigation item 1 click
+                    true
+                }
+                R.id.botItem2 -> {
+                    // Respond to navigation item 2 click
+                    true
+                }
+                R.id.botItem3 -> {
+                    // Respond to navigation item 2 click
+                    true
+                }
+                else -> false
+            }
+        }
+
         val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
         val forum = forumFromID(forumID)
 
