@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus.activities
+package com.hbv2.dlf_plus.ui.main.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +7,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
-import com.hbv2.dlf_plus.adapters.CardAdapter
+import com.hbv2.dlf_plus.data.model.*
+import com.hbv2.dlf_plus.ui.forum.view.ForumActivity
+import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+import com.hbv2.dlf_plus.ui.main.adapter.CardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
-import com.hbv2.dlf_plus.interfaces.ForumClickListener
+import com.hbv2.dlf_plus.ui.main.ForumClickListener
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 

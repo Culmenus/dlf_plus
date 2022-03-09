@@ -1,11 +1,11 @@
-package com.hbv2.dlf_plus.adapters
+package com.hbv2.dlf_plus.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.hbv2.dlf_plus.viewholders.CardViewHolder
-import com.hbv2.dlf_plus.Forum
-import com.hbv2.dlf_plus.interfaces.ForumClickListener
+import com.hbv2.dlf_plus.ui.main.viewmodel.CardViewHolder
+import com.hbv2.dlf_plus.data.model.Forum
+import com.hbv2.dlf_plus.ui.main.ForumClickListener
 import com.hbv2.dlf_plus.databinding.CardCellBinding
 
 class CardAdapter (

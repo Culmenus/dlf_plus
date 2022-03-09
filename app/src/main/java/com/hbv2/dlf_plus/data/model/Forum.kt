@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus
+package com.hbv2.dlf_plus.data.model
 
 // allt placeholder að fylgja tutorial
 

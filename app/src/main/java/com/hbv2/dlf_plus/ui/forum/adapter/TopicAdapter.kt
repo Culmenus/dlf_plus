@@ -1,12 +1,12 @@
-package com.hbv2.dlf_plus.adapters
+package com.hbv2.dlf_plus.ui.forum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.hbv2.dlf_plus.Topic
-import com.hbv2.dlf_plus.interfaces.TopicClickListener
-import com.hbv2.dlf_plus.viewholders.TopicViewHolder
+import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.CardTopicBinding
+import com.hbv2.dlf_plus.ui.forum.TopicClickListener
+import com.hbv2.dlf_plus.ui.forum.viewmodel.TopicViewHolder
 
 class TopicAdapter(
     private val topics: List<Topic>,

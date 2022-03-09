@@ -1,9 +1,9 @@
-package com.hbv2.dlf_plus.viewholders
+package com.hbv2.dlf_plus.ui.forum.viewmodel
 
 import androidx.recyclerview.widget.RecyclerView
-import com.hbv2.dlf_plus.Topic
-import com.hbv2.dlf_plus.interfaces.TopicClickListener
+import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.CardTopicBinding
+import com.hbv2.dlf_plus.ui.forum.TopicClickListener
 
 class TopicViewHolder (
     private val cardTopicBinding: CardTopicBinding,

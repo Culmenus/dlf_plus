@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dlf_plus">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.main.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,20 +19,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ForumActivity"
+            android:name=".ui.forum.view.ForumActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".activities.TopicActivity"
+            android:name=".ui.topic.view.TopicActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".activities.MyForumsActivity"
+            android:name=".ui.main.view.MyForumsActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".activities.UserProfileActivity"
+            android:name=".ui.userprofile.view.UserProfileActivity"
             android:exported="true">
         </activity>
     </application>
