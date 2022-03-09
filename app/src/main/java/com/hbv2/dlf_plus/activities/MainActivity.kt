@@ -1,11 +1,17 @@
 package com.hbv2.dlf_plus.activities
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
@@ -19,6 +25,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     private lateinit var binding: ActivityMainBinding
 
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
