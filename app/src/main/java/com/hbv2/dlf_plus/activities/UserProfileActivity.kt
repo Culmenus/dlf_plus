@@ -21,11 +21,11 @@ class UserProfileActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
     }
 
-    // boigah
+    // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)) {
             return true
@@ -33,7 +33,7 @@ class UserProfileActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun initBoigah() {
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close

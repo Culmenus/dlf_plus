@@ -24,7 +24,7 @@
 
         </activity>
         <activity
-            android:name=".activities.ThreadActivity"
+            android:name=".activities.TopicActivity"
             android:exported="true">
         </activity>
         <activity

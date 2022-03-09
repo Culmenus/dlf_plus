@@ -1,20 +1,16 @@
 package com.hbv2.dlf_plus.activities
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.AnticipateInterpolator
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
+import com.hbv2.dlf_plus.adapters.CardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
+import com.hbv2.dlf_plus.interfaces.ForumClickListener
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 
@@ -25,7 +21,6 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     private lateinit var binding: ActivityMainBinding
 
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +28,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
         populateForums()
 
@@ -46,7 +41,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     }
 
 
-    // boigah
+    // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)) {
             return true
@@ -55,7 +50,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
     }
 
-    fun initBoigah() {
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
@@ -80,6 +75,20 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
 
     private fun populateForums() {
+
+        val thread1 = Topic(
+            "gaur er eg eini",
+            "eg fer ad grata",
+        )
+        topicList.add(thread1)
+
+        val thread2 = Topic(
+            "thessi structur er throt",
+            "eg fer ad grata meira",
+        )
+        topicList.add(thread2)
+
+
         val forum1 = Forum(
             R.drawable.pallas,
             "Tol999",

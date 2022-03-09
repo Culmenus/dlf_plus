@@ -3,17 +3,16 @@ package com.hbv2.dlf_plus.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.hbv2.dlf_plus.FORUM_ID_EXTRA
-import com.hbv2.dlf_plus.Forum
-import com.hbv2.dlf_plus.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.hbv2.dlf_plus.*
+import com.hbv2.dlf_plus.adapters.TopicAdapter
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
-import com.hbv2.dlf_plus.forumList
+import com.hbv2.dlf_plus.interfaces.TopicClickListener
 
 
-class ForumActivity : AppCompatActivity() {
+class ForumActivity : AppCompatActivity(), TopicClickListener {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
 
@@ -25,35 +24,21 @@ class ForumActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        initBoigah()
+        initDrawer()
 
         val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
         val forum = forumFromID(forumID)
-        /*
-        val dummyBackButton: Button = findViewById(R.id.btnOpenMain)
-        dummyBackButton.setOnClickListener {
-            val i = Intent(this@ForumActivity, MainActivity::class.java)
-            startActivity(i)
-        }
 
-        val dummyThreadButton : Button = findViewById(R.id.dummybtnOpenThread)
-        dummyThreadButton.setOnClickListener {
-            val intent = Intent(this@ForumActivity, ThreadActivity::class.java)
-            startActivity(intent)
-        }*/
         if(forum != null) {
             binding.cover.setImageResource(forum.cover)
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
-        }
-    }
 
-    // boigah
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
-            return true
+            binding.recyclerViewTopics.apply {
+                layoutManager = GridLayoutManager(applicationContext, 1)
+                adapter = TopicAdapter(topicList,this@ForumActivity)
+            }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun forumFromID(forumID: Int): Forum? {
@@ -64,7 +49,16 @@ class ForumActivity : AppCompatActivity() {
         return null
     }
 
-    fun initBoigah() {
+    // burger
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    fun initDrawer() {
         toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
             R.string.open,
             R.string.close
@@ -85,5 +79,11 @@ class ForumActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    override fun onClick(topic: Topic) {
+        val intent = Intent(applicationContext, TopicActivity::class.java)
+        intent.putExtra(TOPIC_ID_EXTRA, topic.id)
+        startActivity(intent)
     }
 }
