@@ -44,28 +44,6 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
         populateForums()
         //request example
 
-        //Færa yfir í login activity eða ehv seinna
-        backendApiClient = BackendApiClient()
-        sessionManager = SessionManager(this)
-        backendApiClient.getApi().login(LoginRequestBody("user@user.is","pword"))
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    val loginResponse = response.body()
-                    if(response.isSuccessful && loginResponse != null){
-                        Log.d("MainActivity",loginResponse.toString())
-                        sessionManager.saveAuthedUser(loginResponse)
-                    }else{
-                        //Error login
-                    }
-                }
-            })
 
 
         val mainActivity = this

@@ -10,31 +10,31 @@ class SessionManager (context: Context) {
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
     companion object {
-        const val USER_DETAILS: String = "USER_DETAILS"
+        const val KEY: String = "USER_DETAILS"
     }
 
-    /**
-     * Function to save auth token
-     */
+
     fun saveAuthedUser(user: LoginResponse) {
         val editor = prefs.edit()
 
-        editor.putString(USER_DETAILS, Gson().toJson(user))
+        editor.putString(KEY, Gson().toJson(user))
         editor.apply()
     }
 
     fun isUserStored(): Boolean {
-        return "USER_DETAILS" != prefs.getString(USER_DETAILS, null)
+        return prefs.getString(KEY, null) != null
     }
 
     fun fetchAuthedUserDetails(): LoginResponse? {
-        val details = prefs.getString(USER_DETAILS, null)
+        val details = prefs.getString(KEY, null)
         if (details == "USER_DETAILS")
             return null
         return Gson().fromJson(details,LoginResponse::class.java)
     }
 
     fun removeAuthedUser(){
-        //TODO
+        val editor = prefs.edit()
+        editor.remove(KEY)
+        editor.apply()
     }
 }
