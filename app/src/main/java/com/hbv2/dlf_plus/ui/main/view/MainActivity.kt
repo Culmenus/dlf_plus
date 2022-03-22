@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
@@ -14,13 +13,14 @@ import com.hbv2.dlf_plus.ui.forum.view.ForumActivity
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.ui.main.adapter.CardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
-import com.hbv2.dlf_plus.networks.RetrofitInstance
+import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.main.ForumClickListener
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import java.io.IOException
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 
@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var sessionManager: SessionManager
+    private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +43,30 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
         populateForums()
         //request example
-        lifecycleScope.launchWhenCreated {
-            val loginDetails = LoginRequestBody("user@user.is","pword")
-            val response = try{
-                RetrofitInstance.api.login(loginDetails)
-            } catch (e: IOException){
-                null
-                Log.e("MainActivity","IOException að logga innn")
-            }
-            print("RESPONSE: $response")
-        }
+
+        //Færa yfir í login activity eða ehv seinna
+        backendApiClient = BackendApiClient()
+        sessionManager = SessionManager(this)
+        backendApiClient.getApi().login(LoginRequestBody("user@user.is","pword"))
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>
+                ) {
+                    val loginResponse = response.body()
+                    if(response.isSuccessful && loginResponse != null){
+                        Log.d("MainActivity",loginResponse.toString())
+                        sessionManager.saveAuthedUser(loginResponse)
+                    }else{
+                        //Error login
+                    }
+                }
+            })
+
 
         val mainActivity = this
         binding.recyclerView.apply {
