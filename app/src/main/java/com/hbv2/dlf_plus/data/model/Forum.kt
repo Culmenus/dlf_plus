@@ -6,7 +6,7 @@ var forumList = mutableListOf<Forum>()
 
 val FORUM_ID_EXTRA = "forumExtra"
 
-class Forum (
+data class Forum (
     var cover: Int,
     var courseId: String,
     var name: String,

@@ -6,7 +6,7 @@ var topicList = mutableListOf<Topic>()
 
 val TOPIC_ID_EXTRA = "threadExtra"
 
-class Topic (
+data class Topic (
     var title: String,
     var description: String,
     val id: Int? = topicList.size

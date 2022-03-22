@@ -3,6 +3,7 @@ package com.hbv2.dlf_plus.ui.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,7 +13,14 @@ import com.hbv2.dlf_plus.ui.forum.view.ForumActivity
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.ui.main.adapter.CardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
+import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.SessionManager
+import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.main.ForumClickListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 
@@ -21,7 +29,8 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var sessionManager: SessionManager
+    private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +42,8 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
         initDrawer()
 
         populateForums()
+        //request example
+
 
 
         val mainActivity = this
