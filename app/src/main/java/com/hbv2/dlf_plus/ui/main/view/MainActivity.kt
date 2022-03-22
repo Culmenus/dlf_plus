@@ -3,8 +3,10 @@ package com.hbv2.dlf_plus.ui.main.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
@@ -12,7 +14,13 @@ import com.hbv2.dlf_plus.ui.forum.view.ForumActivity
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.ui.main.adapter.CardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
+import com.hbv2.dlf_plus.networks.RetrofitInstance
+import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.main.ForumClickListener
+import retrofit2.Response
+import retrofit2.Retrofit
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 
@@ -33,7 +41,17 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
         initDrawer()
 
         populateForums()
-
+        //request example
+        lifecycleScope.launchWhenCreated {
+            val loginDetails = LoginRequestBody("user@user.is","pword")
+            val response = try{
+                RetrofitInstance.api.login(loginDetails)
+            } catch (e: IOException){
+                null
+                Log.e("MainActivity","IOException að logga innn")
+            }
+            print("RESPONSE: $response")
+        }
 
         val mainActivity = this
         binding.recyclerView.apply {
