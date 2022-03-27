@@ -1,5 +1,5 @@
 sessionManager = SessionManager(applicationContext)
-        val token = sessionManager.fetchAuthedUserDetails().token
+        val token = sessionManager.fetchAuthedUserDetails().token //gæti skilað null/villu ef notandi er ekki skráður inn. Must að redirecta á login ef svo er..
         backendApiClient.getApi().getAllForums("Bearer "+ token)
             .enqueue(object : Callback<AllForumsResponse> {
                 override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
