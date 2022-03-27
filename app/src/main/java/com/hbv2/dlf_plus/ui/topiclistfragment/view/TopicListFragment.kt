@@ -1,6 +1,5 @@
 package com.hbv2.dlf_plus.ui.topiclistfragment.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,9 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
-import com.hbv2.dlf_plus.data.model.TOPIC_ID_EXTRA
 import com.hbv2.dlf_plus.data.model.Topic
-import com.hbv2.dlf_plus.ui.topic.view.TopicActivity
 import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
@@ -39,7 +36,8 @@ class TopicListFragment : Fragment(), TopicClickListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment

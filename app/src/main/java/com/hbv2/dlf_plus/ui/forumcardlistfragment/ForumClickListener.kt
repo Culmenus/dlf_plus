@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus.ui.main
+package com.hbv2.dlf_plus.ui.forumcardlistfragment
 
 import com.hbv2.dlf_plus.data.model.Forum
 

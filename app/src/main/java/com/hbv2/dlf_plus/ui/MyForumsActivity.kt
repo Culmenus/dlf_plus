@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus.ui.main.view
+package com.hbv2.dlf_plus.ui
 
 import android.content.Intent
 import android.os.Bundle

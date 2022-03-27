@@ -5,7 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.forum.view.ForumActivity">
+    tools:context=".ui.ForumActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

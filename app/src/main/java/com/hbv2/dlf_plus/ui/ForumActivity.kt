@@ -1,17 +1,14 @@
-package com.hbv2.dlf_plus.ui.forum.view
+package com.hbv2.dlf_plus.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.ViewModelProvider
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
-import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
-import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
-import com.hbv2.dlf_plus.ui.topic.view.TopicActivity
+import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
@@ -55,7 +52,8 @@ class ForumActivity : AppCompatActivity() {
             }
         }
 
-        val forumID = intent.getIntExtra(FORUM_ID_EXTRA, -1)
+
+        val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
         val forum = forumFromID(forumID)
 
         if(forum != null) {
@@ -65,15 +63,46 @@ class ForumActivity : AppCompatActivity() {
         }
 
 
+
+
     }
 
+
     private fun forumFromID(forumID: Int): Forum? {
-        for(forum in forumList) {
+        //TODO LAGA. Verðum að leysa þetta með fetch eða local db
+        //placeholder, verður leyst betur
+        val mockforums = mutableListOf<Forum>()
+            // temp mock data
+            val mforum1 = Forum(
+                1,
+                R.drawable.pallas,
+                "Tol999",
+                "Forritun",
+            )
+            mockforums += mforum1
+
+            val mforum2 = Forum(
+                2,
+                R.drawable.pallasblue,
+                "Stæ999",
+                "Stærðfræði",
+            )
+            mockforums += mforum2
+            val mforum3 = Forum(
+                3,
+                R.drawable.img,
+                "Cov19",
+                "Veikur",
+            )
+            mockforums += mforum3
+
+        for(forum in mockforums) {
             if (forum.id == forumID)
                 return forum
         }
         return null
     }
+
 
     // burger
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

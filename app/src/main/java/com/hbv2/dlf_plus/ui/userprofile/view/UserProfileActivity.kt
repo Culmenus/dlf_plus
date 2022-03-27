@@ -7,8 +7,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityUserProfileBinding
-import com.hbv2.dlf_plus.ui.main.view.MainActivity
-import com.hbv2.dlf_plus.ui.main.view.MyForumsActivity
+import com.hbv2.dlf_plus.ui.MainActivity
+import com.hbv2.dlf_plus.ui.MyForumsActivity
 
 
 class UserProfileActivity : AppCompatActivity() {

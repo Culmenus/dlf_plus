@@ -1,18 +1,11 @@
-package com.hbv2.dlf_plus.ui.topic.view
+package com.hbv2.dlf_plus.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.hbv2.dlf_plus.R
-import com.hbv2.dlf_plus.ui.main.view.MyForumsActivity
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
-import com.hbv2.dlf_plus.data.model.TOPIC_ID_EXTRA
-import com.hbv2.dlf_plus.data.model.Topic
 
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
-import com.hbv2.dlf_plus.ui.main.view.MainActivity
 
 
 class TopicActivity : AppCompatActivity() {

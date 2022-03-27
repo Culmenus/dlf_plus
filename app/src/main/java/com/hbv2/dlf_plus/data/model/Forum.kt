@@ -1,14 +1,9 @@
 package com.hbv2.dlf_plus.data.model
 
-// allt placeholder að fylgja tutorial
-
-var forumList = mutableListOf<Forum>()
-
-val FORUM_ID_EXTRA = "forumExtra"
-
+//id daemid er placeholder
 data class Forum (
+    val id: Int,
     var cover: Int,
-    var courseId: String,
-    var name: String,
-    val id: Int? = forumList.size
+    var courseId: String = "",
+    var name: String = "",
 )

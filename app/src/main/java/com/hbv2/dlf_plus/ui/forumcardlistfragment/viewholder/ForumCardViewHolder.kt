@@ -5,7 +5,7 @@ import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.databinding.CardCellBinding
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 
-class CardViewHolder(
+class ForumCardViewHolder(
     private val cardCellBinding: CardCellBinding,
     private val clickListener: ForumClickListener
 ) : RecyclerView.ViewHolder(cardCellBinding.root)
