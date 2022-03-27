@@ -10,7 +10,7 @@ import com.hbv2.dlf_plus.ui.main.view.MyForumsActivity
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.data.model.TOPIC_ID_EXTRA
 import com.hbv2.dlf_plus.data.model.Topic
-import com.hbv2.dlf_plus.data.model.topicList
+
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
 import com.hbv2.dlf_plus.ui.main.view.MainActivity
 
@@ -27,26 +27,11 @@ class TopicActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        initDrawer()
 
-        val topicID = intent.getIntExtra(TOPIC_ID_EXTRA, -1)
-        val topic = topicFromID(topicID)
-
-        if(topic != null) {
-            binding.title.text = topic.title
-            binding.description.text = topic.description
-        }
 
     }
 
 
-    private fun topicFromID(topicID: Int): Topic? {
-        for(topic in topicList) {
-            if(topic.id == topicID)
-                return topic
-        }
-        return null
-    }
     // burger
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)) {
@@ -55,26 +40,4 @@ class TopicActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun initDrawer() {
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
-            R.string.open,
-            R.string.close
-        )
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.miItem1 -> { val intent = Intent(this@TopicActivity, MainActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem2 -> { val intent = Intent(this@TopicActivity, MyForumsActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem3 -> { val intent = Intent(this@TopicActivity, UserProfileActivity::class.java)
-                    startActivity(intent) }
-            }
-            true
-        }
-    }
 }

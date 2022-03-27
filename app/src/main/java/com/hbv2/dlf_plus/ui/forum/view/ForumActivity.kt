@@ -7,29 +7,35 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hbv2.dlf_plus.*
-import com.hbv2.dlf_plus.ui.main.view.MyForumsActivity
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.data.model.*
-import com.hbv2.dlf_plus.ui.forum.adapter.TopicAdapter
+import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
-import com.hbv2.dlf_plus.ui.forum.TopicClickListener
-import com.hbv2.dlf_plus.ui.main.view.MainActivity
+import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 import com.hbv2.dlf_plus.ui.topic.view.TopicActivity
+import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
-class ForumActivity : AppCompatActivity(), TopicClickListener {
+class ForumActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityForumBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
-        initDrawer()
+        val currentFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
+
+        // fix sbr bls 179.
+        if (currentFragment == null) {
+            val fragment = TopicListFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container_forum, fragment)
+                .commit()
+        }
 
         binding.bottomNavigation.setOnItemReselectedListener { item ->
             when(item.itemId) {
@@ -56,12 +62,9 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
             binding.cover.setImageResource(forum.cover)
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
-
-            binding.recyclerViewTopics.apply {
-                layoutManager = GridLayoutManager(applicationContext, 1)
-                adapter = TopicAdapter(topicList,this@ForumActivity)
-            }
         }
+
+
     }
 
     private fun forumFromID(forumID: Int): Forum? {
@@ -80,33 +83,13 @@ class ForumActivity : AppCompatActivity(), TopicClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-    fun initDrawer() {
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
-            R.string.open,
-            R.string.close
-        )
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.miItem1 -> { val intent = Intent(this@ForumActivity, MainActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem2 -> { val intent = Intent(this@ForumActivity, MyForumsActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem3 -> { val intent = Intent(this@ForumActivity, UserProfileActivity::class.java)
-                    startActivity(intent) }
-            }
-            true
-        }
-    }
-
+/*
     override fun onClick(topic: Topic) {
         val intent = Intent(applicationContext, TopicActivity::class.java)
         intent.putExtra(TOPIC_ID_EXTRA, topic.id)
         startActivity(intent)
     }
+
+ */
+
 }

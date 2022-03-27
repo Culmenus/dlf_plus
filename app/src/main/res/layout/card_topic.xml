@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/topicCardView"
@@ -21,26 +22,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:gravity="center"
+                android:lines="2"
                 android:text="@string/title_placeholder_text"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:lines="2"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
+                android:lines="2"
                 android:text="@string/title_placeholder_text"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:lines="2" />
-
+                android:textSize="18sp" />
 
 
         </LinearLayout>
-
 
 
     </androidx.cardview.widget.CardView>

@@ -78,17 +78,6 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
     private fun populateForums() {
 
-        val thread1 = Topic(
-            "gaur er eg eini",
-            "eg fer ad grata",
-        )
-        topicList.add(thread1)
-
-        val thread2 = Topic(
-            "thessi structur er throt",
-            "eg fer ad grata meira",
-        )
-        topicList.add(thread2)
 
 
         val forum1 = Forum(
