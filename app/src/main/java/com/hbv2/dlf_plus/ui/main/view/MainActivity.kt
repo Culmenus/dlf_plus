@@ -44,31 +44,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
         initDrawer()
 
         populateForums()
-        //request example
-        //backendApiClient = BackendApiClient()
-        sessionManager = SessionManager(applicationContext)
 
-
-        backendApiClient.getApi().getAllForums()
-            .enqueue(object : Callback<AllForumsResponse> {
-                override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
-                    Log.d("Mainactivity",call.request().toString())
-                }
-
-                override fun onResponse(
-                    call: Call<AllForumsResponse>,
-                    response: Response<AllForumsResponse>
-                ) {
-                    Log.d("Mainactivity","Request succeeded")
-                    val allForums = response.body()
-                    if(response.isSuccessful && allForums != null){
-                        Log.d("Mainactivity",allForums.toString())
-                    }else{
-                        //Error login
-                        Log.d("Mainactivity","Failed to fetch")
-                    }
-                }
-            })
 
 
         val mainActivity = this
