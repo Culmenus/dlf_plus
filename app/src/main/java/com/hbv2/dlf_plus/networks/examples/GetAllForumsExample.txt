@@ -1,5 +1,5 @@
 sessionManager = SessionManager(applicationContext)
-        val token = "token"
+        val token = sessionManager.fetchAuthedUserDetails().token
         backendApiClient.getApi().getAllForums("Bearer "+ token)
             .enqueue(object : Callback<AllForumsResponse> {
                 override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
