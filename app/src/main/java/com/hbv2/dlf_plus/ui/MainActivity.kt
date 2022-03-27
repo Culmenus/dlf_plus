@@ -3,6 +3,8 @@ package com.hbv2.dlf_plus.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -88,11 +90,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.nav_drawer_menu, menu)
         return true
-    }*/
+    }
 
 }
