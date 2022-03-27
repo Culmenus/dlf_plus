@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         >
         <activity
-            android:name=".ui.main.view.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,16 +23,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.forum.view.ForumActivity"
+            android:name=".ui.ForumActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".ui.topic.view.TopicActivity"
+            android:name=".ui.TopicActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".ui.main.view.MyForumsActivity"
+            android:name=".ui.MyForumsActivity"
             android:exported="true">
         </activity>
         <activity
