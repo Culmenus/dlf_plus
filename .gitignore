@@ -39,6 +39,8 @@ captures/
 
 # IntelliJ
 *.iml
+# bætti við .idea... vonandi í lagi
+.idea
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
@@ -46,6 +48,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/*
 
 # Keystore files
 # Uncomment the following lines if you do not want to check your keystore files in.
