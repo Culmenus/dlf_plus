@@ -11,9 +11,7 @@ import com.hbv2.dlf_plus.ui.topiclistfragment.viewholder.TopicViewHolder
 class TopicAdapter(
     private val topics: List<Topic>,
     private val clickListener: TopicClickListener
-    )
-    : RecyclerView.Adapter<TopicViewHolder>()
-{
+) : RecyclerView.Adapter<TopicViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ListItemTopicBinding.inflate(from, parent, false)

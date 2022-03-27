@@ -9,7 +9,7 @@ import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 class TopicViewHolder(
     private val listItemTopicBinding: ListItemTopicBinding,
     private val clickListener: TopicClickListener
-) : RecyclerView.ViewHolder(listItemTopicBinding.root){
+) : RecyclerView.ViewHolder(listItemTopicBinding.root) {
     private lateinit var topic: Topic
 
     fun bindTopic(topic: Topic) {

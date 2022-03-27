@@ -16,7 +16,7 @@ import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     // sama og að gera
     //      var toggle: ActionBarDrawerToggle? = null
@@ -46,23 +46,12 @@ class MainActivity : AppCompatActivity(){
                 .commit()
         }
 
-        //request example
-
-
-        /*
-        val mainActivity = this
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(applicationContext, 2)
-            adapter = ForumCardAdapter(forumList, mainActivity)
-        }
-         */
-
     }
 
 
     // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -70,7 +59,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun initDrawer() {
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
+        toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
@@ -80,18 +70,23 @@ class MainActivity : AppCompatActivity(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.miItem1 -> { val intent = Intent(this@MainActivity, MainActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem2 -> { val intent = Intent(this@MainActivity, MyForumsActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem3 -> { val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
-                    startActivity(intent) }
+            when (it.itemId) {
+                R.id.miItem1 -> {
+                    val intent = Intent(this@MainActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.miItem2 -> {
+                    val intent = Intent(this@MainActivity, MyForumsActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.miItem3 -> {
+                    val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }
     }
-
 
     /*
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -100,11 +95,4 @@ class MainActivity : AppCompatActivity(){
         return true
     }*/
 
-    /*
-    override fun onClick(forum: Forum) {
-        val intent = Intent(applicationContext, ForumActivity::class.java)
-        intent.putExtra(FORUM_ID_EXTRA, forum.id)
-        startActivity(intent)
-    }
-     */
 }

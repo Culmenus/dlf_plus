@@ -35,7 +35,7 @@ class ForumActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.botItem1 -> {
                     // Respond to navigation item 1 click
                     true
@@ -56,13 +56,11 @@ class ForumActivity : AppCompatActivity() {
         val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
         val forum = forumFromID(forumID)
 
-        if(forum != null) {
+        if (forum != null) {
             binding.cover.setImageResource(forum.cover)
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
         }
-
-
 
 
     }
@@ -72,31 +70,31 @@ class ForumActivity : AppCompatActivity() {
         //TODO LAGA. Verðum að leysa þetta með fetch eða local db
         //placeholder, verður leyst betur
         val mockforums = mutableListOf<Forum>()
-            // temp mock data
-            val mforum1 = Forum(
-                1,
-                R.drawable.pallas,
-                "Tol999",
-                "Forritun",
-            )
-            mockforums += mforum1
+        // temp mock data
+        val mforum1 = Forum(
+            1,
+            R.drawable.pallas,
+            "Tol999",
+            "Forritun",
+        )
+        mockforums += mforum1
 
-            val mforum2 = Forum(
-                2,
-                R.drawable.pallasblue,
-                "Stæ999",
-                "Stærðfræði",
-            )
-            mockforums += mforum2
-            val mforum3 = Forum(
-                3,
-                R.drawable.img,
-                "Cov19",
-                "Veikur",
-            )
-            mockforums += mforum3
+        val mforum2 = Forum(
+            2,
+            R.drawable.pallasblue,
+            "Stæ999",
+            "Stærðfræði",
+        )
+        mockforums += mforum2
+        val mforum3 = Forum(
+            3,
+            R.drawable.img,
+            "Cov19",
+            "Veikur",
+        )
+        mockforums += mforum3
 
-        for(forum in mockforums) {
+        for (forum in mockforums) {
             if (forum.id == forumID)
                 return forum
         }
@@ -106,19 +104,11 @@ class ForumActivity : AppCompatActivity() {
 
     // burger
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
-/*
-    override fun onClick(topic: Topic) {
-        val intent = Intent(applicationContext, TopicActivity::class.java)
-        intent.putExtra(TOPIC_ID_EXTRA, topic.id)
-        startActivity(intent)
-    }
-
- */
 
 }

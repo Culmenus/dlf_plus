@@ -29,7 +29,7 @@ class TopicListFragment : Fragment(), TopicClickListener {
         ViewModelProvider(this).get(TopicListViewModel::class.java)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Total topics: ${topicListViewModel.topics.size}")
 

@@ -20,7 +20,7 @@ import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewMod
 
 private const val TAG = "ForumCardListFragment"
 
-class ForumCardListFragment : Fragment(), ForumClickListener{
+class ForumCardListFragment : Fragment(), ForumClickListener {
 
     private lateinit var forumRecyclerView: RecyclerView
     private var adapter: ForumCardAdapter? = null
@@ -43,7 +43,7 @@ class ForumCardListFragment : Fragment(), ForumClickListener{
         val view = inflater.inflate(R.layout.fragment_forum_card_list, container, false)
         forumRecyclerView = view.findViewById(R.id.forum_card_recyclerview) as RecyclerView
         //application context?? setti context sem hofix
-        forumRecyclerView.layoutManager = GridLayoutManager(context,2 )
+        forumRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         updateUI()
 
@@ -56,7 +56,7 @@ class ForumCardListFragment : Fragment(), ForumClickListener{
         forumRecyclerView.adapter = adapter
     }
 
-    /*
+    /* Til að geta gert interactive test
     override fun onClick(forum: Forum) {
         Toast.makeText(context, "${forum.name} pressed! id: ${forum.id}", Toast.LENGTH_SHORT).show()
     }
@@ -67,7 +67,6 @@ class ForumCardListFragment : Fragment(), ForumClickListener{
         intent.putExtra("FORUM_ID_EXTRA", forum.id)
         startActivity(intent)
     }
-
 
 
     companion object {

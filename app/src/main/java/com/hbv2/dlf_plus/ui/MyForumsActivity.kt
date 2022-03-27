@@ -28,14 +28,15 @@ class MyForumsActivity : AppCompatActivity() {
 
     // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
     fun initDrawer() {
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,
+        toggle = ActionBarDrawerToggle(
+            this, binding.drawerLayout,
             R.string.open,
             R.string.close
         )
@@ -45,13 +46,19 @@ class MyForumsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.miItem1 -> { val intent = Intent(this@MyForumsActivity, MainActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem2 -> { val intent = Intent(this@MyForumsActivity, MyForumsActivity::class.java)
-                    startActivity(intent) }
-                R.id.miItem3 -> { val intent = Intent(this@MyForumsActivity, UserProfileActivity::class.java)
-                    startActivity(intent) }
+            when (it.itemId) {
+                R.id.miItem1 -> {
+                    val intent = Intent(this@MyForumsActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.miItem2 -> {
+                    val intent = Intent(this@MyForumsActivity, MyForumsActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.miItem3 -> {
+                    val intent = Intent(this@MyForumsActivity, UserProfileActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }
