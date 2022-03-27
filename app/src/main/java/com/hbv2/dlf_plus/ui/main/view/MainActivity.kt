@@ -16,11 +16,13 @@ import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.responses.AllForumsResponse
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.main.ForumClickListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.awaitResponse
 
 class MainActivity : AppCompatActivity(), ForumClickListener {
 
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager
-    private lateinit var backendApiClient: BackendApiClient
+    private var backendApiClient: BackendApiClient = BackendApiClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,30 @@ class MainActivity : AppCompatActivity(), ForumClickListener {
 
         populateForums()
         //request example
+        //backendApiClient = BackendApiClient()
+        sessionManager = SessionManager(applicationContext)
 
+
+        backendApiClient.getApi().getAllForums()
+            .enqueue(object : Callback<AllForumsResponse> {
+                override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
+                    Log.d("Mainactivity",call.request().toString())
+                }
+
+                override fun onResponse(
+                    call: Call<AllForumsResponse>,
+                    response: Response<AllForumsResponse>
+                ) {
+                    Log.d("Mainactivity","Request succeeded")
+                    val allForums = response.body()
+                    if(response.isSuccessful && allForums != null){
+                        Log.d("Mainactivity",allForums.toString())
+                    }else{
+                        //Error login
+                        Log.d("Mainactivity","Failed to fetch")
+                    }
+                }
+            })
 
 
         val mainActivity = this
