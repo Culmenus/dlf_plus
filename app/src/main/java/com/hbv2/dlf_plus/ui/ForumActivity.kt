@@ -2,6 +2,7 @@ package com.hbv2.dlf_plus.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +34,16 @@ class ForumActivity : AppCompatActivity() {
                 .add(R.id.fragment_container_forum, fragment)
                 .commit()
         }
+
+        // create topic virkni
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+        binding.createTopic.setOnClickListener {
+            var createTopic = CreateTopicFragment()
+            createTopic.show(supportFragmentManager, "createTopic")
+        }
+        // create topic virkni endar
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+
 
         binding.bottomNavigation.setOnItemReselectedListener { item ->
             when (item.itemId) {
@@ -103,12 +114,12 @@ class ForumActivity : AppCompatActivity() {
 
 
     // burger
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (toggle.onOptionsItemSelected(item)) {
+//            return true
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 
 }
