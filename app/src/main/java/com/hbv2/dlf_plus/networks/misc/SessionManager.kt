@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus.networks
+package com.hbv2.dlf_plus.networks.misc
 
 import android.content.Context
 import android.content.SharedPreferences
