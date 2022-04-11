@@ -9,7 +9,13 @@ class TopicListViewModel : ViewModel() {
 
     init {
         // Gen data for now. Sbr. bók bls. 177
-        for (i in 0 until 100) {
+        // todo I guess tha na i backend data her?
+
+        val topic = Topic();
+        topic.title = "Hvað er í gangi?"
+        topic.description = "Langar í svör"
+        topics += topic
+        for (i in 0 until 10) {
             val topic = Topic()
             topic.title = "Topic title#$i"
             topic.description = "Topic desc #$i"
