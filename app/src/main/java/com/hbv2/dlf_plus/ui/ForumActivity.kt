@@ -63,7 +63,6 @@ class ForumActivity : AppCompatActivity() {
             }
         }
 
-
         val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
         val forum = forumFromID(forumID)
 
@@ -72,8 +71,6 @@ class ForumActivity : AppCompatActivity() {
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
         }
-
-
     }
 
 
@@ -111,15 +108,4 @@ class ForumActivity : AppCompatActivity() {
         }
         return null
     }
-
-
-    // burger
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (toggle.onOptionsItemSelected(item)) {
-//            return true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-
 }

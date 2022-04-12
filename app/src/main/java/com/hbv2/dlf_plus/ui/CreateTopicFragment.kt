@@ -1,12 +1,15 @@
 package com.hbv2.dlf_plus.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
+import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,18 +40,26 @@ class CreateTopicFragment : DialogFragment() {
         }
 
         binding.createButton.setOnClickListener {
-            Toast.makeText(context, "create now", Toast.LENGTH_SHORT).show()
-            // title required bby
-//            title.takeIf { it.isEmpty() }?.let {
-//                userName.error = "First name is required!"
-//            } ?: run {
-//                startActivity(Intent(applicationContext, this))
-//            }
+            // Toast.makeText(context, "create now", Toast.LENGTH_SHORT).show()
+            val title = binding.titleInput.text;
+            val desc = binding.descriptionInput.text;
+
+            if (title?.isEmpty() == true) {
+                Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
+            } else {
+                val topic = Topic(title.toString(), desc.toString())
+                // todo koma þessu topic í topics í TopicListFragment og posta því á bakenda
+
+                Toast.makeText(context, "make it", Toast.LENGTH_SHORT).show()
+                dismiss()
+                // todo Redirect to created topic i staðinn fyrir dismiss()?
+            }
         }
 
         return binding.root
     }
 
+    // mby beila a thetta ef tharf ekki
     companion object {
         /**
          * Use this factory method to create a new instance of

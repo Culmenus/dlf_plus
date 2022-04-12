@@ -9,7 +9,7 @@ import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
 
 
 class TopicActivity : AppCompatActivity() {
-    private lateinit var toggle: ActionBarDrawerToggle
+//    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityTopicBinding
 
 
@@ -18,17 +18,13 @@ class TopicActivity : AppCompatActivity() {
 
         binding = ActivityTopicBinding.inflate(layoutInflater)
 
+        val id = intent.getStringExtra("TOPIC_ID")?.toInt() // ehv svona
+        val title = intent.getStringExtra("TOPIC_TITLE")
+        val desc = intent.getStringExtra("TOPIC_DESCRIPTION")
+
+        binding.title.text = title
+        binding.description.text = desc
+
         setContentView(binding.root)
-
     }
-
-
-    // burger
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 }
