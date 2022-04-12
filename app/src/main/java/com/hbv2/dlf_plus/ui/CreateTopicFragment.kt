@@ -1,14 +1,11 @@
 package com.hbv2.dlf_plus.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,7 +29,7 @@ class CreateTopicFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCreateTopicBinding.inflate(inflater, container, false)
 
         binding.cancelButton.setOnClickListener {
@@ -41,6 +38,12 @@ class CreateTopicFragment : DialogFragment() {
 
         binding.createButton.setOnClickListener {
             Toast.makeText(context, "create now", Toast.LENGTH_SHORT).show()
+            // title required bby
+//            title.takeIf { it.isEmpty() }?.let {
+//                userName.error = "First name is required!"
+//            } ?: run {
+//                startActivity(Intent(applicationContext, this))
+//            }
         }
 
         return binding.root

@@ -73,7 +73,7 @@
         <FrameLayout
             android:id="@+id/fragment_container_forum"
             android:layout_width="350dp"
-            android:layout_height="400dp"
+            android:layout_height="380dp"
             android:layout_gravity="center" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
