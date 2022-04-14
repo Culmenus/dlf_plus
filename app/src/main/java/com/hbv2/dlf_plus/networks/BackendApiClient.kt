@@ -1,8 +1,8 @@
 package com.hbv2.dlf_plus.networks
 
+import com.hbv2.dlf_plus.networks.misc.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class BackendApiClient {
     private lateinit var backendApi: BackendApi
