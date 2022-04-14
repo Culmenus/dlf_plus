@@ -1,3 +1,4 @@
+
 backendApiClient = BackendApiClient()
         sessionManager = SessionManager(applicationContext)
         if(sessionManager.isUserStored()){
@@ -7,6 +8,7 @@ backendApiClient = BackendApiClient()
                     override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
                         Log.d("Mainactivity",call.request().toString())
                     }
+
 
                     override fun onResponse(
                         call: Call<AllForumsResponse>,
