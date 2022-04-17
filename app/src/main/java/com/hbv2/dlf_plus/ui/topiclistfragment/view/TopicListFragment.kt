@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.ui.topiclistfragment.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Topic
+import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
@@ -51,7 +53,10 @@ class TopicListFragment : Fragment(), TopicClickListener {
     }
 
     override fun onClick(topic: Topic) {
-        Toast.makeText(context, "${topic.title} pressed!", Toast.LENGTH_SHORT).show()
+        val intent = Intent(context, TopicActivity::class.java)
+        // laga name string
+        intent.putExtra("TOPIC_ID_EXTRA", topic.id)
+        startActivity(intent)
     }
 
 
