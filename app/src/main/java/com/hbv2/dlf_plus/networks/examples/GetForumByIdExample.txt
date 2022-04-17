@@ -1,18 +1,19 @@
-
 backendApiClient = BackendApiClient()
         sessionManager = SessionManager(applicationContext)
         if(sessionManager.isUserStored()){
             val token = sessionManager.fetchAuthedUserDetails()?.token
-            backendApiClient.getApi().getAllForums(StringBuilder().append("Bearer ").append(token).toString())
-                .enqueue(object : Callback<AllForumsResponse> {
-                    override fun onFailure(call: Call<AllForumsResponse>, t: Throwable) {
+            val id = "1" //dæmi
+            backendApiClient.getApi().getForumById(
+                StringBuilder().append("Bearer ").append(token).toString(),
+                id)
+                .enqueue(object : Callback<Forum> {
+                    override fun onFailure(call: Call<Forum>, t: Throwable) {
                         Log.d("Mainactivity",call.request().toString())
                     }
 
-
                     override fun onResponse(
-                        call: Call<AllForumsResponse>,
-                        response: Response<AllForumsResponse>
+                        call: Call<Forum>,
+                        response: Response<Forum>
                     ) {
                         Log.d("Mainactivity","Request succeeded")
                         val allForums = response.body()

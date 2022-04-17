@@ -64,6 +64,7 @@ class ForumCardListFragment : Fragment(), ForumClickListener {
 
     override fun onClick(forum: Forum) {
         val intent = Intent(context, ForumActivity::class.java)
+        //laga string value
         intent.putExtra("FORUM_ID_EXTRA", forum.id)
         startActivity(intent)
     }

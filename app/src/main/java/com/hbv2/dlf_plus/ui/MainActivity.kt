@@ -14,7 +14,7 @@ import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.adapter.ForumCardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
-import com.hbv2.dlf_plus.networks.SessionManager
+//import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-    private lateinit var sessionManager: SessionManager
+    //private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,9 +1,8 @@
 package com.hbv2.dlf_plus.networks.responses
 
-data class AllForumsResponseItem(
+data class ForumsResponseItem(
     val courseId: String,
     val description: String,
     val id: Int,
-    val name: String,
-    val threads: List<Any>
+    val name: String
 )
