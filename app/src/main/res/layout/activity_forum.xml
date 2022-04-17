@@ -1,80 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayout"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.ForumActivity">
 
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/cover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/cover"
+        android:src="@drawable/pallas"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"/>
 
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/pallas"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/cover"/>
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:text="@string/title_placeholder_text"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:lines="2"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cover"/>
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:gravity="center"
-            android:text="@string/title_placeholder_text"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:lines="2"
-            android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/courseId"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:text="@string/title_placeholder_text"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:lines="1"
+        app:layout_constraintTop_toBottomOf="@id/name"/>
 
-        <TextView
-            android:id="@+id/courseId"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:gravity="center"
-            android:text="@string/title_placeholder_text"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:lines="1" />
+    <FrameLayout
+        android:id="@+id/fragment_container_forum"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/courseId"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You're in a forum bby"
-            android:textSize="40sp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_navigation_menu"
+        app:layout_constraintBottom_toBottomOf="@id/constraintLayout"/>
 
-        <FrameLayout
-            android:id="@+id/fragment_container_forum"
-            android:layout_width="350dp"
-            android:layout_height="400dp"
-            android:layout_gravity="center" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:menu="@menu/bottom_navigation_menu" />
-
-    </LinearLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer_menu"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
