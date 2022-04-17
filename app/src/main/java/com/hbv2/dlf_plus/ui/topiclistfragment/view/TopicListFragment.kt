@@ -17,6 +17,7 @@ import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
+import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 
 // Sbr. bls. 178
 
@@ -54,8 +55,11 @@ class TopicListFragment : Fragment(), TopicClickListener {
 
     override fun onClick(topic: Topic) {
         val intent = Intent(context, TopicActivity::class.java)
-        // laga name string
-        intent.putExtra("TOPIC_ID_EXTRA", topic.id)
+        // todo redirect to this forum
+        //intent.putExtra("TOPIC_ID", topic.id)
+        //intent.putExtra("TOPIC_ID", 1)
+        //intent.putExtra("TOPIC_TITLE", topic.title)
+        //intent.putExtra("TOPIC_DESCRIPTION", topic.description)
         startActivity(intent)
     }
 

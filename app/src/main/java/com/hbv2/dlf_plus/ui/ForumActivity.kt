@@ -2,6 +2,7 @@ package com.hbv2.dlf_plus.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,16 @@ class ForumActivity : AppCompatActivity() {
                 .commit()
         }
 
+        // create topic virkni
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+        binding.createTopic.setOnClickListener {
+            var createTopic = CreateTopicFragment()
+            createTopic.show(supportFragmentManager, "createTopic")
+        }
+        // create topic virkni endar
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+
+
         binding.bottomNavigation.setOnItemReselectedListener { item ->
             when (item.itemId) {
                 R.id.botItem1 -> {
@@ -52,7 +63,6 @@ class ForumActivity : AppCompatActivity() {
             }
         }
 
-
         val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
         val forum = forumFromID(forumID)
 
@@ -61,8 +71,6 @@ class ForumActivity : AppCompatActivity() {
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
         }
-
-
     }
 
 
@@ -100,15 +108,4 @@ class ForumActivity : AppCompatActivity() {
         }
         return null
     }
-
-
-    // burger
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
 }

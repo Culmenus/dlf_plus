@@ -29,6 +29,10 @@ class TopicActivity : AppCompatActivity() {
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        //val id = intent.getStringExtra("TOPIC_ID")?.toInt() // ehv svona // fra danna??
+        //val title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
+        //val desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
+
         // mock
         val mockmsg = mutableListOf<Message>()
         val users = arrayOf<User>(
@@ -51,16 +55,5 @@ class TopicActivity : AppCompatActivity() {
         val adapter = MessageListAdapter(mockmsg)
         msgRecyclerView.adapter = adapter
 
-
     }
-
-
-    /* burger
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    */
 }
