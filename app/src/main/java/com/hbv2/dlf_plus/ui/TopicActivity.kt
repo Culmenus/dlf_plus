@@ -29,9 +29,9 @@ class TopicActivity : AppCompatActivity() {
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        //val id = intent.getStringExtra("TOPIC_ID")?.toInt() // ehv svona // fra danna??
-        //val title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
-        //val desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
+        // val id = intent.getStringExtra("TOPIC_ID")?.toInt() // ehv svona // fra danna??
+        // val title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
+        // val desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
 
         // mock
         val mockmsg = mutableListOf<Message>()

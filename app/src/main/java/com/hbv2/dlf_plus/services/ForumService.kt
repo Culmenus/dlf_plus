@@ -7,17 +7,20 @@ import com.hbv2.dlf_plus.data.model.toTopicWithoutId
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
+import com.hbv2.dlf_plus.networks.responses.TopicResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ForumService(applicationContext: Context) {
+open class ForumService(applicationContext: Context?) {
     private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
 
     init {
         backendApiClient = BackendApiClient()
-        sessionManager = SessionManager(applicationContext)
+        if (applicationContext != null) {
+            sessionManager = SessionManager(applicationContext)
+        }
     }
 
     fun createTopic(topicCreated: Topic, forumId: String) {
@@ -26,7 +29,7 @@ class ForumService(applicationContext: Context) {
             val topic: TopicWithoutId = topicCreated.toTopicWithoutId() //casting
             backendApiClient.getApi().createTopic(
                 StringBuilder().append("Bearer ").append(token).toString(),
-                forumId)
+                forumId, topic)
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {
                         Log.d("Mainactivity",call.request().toString())
@@ -37,9 +40,9 @@ class ForumService(applicationContext: Context) {
                         response: Response<Topic>
                     ) {
                         Log.d("Create topic","Request succeeded")
-                        val allForums = response.body()
-                        if(response.isSuccessful && allForums != null){
-                            Log.d("Create topic",allForums.toString())
+                        val topicResponse: Topic? = response.body()
+                        if(response.isSuccessful && topicResponse != null){
+                            Log.d("Create topic",topicResponse.toString())
                         }else{
                             //Error login
                             Log.d("Create topic","Failed to fetch")

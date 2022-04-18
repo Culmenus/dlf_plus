@@ -10,10 +10,11 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
-class ForumActivity : AppCompatActivity() {
+class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
 
@@ -38,7 +39,7 @@ class ForumActivity : AppCompatActivity() {
         // create topic virkni
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
         binding.createTopic.setOnClickListener {
-            var createTopic = CreateTopicFragment()
+            var createTopic = CreateTopicFragment.newInstance()
             createTopic.show(supportFragmentManager, "createTopic")
         }
         // create topic virkni endar
@@ -107,5 +108,10 @@ class ForumActivity : AppCompatActivity() {
                 return forum
         }
         return null
+    }
+
+    override fun onTopicCreated(topic: Topic) {
+        TODO("Not yet implemented")
+        Toast.makeText(this, "yabba dabba doooo", Toast.LENGTH_LONG).show()
     }
 }

@@ -3,6 +3,7 @@ package com.hbv2.dlf_plus.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
 import com.hbv2.dlf_plus.services.ForumService
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
@@ -26,6 +28,7 @@ class CreateTopicFragment : DialogFragment() {
 //    // TODO: Rename and change types of parameters
     private var param2: String? = null
     private var param1: String? = null
+    private lateinit var forumService: ForumService
     private lateinit var listener: OnTopicCreated
 
     // assign the _binding variable initially to null and
@@ -38,9 +41,11 @@ class CreateTopicFragment : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        if (context != null) {
-            
+        if (context is OnTopicCreated) {
+            listener = context
+        } else {
+            throw ClassCastException(
+                context.toString() + " must implement OnTopicCreated.")
         }
 
 
@@ -50,6 +55,7 @@ class CreateTopicFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        forumService = ForumService(context)
         _binding = FragmentCreateTopicBinding.inflate(inflater, container, false)
 
         binding.cancelButton.setOnClickListener {
@@ -58,6 +64,7 @@ class CreateTopicFragment : DialogFragment() {
 
         binding.createButton.setOnClickListener {
             // Toast.makeText(context, "create now", Toast.LENGTH_SHORT).show()
+
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
 
@@ -70,9 +77,18 @@ class CreateTopicFragment : DialogFragment() {
                     title = title.toString(),
                     description = desc.toString()
                 )
+                val forumId = activity?.intent?.getIntExtra("FORUM_ID_EXTRA", -1).toString()
+                if (forumId != null) {
+                    Log.d("Create Topic", "Calling forumService.createTopic")
+                    forumService.createTopic(topic, forumId)
+                } else {
+                    Toast.makeText(context, "Creation failed, no forum id.", Toast.LENGTH_SHORT).show()
+                    Log.d("Create Topic", "Creation failed, no forum id.")
+                }
+
                 // todo koma þessu topic í topics í TopicListFragment og posta því á bakenda
 
-                Toast.makeText(context, "make it", Toast.LENGTH_SHORT).show()
+
                 dismiss()
                 // todo Redirect to created topic i staðinn fyrir dismiss()?
             }
@@ -87,8 +103,4 @@ class CreateTopicFragment : DialogFragment() {
             return CreateTopicFragment()
         }
     }
-}
-
-interface OnTopicCreated {
-    fun onTopicCreated(topic: Topic)
 }

@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_input"
