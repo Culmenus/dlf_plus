@@ -1,26 +1,31 @@
 package com.hbv2.dlf_plus.ui
 
+//import com.hbv2.dlf_plus.networks.SessionManager
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.recyclerview.widget.GridLayoutManager
-import com.google.gson.Gson
-import com.hbv2.dlf_plus.*
-import com.hbv2.dlf_plus.data.model.*
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.adapter.ForumCardAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.gmail.bishoybasily.stomp.lib.Event
+import com.gmail.bishoybasily.stomp.lib.StompClient
+import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
-//import com.hbv2.dlf_plus.networks.SessionManager
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
+import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
-
-
+import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-    //private lateinit var sessionManager: SessionManager
+    private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +58,66 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         var threadId = 1
+        backendApiClient = BackendApiClient()
+        sessionManager = SessionManager(applicationContext)
+        backendApiClient.getApi().login(LoginRequestBody("user@user.is","pword"))
+            .enqueue(object : Callback<LoginResponse> {
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
 
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>
+                ) {
+                    val loginResponse = response.body()
+                    if(response.isSuccessful && loginResponse != null){
+                        Log.d("MainActivity",loginResponse.toString())
+                        sessionManager.saveAuthedUser(loginResponse)
+                    }else{
+                        //Error login
+                    }
+                }
+            })
+        val token = sessionManager.fetchAuthedUserDetails()?.token
+        var stompConnection: Disposable
+        var topic: Disposable
+        val url = "http://127.0.0.1:8080/thread/"
+        val intervalMillis = 5000L
+        val client = OkHttpClient.Builder()
+            .addInterceptor { it.proceed(it.request().newBuilder().header("Authorization", "Bearer "+token!!).build()) }
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .build()
+
+        val stomp = StompClient(client, intervalMillis).apply { this@apply.url = url }
+
+        val listen = stomp.join("thread/$threadId/get").subscribe {
+            object : DisposableObserver<String?>() {
+                override fun onStart() {
+                    println("Start!")
+                }
+
+                override fun onNext(t: String) {
+                    println(t)
+                }
+
+                override fun onError(t: Throwable) {
+                    t.printStackTrace()
+                }
+
+                override fun onComplete() {
+                    println("Done!")
+                }
+            }
+        }
+
+
+        listen.dispose()
+
+
+// disconnect
 
     }
 
