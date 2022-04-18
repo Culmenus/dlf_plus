@@ -19,14 +19,13 @@ import com.hbv2.dlf_plus.networks.BackendApiClient
 //import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
 import org.hildan.krossbow.stomp.*
-import org.json.JSONObject
-import kotlin.io.use
+import org.hildan.krossbow.stomp.conversions.kxserialization.*
+import kotlinx.coroutines.launch
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,26 +57,20 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         var threadId = 1
-        fun main() = runBlocking {
-            val client = StompClient()
+        GlobalScope.launch {
             val url = "http://127.0.0.1:8080/thread/"
-            val session: StompSession = client.connect(url)
-            val message = MessageDTO(
-                message = "hello",
-                isEdited = false,
-                userID = 1,
-                username = "Danni"
-            )
-
+            val session = StompClient().connect(url).withJsonConversions()
             session.use { s ->
-                val subscription: Flow<String> = s.subscribeText("/thread/1/get")
-                s.sendText("/thread/1/send", Gson().toJson(message))
+                //s.convertAndSend("/threa", Person("Bob", 42), Person.serializer())
 
-                // terminal operators that finish early (like first) also trigger UNSUBSCRIBE automatically
-                val firstMessage: String = subscription.first()
-                println("Received: $firstMessage")
-                Log.d("MainActivity",firstMessage)
+                // overloads without explicit serializers exist, but should be avoided if you also target JavaScript
+                val messages: Flow<MessageDTO> = s.subscribe("/thread/1/get") //MessageDTO.serializer()
+
+                messages.collect { msg ->
+                    println(msg)
+                }
             }
+
         }
 
     }
