@@ -3,6 +3,7 @@ package com.hbv2.dlf_plus.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.se.omapi.Session
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,11 @@ import androidx.fragment.app.DialogFragment
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.services.ForumService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
+import kotlinx.coroutines.* // fyrir async fetch i ForumService
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +32,7 @@ class CreateTopicFragment : DialogFragment() {
     private var param2: String? = null
     private var param1: String? = null
     private lateinit var forumService: ForumService
+    private lateinit var sessionManager: SessionManager
     private lateinit var listener: OnTopicCreated
 
     // assign the _binding variable initially to null and
@@ -56,6 +60,8 @@ class CreateTopicFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         forumService = ForumService(context)
+        sessionManager = SessionManager(requireContext())
+
         _binding = FragmentCreateTopicBinding.inflate(inflater, container, false)
 
         binding.cancelButton.setOnClickListener {
@@ -63,34 +69,37 @@ class CreateTopicFragment : DialogFragment() {
         }
 
         binding.createButton.setOnClickListener {
-            // Toast.makeText(context, "create now", Toast.LENGTH_SHORT).show()
-
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
+            var topicResponse: Topic? = null
 
             if (title?.isEmpty() == true) {
-                Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_LONG).show()
             } else {
+                val user: User? = sessionManager?.fetchAuthedUserDetails()?.user
                 val topic = Topic(
-                    // todo get authed user
-                    creator = User( "danni@hi.is", username = "Danni", id = 2),
+                    //creator = User( "danni@hi.is", username = "Danni", id = 2),
+                    creator = user,
                     title = title.toString(),
                     description = desc.toString()
                 )
                 val forumId = activity?.intent?.getIntExtra("FORUM_ID_EXTRA", -1).toString()
                 if (forumId != null) {
                     Log.d("Create Topic", "Calling forumService.createTopic")
-                    forumService.createTopic(topic, forumId)
+
+                    runBlocking {
+                        // set loading mby...
+                        // topicResponse =
+                        forumService.createTopic(topic, forumId)
+                        // todo koma þessu topic í topics í TopicListFragment
+                        Log.d("RESPONSE IN FRAGMENT", topicResponse.toString() )
+                    }
                 } else {
                     Toast.makeText(context, "Creation failed, no forum id.", Toast.LENGTH_SHORT).show()
                     Log.d("Create Topic", "Creation failed, no forum id.")
                 }
 
-                // todo koma þessu topic í topics í TopicListFragment og posta því á bakenda
-
-
                 dismiss()
-                // todo Redirect to created topic i staðinn fyrir dismiss()?
             }
         }
 
