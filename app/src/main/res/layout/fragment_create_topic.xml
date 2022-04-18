@@ -30,8 +30,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/border_top_purple"
-            >
+            android:background="@drawable/border_top_purple">
 
             <TextView
                 android:layout_width="100dp"
@@ -44,8 +43,7 @@
                 android:id="@+id/title_input"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                />
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
@@ -59,8 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/description"
                 android:textSize="18sp"
-                android:layout_marginTop="10dp"
-                />
+                android:layout_marginTop="10dp"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_input"
@@ -76,8 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/create"
-            android:layout_marginBottom="30dp"
-            />
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 
