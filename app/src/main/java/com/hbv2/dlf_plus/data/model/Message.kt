@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.data.model
 
+import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
 import java.util.*
 
 data class Message(
@@ -8,3 +9,13 @@ data class Message(
     var isEdited: Boolean,
     val sentBy : User,
     )
+
+data class MessageDTO(
+    var message: String,
+    var isEdited: Boolean,
+    var userID: Int,
+    var username: String,
+    var createdAt: Date = Date(),
+
+
+)
