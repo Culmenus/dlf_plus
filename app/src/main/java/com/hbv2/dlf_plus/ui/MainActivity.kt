@@ -19,11 +19,7 @@ import com.hbv2.dlf_plus.networks.BackendApiClient
 //import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import org.hildan.krossbow.stomp.*
-import org.hildan.krossbow.stomp.conversions.kxserialization.*
-import kotlinx.coroutines.launch
+
 
 
 
@@ -57,21 +53,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         var threadId = 1
-        GlobalScope.launch {
-            val url = "http://127.0.0.1:8080/thread/"
-            val session = StompClient().connect(url).withJsonConversions()
-            session.use { s ->
-                //s.convertAndSend("/threa", Person("Bob", 42), Person.serializer())
 
-                // overloads without explicit serializers exist, but should be avoided if you also target JavaScript
-                val messages: Flow<MessageDTO> = s.subscribe("/thread/1/get") //MessageDTO.serializer()
-
-                messages.collect { msg ->
-                    println(msg)
-                }
-            }
-
-        }
 
     }
 
