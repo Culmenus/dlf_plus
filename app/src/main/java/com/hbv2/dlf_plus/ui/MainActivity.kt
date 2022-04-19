@@ -3,6 +3,7 @@ package com.hbv2.dlf_plus.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,9 +15,11 @@ import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.adapter.ForumCardAdapter
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 //import com.hbv2.dlf_plus.networks.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
+import com.hbv2.dlf_plus.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,12 +28,17 @@ class MainActivity : AppCompatActivity() {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-    //private lateinit var sessionManager: SessionManager
+    private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sessionManager = SessionManager(applicationContext)
+        Log.d("SessionManager", sessionManager.isUserStored().toString())
+        if(!sessionManager.isUserStored()){
+            val loginIntent = Intent(this@MainActivity, LoginActivity::class.java);
+            startActivity(loginIntent);
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
