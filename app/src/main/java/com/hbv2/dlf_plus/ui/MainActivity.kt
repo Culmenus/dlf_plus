@@ -1,22 +1,37 @@
 package com.hbv2.dlf_plus.ui
 
+//import com.hbv2.dlf_plus.networks.SessionManager
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.recyclerview.widget.GridLayoutManager
-import com.hbv2.dlf_plus.*
-import com.hbv2.dlf_plus.data.model.*
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.adapter.ForumCardAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
-//import com.hbv2.dlf_plus.networks.SessionManager
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
+import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.responses.LoginResponse
+import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
+import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+import io.reactivex.Completable
+import io.reactivex.CompletableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
+import ua.naiksoftware.stomp.dto.LifecycleEvent
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,8 +40,9 @@ class MainActivity : AppCompatActivity() {
     // nema að þetta þarf fult af null checks
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
-    //private lateinit var sessionManager: SessionManager
+    private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
+    private lateinit var mStompClient: StompClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initDrawer()
-
+        Log.d("MainActivity","Hello world!!")
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards)
 
@@ -48,7 +64,17 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        val message = MessageDTO(
+            message = "Hello world",
+            isEdited = false,
+            userID = 1,
+            username = "Danni"
+        )
+
+
+
     }
+
 
 
     // Drawer
