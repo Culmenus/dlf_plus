@@ -15,4 +15,7 @@
     <string name="cancel">Cancel</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="edit_topic">Edit Topic</string>
+    <string name="edit">Edit</string>
+    <string name="delete_topic">Delete topic</string>
 </resources>

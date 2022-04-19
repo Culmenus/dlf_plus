@@ -20,6 +20,7 @@ class TopicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTopicBinding.inflate(layoutInflater)

@@ -2,21 +2,19 @@ package com.hbv2.dlf_plus.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicEdited
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
-class ForumActivity : AppCompatActivity(), OnTopicCreated {
+class ForumActivity : AppCompatActivity(), OnTopicCreated, OnTopicEdited {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
 
@@ -117,5 +115,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
         tm.addTopicToListView(topic)
         startActivity(intent)
+    }
+
+    // todo stórlega breyta þessu og jafnvel beila á þetta fall...
+    override fun onTopicEdited(topic: Topic) {
+        Toast.makeText(this, topic.toString(), Toast.LENGTH_LONG).show()
+
     }
 }
