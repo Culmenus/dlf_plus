@@ -20,5 +20,8 @@ object Constants {
     const val THREAD_URL = "/api/thread/{threadId}"
     const val CREATE_THREAD_BY_FORUM_ID = "/api/forum/{forumId}"
 
+    //messages
+    const val MESSAGE_URL = "/api/message/{messageId}"
+
 
 }

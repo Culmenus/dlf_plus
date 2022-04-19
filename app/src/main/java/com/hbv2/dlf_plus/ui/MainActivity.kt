@@ -63,92 +63,18 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.fragment_container_forum_cards, fragment)
                 .commit()
         }
-        var threadId = 1
-        backendApiClient = BackendApiClient()
-        sessionManager = SessionManager(applicationContext)
-        backendApiClient.getApi().login(LoginRequestBody("user@user.is","pword"))
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
 
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    val loginResponse = response.body()
-                    if(response.isSuccessful && loginResponse != null){
-                        Log.d("MainActivity",loginResponse.toString())
-                        sessionManager.saveAuthedUser(loginResponse)
-                    }else{
-                        //Error login
-                    }
-                }
-            })
-        val token = sessionManager.fetchAuthedUserDetails()?.token
-        val url = "ws://10.0.2.2:8080/thread/websocket"
-        /**
-        println(url);
-        val intervalMillis = 5000L
-        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
-        mStompClient.connect()
-        val stompConnection = mStompClient.lifecycle().subscribe {
-            when (it.type) {
-                LifecycleEvent.Type.OPENED -> {
-                    Log.d("stompConn", "OPENED")
-                }
-                LifecycleEvent.Type.CLOSED ->{
-                    Log.d("stompConn","CLOSED")
-                }
-                LifecycleEvent.Type.ERROR -> {
-                    Log.d("stompConn","ERROR")
-                }
-                else -> {
-                    Log.d("stompConn","Something went wrong")
-                }
-            }
-        }
-        try {
-            val someth = mStompClient.topic("/thread/1/get")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                Log.d("Someth", it.payload.toString())
-            }
-        }
-        catch(e: Throwable){
-            Log.d("someth", e.message!!);
-        }*/
         val message = MessageDTO(
             message = "Hello world",
             isEdited = false,
             userID = 1,
             username = "Danni"
         )
-        /**
-        mStompClient.send("/app/thread/1/send", Gson().toJson(message))
-            .compose(applySchedulers())
-            .subscribe() */
-
-        val ws = WSChatClient()
-        var messages = ArrayList<MessageDTO>()
-        val addItem = {msg: MessageDTO -> messages.add(msg)}
-        ws.subscribe(1,addItem)
-        ws.sendMessage(1,message)
-        ws.sendMessage(1,message)
-        Log.d("TESTIN",messages.toString())
 
 
 
     }
-    protected fun applySchedulers(): CompletableTransformer? {
-        return CompletableTransformer { upstream: Completable ->
-            upstream
-                .unsubscribeOn(Schedulers.newThread())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-        }
-    }
+
 
 
     // Drawer
