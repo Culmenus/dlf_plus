@@ -1,6 +1,7 @@
 package com.hbv2.dlf_plus.ui.forumcardlistfragment.view
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.AsyncListUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
@@ -25,13 +28,19 @@ class ForumCardListFragment : Fragment(), ForumClickListener {
     private lateinit var forumRecyclerView: RecyclerView
     private var adapter: ForumCardAdapter? = null
 
+
     private val forumCardListViewModel: ForumCardListViewModel by lazy {
         ViewModelProvider(this).get(ForumCardListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "Total forum cards: ${forumCardListViewModel.forums.size}")
+        Log.d(TAG, "Total forum cards: ${forumCardListViewModel.forums}")
+        forumCardListViewModel
+            .getForumsLiveData()
+            .observe(this, Observer<List<Forum>> { forums ->
+                updateUI()
+            })
     }
 
     override fun onCreateView(
