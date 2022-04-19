@@ -1,0 +1,22 @@
+val token = sessionManager.fetchAuthedUserDetails()?.token
+        val url = "ws://10.0.2.2:8080/thread/websocket"
+        println(url);
+        val intervalMillis = 5000L
+        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+        mStompClient.connect()
+        try {
+            val someth = mStompClient!!.topic("/thread/1/get").subscribe {
+                Log.d("Someth", it.payload.toString())
+            }
+        }
+        catch(e: Throwable){
+            Log.d("someth", e.message!!);
+        }
+        val message = MessageDTO(
+            message = "Hello world",
+            isEdited = false,
+            userID = 1,
+            username = "Danni"
+        )
+
+        mStompClient.send("/app/thread/1/send", Gson().toJson(message)).subscribe()
