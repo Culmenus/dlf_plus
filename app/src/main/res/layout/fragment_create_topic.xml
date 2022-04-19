@@ -65,7 +65,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/create"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="30dp"
+            android:visibility="visible"/>
+        <ProgressBar
+            android:id="@+id/loading_splash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -22,4 +22,8 @@ class TopicListViewModel : ViewModel() {
             topics += topic
         }
     }
+
+    fun addTopic(topic: Topic) {
+        topics += topic
+    }
 }

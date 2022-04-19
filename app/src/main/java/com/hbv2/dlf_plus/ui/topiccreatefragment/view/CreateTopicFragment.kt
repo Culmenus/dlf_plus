@@ -1,9 +1,7 @@
-package com.hbv2.dlf_plus.ui
+package com.hbv2.dlf_plus.ui.topiccreatefragment.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.se.omapi.Session
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +12,8 @@ import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.services.ForumService
+import com.hbv2.dlf_plus.ui.topiccreatefragment.CreateTopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
-import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
-import kotlinx.coroutines.* // fyrir async fetch i ForumService
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,7 +27,7 @@ class CreateTopicFragment : DialogFragment() {
 //    // TODO: Rename and change types of parameters
     private var param2: String? = null
     private var param1: String? = null
-    private lateinit var forumService: ForumService
+    private lateinit var createTopicService: CreateTopicService
     private lateinit var sessionManager: SessionManager
     private lateinit var listener: OnTopicCreated
 
@@ -51,15 +47,13 @@ class CreateTopicFragment : DialogFragment() {
             throw ClassCastException(
                 context.toString() + " must implement OnTopicCreated.")
         }
-
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        forumService = ForumService(context)
+        createTopicService = CreateTopicService(context, this)
         sessionManager = SessionManager(requireContext())
 
         _binding = FragmentCreateTopicBinding.inflate(inflater, container, false)
@@ -71,11 +65,15 @@ class CreateTopicFragment : DialogFragment() {
         binding.createButton.setOnClickListener {
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
-            var topicResponse: Topic? = null
+            var topicResponse: Topic?
 
             if (title?.isEmpty() == true) {
                 Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_LONG).show()
+            } else if (desc?.length?.compareTo(254)?: -1 > 0) {
+                Toast.makeText(context, "Description too long", Toast.LENGTH_LONG).show()
             } else {
+                binding.loadingSplash.visibility = View.VISIBLE
+                binding.createButton.visibility = View.GONE
                 val user: User? = sessionManager?.fetchAuthedUserDetails()?.user
                 val topic = Topic(
                     //creator = User( "danni@hi.is", username = "Danni", id = 2),
@@ -84,28 +82,23 @@ class CreateTopicFragment : DialogFragment() {
                     description = desc.toString()
                 )
                 val forumId = activity?.intent?.getIntExtra("FORUM_ID_EXTRA", -1).toString()
-                if (forumId != null) {
-                    Log.d("Create Topic", "Calling forumService.createTopic")
-
-                    runBlocking {
-                        // set loading mby...
-                        // topicResponse =
-                        forumService.createTopic(topic, forumId)
-                        // todo koma þessu topic í topics í TopicListFragment
-                        Log.d("RESPONSE IN FRAGMENT", topicResponse.toString() )
-                    }
+                if (forumId != null && forumId != "-1") {
+                    createTopicService.createTopic(topic, forumId)
                 } else {
                     Toast.makeText(context, "Creation failed, no forum id.", Toast.LENGTH_SHORT).show()
                     Log.d("Create Topic", "Creation failed, no forum id.")
                 }
 
-                dismiss()
             }
         }
 
         return binding.root
     }
 
+    fun topicCreated(topic: Topic) {
+        Log.d("CreateTopicFragment", "received topic: " + topic.toString())
+        dismiss()
+    }
 
     companion object {
         fun newInstance(): CreateTopicFragment {
