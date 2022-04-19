@@ -37,17 +37,26 @@ class CreateTopicFragment : DialogFragment() {
         }
 
         binding.createButton.setOnClickListener {
+            setLoad()
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
 
+            val user: User? = sessionManager?.fetchAuthedUserDetails()?.user
+
             if (title?.isEmpty() == true) {
                 Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_LONG).show()
+                Log.d("create Topic", "Title cannot be empty")
+                setNotLoad()
             } else if (desc?.length?.compareTo(254)?: -1 > 0) {
                 Toast.makeText(context, "Description too long", Toast.LENGTH_LONG).show()
+                Log.d("create Topic", "Description too long")
+                setNotLoad()
+            } else if (user == null) {
+                Toast.makeText(context, "Not logged in", Toast.LENGTH_LONG).show()
+                Log.d("create Topic", "Not logged in")
+                setNotLoad()
             } else {
-                binding.loadingSplash.visibility = View.VISIBLE
-                binding.createButton.visibility = View.GONE
-                val user: User? = sessionManager?.fetchAuthedUserDetails()?.user
+
                 val topic = Topic(
                     creator = user,
                     title = title.toString(),
@@ -75,6 +84,16 @@ class CreateTopicFragment : DialogFragment() {
 
     fun errorFetching(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        binding.loadingSplash.visibility = View.GONE
+        binding.createButton.visibility = View.VISIBLE
+    }
+
+    fun setLoad() {
+        binding.loadingSplash.visibility = View.VISIBLE
+        binding.createButton.visibility = View.GONE
+    }
+
+    fun setNotLoad() {
         binding.loadingSplash.visibility = View.GONE
         binding.createButton.visibility = View.VISIBLE
     }
