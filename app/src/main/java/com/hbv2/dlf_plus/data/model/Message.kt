@@ -16,5 +16,5 @@ data class MessageDTO(
     var isEdited: Boolean,
     var userID: Int,
     var username: String,
-    var createdAt: Date = Date(),
+    var createdAt: Date? = null,
 )
