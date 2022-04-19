@@ -3,7 +3,6 @@ package com.hbv2.dlf_plus.ui.topiccreatefragment
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.toTopicWithoutId
 import com.hbv2.dlf_plus.networks.BackendApiClient
@@ -37,32 +36,27 @@ open class CreateTopicService(applicationContext: Context?, createTopicFragment:
                 forumId, topic)
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {
-                        Log.d("ForumService.createTopic",call.request().toString())
+                        Log.d("Create topic",call.request().toString())
                         Toast.makeText(context, call.request().toString(), Toast.LENGTH_LONG).show()
                     }
                     override fun onResponse(
                         call: Call<Topic>,
                         response: Response<Topic>
                     ) {
-                        Log.d("ForumService.createTopic","Request succeeded")
+                        Log.d("Create topic","Request succeeded")
                         val topicRes: Topic? = response.body()
                         if(response.isSuccessful && topicRes != null){
-                            onTopicCreated(topicRes)
+                            fragment.topicCreated(topicRes)
                         } else {
                             //Error fetching
-                            Log.d("ForumService.createTopic",response.message())
+                            Log.d("Create topic",response.toString())
+                            fragment.errorFetching("An error occurred")
                         }
                     }
                 })
         } else {
             //User not logged in
             Toast.makeText(context, "User must be logged in", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    fun onTopicCreated(topic: Topic) {
-        if (topic != null) {
-            fragment.topicCreated(topic)
         }
     }
 }

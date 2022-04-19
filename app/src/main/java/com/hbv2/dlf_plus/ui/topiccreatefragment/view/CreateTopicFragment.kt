@@ -1,6 +1,5 @@
 package com.hbv2.dlf_plus.ui.topiccreatefragment.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,40 +13,15 @@ import com.hbv2.dlf_plus.databinding.FragmentCreateTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.topiccreatefragment.CreateTopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val FORUM_SERVICE = "forumservice"
-private const val ARG_PARAM2 = "param2"
-
-
+import com.hbv2.dlf_plus.ui.ForumActivity
 
 class CreateTopicFragment : DialogFragment() {
-//    // TODO: Rename and change types of parameters
-    private var param2: String? = null
-    private var param1: String? = null
     private lateinit var createTopicService: CreateTopicService
     private lateinit var sessionManager: SessionManager
     private lateinit var listener: OnTopicCreated
 
-    // assign the _binding variable initially to null and
-    // also when the view is destroyed again it has to be set to null
     private var _binding: FragmentCreateTopicBinding? = null
-
-    // with the backing property of the kotlin we extract
-    // the non null value of the _binding
     private val binding get() = _binding!!
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnTopicCreated) {
-            listener = context
-        } else {
-            throw ClassCastException(
-                context.toString() + " must implement OnTopicCreated.")
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +39,6 @@ class CreateTopicFragment : DialogFragment() {
         binding.createButton.setOnClickListener {
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
-            var topicResponse: Topic?
 
             if (title?.isEmpty() == true) {
                 Toast.makeText(context, "Title cannot be empty", Toast.LENGTH_LONG).show()
@@ -76,7 +49,6 @@ class CreateTopicFragment : DialogFragment() {
                 binding.createButton.visibility = View.GONE
                 val user: User? = sessionManager?.fetchAuthedUserDetails()?.user
                 val topic = Topic(
-                    //creator = User( "danni@hi.is", username = "Danni", id = 2),
                     creator = user,
                     title = title.toString(),
                     description = desc.toString()
@@ -88,7 +60,6 @@ class CreateTopicFragment : DialogFragment() {
                     Toast.makeText(context, "Creation failed, no forum id.", Toast.LENGTH_SHORT).show()
                     Log.d("Create Topic", "Creation failed, no forum id.")
                 }
-
             }
         }
 
@@ -97,7 +68,15 @@ class CreateTopicFragment : DialogFragment() {
 
     fun topicCreated(topic: Topic) {
         Log.d("CreateTopicFragment", "received topic: " + topic.toString())
+        binding.titleInput.setText("(Avada Kedavra")
+        (activity as ForumActivity).onTopicCreated(topic)
         dismiss()
+    }
+
+    fun errorFetching(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        binding.loadingSplash.visibility = View.GONE
+        binding.createButton.visibility = View.VISIBLE
     }
 
     companion object {

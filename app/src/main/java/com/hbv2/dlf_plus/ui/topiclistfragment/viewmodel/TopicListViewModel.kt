@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.hbv2.dlf_plus.data.model.Topic
 
@@ -25,5 +26,6 @@ class TopicListViewModel : ViewModel() {
 
     fun addTopic(topic: Topic) {
         topics += topic
+        Log.d("topicListViewModel", topics.toString())
     }
 }

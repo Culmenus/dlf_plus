@@ -71,6 +71,10 @@ class TopicListFragment : Fragment(), TopicClickListener {
         topicRecyclerView.adapter = adapter
     }
 
+    fun addTopicToListView(topic: Topic) {
+        topicListViewModel.addTopic(topic)
+    }
+
 
     companion object {
         fun newInstance(): TopicListFragment {
