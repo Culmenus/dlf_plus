@@ -9,8 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.gmail.bishoybasily.stomp.lib.Event
-import com.gmail.bishoybasily.stomp.lib.StompClient
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
@@ -19,12 +17,16 @@ import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ua.naiksoftware.stomp.Stomp
+import ua.naiksoftware.stomp.StompClient
+import ua.naiksoftware.stomp.dto.LifecycleEvent
 import java.util.concurrent.TimeUnit
 
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
+    private lateinit var mStompClient: StompClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,44 +83,22 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         val token = sessionManager.fetchAuthedUserDetails()?.token
-        var stompConnection: Disposable
-        var topic: Disposable
-        val url = "http://127.0.0.1:8080/thread/"
+        val url = "ws://10.0.2.2:8080/thread/websocket"
+        println(url);
         val intervalMillis = 5000L
-        val client = OkHttpClient.Builder()
-            .addInterceptor { it.proceed(it.request().newBuilder().header("Authorization", "Bearer "+token!!).build()) }
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .build()
-
-        val stomp = StompClient(client, intervalMillis).apply { this@apply.url = url }
-
-        val listen = stomp.join("thread/$threadId/get").subscribe {
-            object : DisposableObserver<String?>() {
-                override fun onStart() {
-                    println("Start!")
-                }
-
-                override fun onNext(t: String) {
-                    println(t)
-                }
-
-                override fun onError(t: Throwable) {
-                    t.printStackTrace()
-                }
-
-                override fun onComplete() {
-                    println("Done!")
-                }
+        mStompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
+        mStompClient.connect()
+        try {
+            val someth = mStompClient!!.topic("/thread/1/get").subscribe {
+                Log.d("Someth", it.payload.toString())
             }
         }
-
-
-        listen.dispose()
-
-
-// disconnect
+        catch(e: Throwable){
+            Log.d("someth", e.message!!);
+        }
+        /**
+        mStompClient.send("/app/thread/1/send", "message!").subscribe()
+        */
 
     }
 
