@@ -6,20 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
-import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiclistfragment.TopicClickListener
 import com.hbv2.dlf_plus.ui.topiclistfragment.adapter.TopicAdapter
 import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 
 // Sbr. bls. 178
 
@@ -60,13 +57,9 @@ class TopicListFragment : Fragment(), TopicClickListener {
     }
 
     override fun onClick(topic: Topic) {
-        val intent = Intent(context, TopicActivity::class.java)
+        val intent = Intent(context, TopicActivity()::class.java)
         // todo redirect to this forum
-        //intent.putExtra("FORUM_ID", topic.forumId)
         intent.putExtra("TOPIC_ID", topic.id)
-        //intent.putExtra("TOPIC_ID", 1)
-        //intent.putExtra("TOPIC_TITLE", topic.title)
-        //intent.putExtra("TOPIC_DESCRIPTION", topic.description)
         startActivity(intent)
     }
 
@@ -78,9 +71,16 @@ class TopicListFragment : Fragment(), TopicClickListener {
     }
 
     fun addTopicToListView(topic: Topic) {
-        topicListViewModel.addTopic(topic)
+        topicListViewModel.createTopic(topic)
     }
 
+    fun getViewModel(): TopicListViewModel {
+        return topicListViewModel
+    }
+
+    fun resetTopicList() {
+        topicListViewModel.resetTopicList()
+    }
 
     companion object {
         fun newInstance(): TopicListFragment {
