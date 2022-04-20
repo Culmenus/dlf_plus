@@ -1,6 +1,7 @@
 package com.hbv2.dlf_plus.ui.login
 
 import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,8 +9,10 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import com.hbv2.dlf_plus.databinding.ActivityLogin3Binding
@@ -34,7 +37,12 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
         sessionManager = SessionManager(applicationContext)
-
+        username.setOnFocusChangeListener {view, hasFocus ->  if(!hasFocus) {
+            hideKeyboard(view)
+        }}
+        password.setOnFocusChangeListener {view, hasFocus ->  if(!hasFocus) {
+            hideKeyboard(view)
+        }}
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
@@ -101,6 +109,10 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }
+    }
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager: InputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun updateUiWithUser(model: User) {
