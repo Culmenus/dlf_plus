@@ -4,5 +4,6 @@ data class User(
     val email: String,
     val id: Int,
     val userRole: String = "ROLE_USER",
-    val username: String
+    val username: String,
+    var favoriteForums: List<Forum>,
 )

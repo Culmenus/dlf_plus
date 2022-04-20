@@ -70,7 +70,7 @@ interface BackendApi {
     fun createMessageByThreadId(@Header("Authorization") token: String,
                                 @Path("threadId") threadId: String,
                                 @Body message: MessageDTO
-    )
+    ) : Call<MessageDTO>
 
     @PATCH(Constants.MESSAGE_URL)
     fun updateMessageByID(@Header("Authorization") token: String,

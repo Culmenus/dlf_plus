@@ -17,4 +17,6 @@ data class MessageDTO(
     var userID: Int,
     var username: String,
     var createdAt: Date? = null,
-)
+) {
+    constructor(msg: Message): this(msg.message, msg.isEdited, msg.sentBy.id, msg.sentBy.username, msg.createdAt)
+}
