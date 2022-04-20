@@ -7,19 +7,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.hbv2.dlf_plus.data.model.Topic
+import com.hbv2.dlf_plus.databinding.FragmentDeleteTopicBinding
 import com.hbv2.dlf_plus.databinding.FragmentEditTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.ForumActivity
 import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 
-class EditTopicFragment : DialogFragment() {
+class DeleteTopicFragment : DialogFragment() {
     private lateinit var topicService: TopicService
     private lateinit var sessionManager: SessionManager
     private lateinit var activity: TopicActivity
     private lateinit var topic: Topic
 
-    private var _binding: FragmentEditTopicBinding? = null
+    private var _binding: FragmentDeleteTopicBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -31,54 +32,43 @@ class EditTopicFragment : DialogFragment() {
         sessionManager = activity.getSessionManager()
         topic = activity.getTopicInstance()
 
-        _binding = FragmentEditTopicBinding.inflate(inflater, container, false)
+        _binding = FragmentDeleteTopicBinding.inflate(inflater, container, false)
 
         binding.cancelButton.setOnClickListener {
             dismiss()
         }
 
-        binding.titleInput.hint = topic.title
-        binding.descriptionInput.hint = topic.description
-
-        binding.editButton.setOnClickListener {
+        binding.confirmButton.setOnClickListener {
             setLoad()
-            val title = binding.titleInput.text;
-            val desc = binding.descriptionInput.text;
 
-            if (desc?.length?.compareTo(254)?: -1 > 0) {
-                Toast.makeText(context, "Description too long", Toast.LENGTH_LONG).show()
-                setNotLoad()
-            } else {
-                if (!title.isNullOrEmpty()) topic.title = title.toString()
-                if (!desc.isNullOrEmpty()) topic.description = desc.toString()
-                topicService.editTopic(topic, this)
-            }
+            topicService.deleteTopic(topic, this)
+
         }
 
         return binding.root
     }
 
     companion object {
-        fun newInstance(): EditTopicFragment {
-            return EditTopicFragment()
+        fun newInstance(): DeleteTopicFragment {
+            return DeleteTopicFragment()
         }
     }
     private fun setLoad() {
         binding.loadingSplash.visibility = View.VISIBLE
-        binding.editButton.visibility = View.GONE
+        binding.confirmButton.visibility = View.GONE
     }
 
     private fun setNotLoad() {
         binding.loadingSplash.visibility = View.GONE
-        binding.editButton.visibility = View.VISIBLE
+        binding.confirmButton.visibility = View.VISIBLE
     }
 
-    fun onTopicEdited(topic: Topic) {
-        activity.onTopicEdited(topic)
+    fun onTopicDeleted() {
+        activity.onTopicDeleted()
         dismiss()
     }
 
-    fun errorEditing(str: String) {
+    fun errorDeleting(str: String) {
         setNotLoad()
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
