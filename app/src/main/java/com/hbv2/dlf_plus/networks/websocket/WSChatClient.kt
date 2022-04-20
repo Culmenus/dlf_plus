@@ -27,7 +27,6 @@ class WSChatClient {
     }
     fun connect(){ //connecta þegar message er opnað
         resetSubscriptions()
-        mStompClient.connect()
         val stompConnection = mStompClient.lifecycle().subscribe {
             when (it.type) {
                 LifecycleEvent.Type.OPENED -> {
@@ -53,7 +52,7 @@ class WSChatClient {
         }
         compositeDisposable.dispose();
     }
-    fun subscribe(threadId: Int, addItem:(MessageDTO) -> Boolean){ // senda skilaboð. addItem
+    fun subscribe(threadId: Int, addItem:(MessageDTO) -> Unit){ // senda skilaboð. addItem
         val subscription = mStompClient.topic("/thread/$threadId/get")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
