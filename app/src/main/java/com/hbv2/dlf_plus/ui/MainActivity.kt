@@ -122,6 +122,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent);
                 }
             }
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }

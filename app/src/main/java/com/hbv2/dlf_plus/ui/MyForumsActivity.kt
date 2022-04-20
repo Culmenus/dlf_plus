@@ -68,7 +68,7 @@ class MyForumsActivity : AppCompatActivity() {
                     startActivity(intent);
                 }
             }
-
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }
