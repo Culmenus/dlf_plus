@@ -1,27 +1,45 @@
 package com.hbv2.dlf_plus.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
+import android.util.Log
+import androidx.fragment.app.Fragment
+import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class ForumActivity : AppCompatActivity() {
+class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
-
+    private lateinit var sessionManager: SessionManager
+    private lateinit var forum: Forum
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sessionManager = SessionManager(applicationContext)
 
+        forum = Forum(
+            id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
+            cover = intent.getIntExtra("FORUM_COVER_EXTRA", -1),
+            courseId = intent.getStringExtra("FORUM_COURSEID_EXTRA").toString(),
+            name = intent.getStringExtra("FORUM_NAME_EXTRA").toString(),
+            description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
+        )
+        
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
 
@@ -32,6 +50,12 @@ class ForumActivity : AppCompatActivity() {
                 .beginTransaction()
                 .add(R.id.fragment_container_forum, fragment)
                 .commit()
+        }
+
+        // create topic virkni
+        binding.createTopic.setOnClickListener {
+            var createTopic = CreateTopicFragment.newInstance()
+            createTopic.show(supportFragmentManager, "createTopic")
         }
 
         binding.bottomNavigation.setOnItemReselectedListener { item ->
@@ -52,63 +76,96 @@ class ForumActivity : AppCompatActivity() {
             }
         }
 
-
-        val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
-        val forum = forumFromID(forumID)
-
         if (forum != null) {
             binding.cover.setImageResource(forum.cover)
             binding.name.text = forum.name
             binding.courseId.text = forum.courseId
         }
-
-
     }
 
+     override fun onResume() {
+         super.onResume()
+         resetTopicViewModel()
+         forumFromID(forum.id)
+     }
 
-    private fun forumFromID(forumID: Int): Forum? {
+    private fun setForum(_forum: Forum) {
+        forum = _forum
+    }
+
+    private fun forumFromID(forumID: Int) {
         //TODO LAGA. Verðum að leysa þetta með fetch eða local db
-        //placeholder, verður leyst betur
-        val mockforums = mutableListOf<Forum>()
-        // temp mock data
-        val mforum1 = Forum(
-            1,
-            R.drawable.pallas,
-            "Tol999",
-            "Forritun",
-        )
-        mockforums += mforum1
+        // todo refactor ? ugh endurtekning
+        val backendApiClient = BackendApiClient()
+        val token = sessionManager.fetchAuthedUserDetails()!!.token
+        backendApiClient.getApi().getForumById(
+            StringBuilder().append("Bearer ").append(token).toString(),
+            forumID.toString())
+            .enqueue(object : Callback<Forum> {
+                override fun onFailure(call: Call<Forum>, t: Throwable) {
+                    Log.d("Mainactivity",call.request().toString())
+                }
 
-        val mforum2 = Forum(
-            2,
-            R.drawable.pallasblue,
-            "Stæ999",
-            "Stærðfræði",
-        )
-        mockforums += mforum2
-        val mforum3 = Forum(
-            3,
-            R.drawable.img,
-            "Cov19",
-            "Veikur",
-        )
-        mockforums += mforum3
+                override fun onResponse(
+                    call: Call<Forum>,
+                    response: Response<Forum>
+                ) {
+                    Log.d("Mainactivity","Request succeeded")
+                    val forumRes = response.body()
+                    if(response.isSuccessful && forumRes != null){
+                        Log.d("Mainactivity",forumRes.toString())
+                        val currentForum = Forum(
+                            id = forumRes.id,
+                            cover = R.drawable.pallas,
+                            courseId = forumRes.courseId,
+                            name = forumRes.name,
+                            description = forumRes.description,
+                            topics = forumRes.topics
+                        )
+                        setForum(currentForum)
 
-        for (forum in mockforums) {
-            if (forum.id == forumID)
-                return forum
-        }
-        return null
+                        currentForum.topics.forEach { topic ->
+                            val tempTopic = Topic(
+                                id = topic.id,
+                                title = topic.title,
+                                description = topic.description
+                            )
+                            addTopicToViewModel(tempTopic)
+                        }
+                        Log.d("forum topics", forum.toString())
+
+                    }else{
+                        //Error login
+                        Log.d("Mainactivity","Failed to fetch")
+                    }
+                }
+            })
     }
 
-
-    // burger
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+    fun addTopicToViewModel(topic: Topic) {
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.addTopicToListView(topic)
     }
 
+    fun resetTopicViewModel() {
+        val frag: Fragment? = supportFragmentManager?.findFragmentById(R.id.fragment_container_forum)
+        var tm: TopicListFragment? = null
+        if (frag != null) {
+            tm = frag as TopicListFragment
+        }
+        tm?.resetTopicList()
+    }
 
+    override fun onTopicCreated(topic: Topic) {
+        //Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
+        // Færum okkur yfir á þetta Topic:
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.addTopicToListView(topic)
+        val intent = Intent(this@ForumActivity, TopicActivity()::class.java)
+        intent.putExtra("TOPIC_ID", topic.id)
+        intent.putExtra("TOPIC_TITLE", topic.title)
+        intent.putExtra("TOPIC_DESCRIPTION", topic.description)
+
+        startActivity(intent)
+    }
 }

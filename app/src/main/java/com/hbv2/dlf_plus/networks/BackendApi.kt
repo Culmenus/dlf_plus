@@ -1,10 +1,12 @@
 package com.hbv2.dlf_plus.networks
 
 import com.hbv2.dlf_plus.data.model.Forum
+import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.misc.Constants
 import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
 import com.hbv2.dlf_plus.networks.responses.AllForumsResponse
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
@@ -25,7 +27,7 @@ interface BackendApi {
 
     //------------forums------------
     @GET(Constants.FORUMS_URL)
-    fun getAllForums(@Header("Authorization") token: String ) : Call<ArrayList<ForumsResponseItem>>
+    fun getAllForums() : Call<ArrayList<ForumsResponseItem>>
 
     @GET(Constants.GET_FORUM_BY_ID_URL)
     fun getForumById(@Header("Authorization") token: String ,
@@ -51,7 +53,7 @@ interface BackendApi {
 
     @POST(Constants.CREATE_THREAD_BY_FORUM_ID)
     fun createTopic(@Header("Authorization") token: String,
-                     @Path("forumId") forumId : String) : Call<Topic>
+                     @Path("forumId") forumId : String, @Body topic: TopicWithoutId) : Call<Topic>
 
     @PATCH(Constants.THREAD_URL)
     fun updateTopicById(@Header("Authorization") token: String,
@@ -62,5 +64,22 @@ interface BackendApi {
     fun deleteTopicById(@Header("Authorization") token: String,
                         @Path("threadId") threadId: String) : Call<Boolean>
 
+
+    //---------------Messages---------------------------------------------
+    @POST(Constants.THREAD_URL)
+    fun createMessageByThreadId(@Header("Authorization") token: String,
+                                @Path("threadId") threadId: String,
+                                @Body message: MessageDTO
+    )
+
+    @PATCH(Constants.MESSAGE_URL)
+    fun updateMessageByID(@Header("Authorization") token: String,
+                          @Path("messageId") messageId: String,
+                          @Body message: MessageDTO
+    )
+
+    @DELETE(Constants.MESSAGE_URL)
+    fun deleteMessageById(@Header("Authoization") token: String,
+                          @Path("messageId") messageId: String)
 
 }

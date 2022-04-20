@@ -4,13 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.data.model.Message
+import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.databinding.FragmentTopicMsgMeBinding
 import com.hbv2.dlf_plus.databinding.FragmentTopicMsgOtherBinding
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewholder.ReceivedMessageHolder
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewholder.SentMessageHolder
 
 class MessageListAdapter(
-    private val messages: List<Message>
+    private val messages: List<Message>,
+    private val userID: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -21,7 +23,7 @@ class MessageListAdapter(
     override fun getItemViewType(position: Int): Int {
         val msg = messages[position]
         //breyta í current user í staðinn fyrir 1
-        if (msg.sentBy.id == 1) {
+        if (msg.sentBy.id == userID) {
             return VIEW_TYPE_MESSAGE_SENT
         }
         return VIEW_TYPE_MESSAGE_RECEIVED

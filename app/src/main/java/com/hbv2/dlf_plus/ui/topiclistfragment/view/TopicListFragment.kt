@@ -6,8 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +34,11 @@ class TopicListFragment : Fragment(), TopicClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "Total topics: ${topicListViewModel.topics.size}")
-
+        topicListViewModel
+            .getTopicsLiveData()
+            .observe(this, Observer<List<Topic>> { topic ->
+                updateUI()
+            })
     }
 
     override fun onCreateView(
@@ -53,9 +57,9 @@ class TopicListFragment : Fragment(), TopicClickListener {
     }
 
     override fun onClick(topic: Topic) {
-        val intent = Intent(context, TopicActivity::class.java)
-        // laga name string
-        intent.putExtra("TOPIC_ID_EXTRA", topic.id)
+        val intent = Intent(context, TopicActivity()::class.java)
+        // todo redirect to this forum
+        intent.putExtra("TOPIC_ID", topic.id)
         startActivity(intent)
     }
 
@@ -66,6 +70,17 @@ class TopicListFragment : Fragment(), TopicClickListener {
         topicRecyclerView.adapter = adapter
     }
 
+    fun addTopicToListView(topic: Topic) {
+        topicListViewModel.createTopic(topic)
+    }
+
+    fun getViewModel(): TopicListViewModel {
+        return topicListViewModel
+    }
+
+    fun resetTopicList() {
+        topicListViewModel.resetTopicList()
+    }
 
     companion object {
         fun newInstance(): TopicListFragment {
