@@ -41,7 +41,8 @@ class TopicActivity() : AppCompatActivity() {
         binding = ActivityTopicBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val thisTopicId = intent.getIntExtra("TOPIC_ID", 1)
+        val thisTopicId = intent.getIntExtra("TOPIC_ID", -1)
+        Log.d("TopicActivity", "topic ID: $thisTopicId")
 
         topicService.getTopicByid(thisTopicId)
 

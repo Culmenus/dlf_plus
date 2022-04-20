@@ -9,6 +9,7 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
@@ -37,11 +38,7 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             name = intent.getStringExtra("FORUM_NAME_EXTRA").toString(),
             description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
         )
-
-        // fix
-        val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
-        forumFromID(forumID)
-
+        
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
 
@@ -90,7 +87,6 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
          resetTopicViewModel()
          forumFromID(forum.id)
      }
-
 
     private fun setForum(_forum: Forum) {
         forum = _forum
@@ -151,8 +147,12 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
     }
 
     fun resetTopicViewModel() {
-        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
-        tm.resetTopicList()
+        val frag: Fragment? = supportFragmentManager?.findFragmentById(R.id.fragment_container_forum)
+        var tm: TopicListFragment? = null
+        if (frag != null) {
+            tm = frag as TopicListFragment
+        }
+        tm?.resetTopicList()
     }
 
     override fun onTopicCreated(topic: Topic) {
