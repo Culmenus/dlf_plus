@@ -8,6 +8,7 @@ import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
+import org.jetbrains.annotations.NotNull
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,8 +23,6 @@ class TopicListViewModel() : ViewModel() {
     // má kannski servica þetta í burtu því þetta er endurtekinn kóði
     val backendApiClient = BackendApiClient()
     // TODO get rid of this shit
-    val token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
 
     fun getTopicsLiveData(): MutableLiveData<List<Topic>> {
         return topicsLiveData
@@ -34,9 +33,10 @@ class TopicListViewModel() : ViewModel() {
         topicsLiveData.value = topics
     }
 
-
+    val token = "token"
     private fun loadTopic(topicID: Int) {
         // do an async op to fetch forums
+
         backendApiClient.getApi()
             .getTopicById(
                 StringBuilder().append("Bearer ").append(token).toString(),
