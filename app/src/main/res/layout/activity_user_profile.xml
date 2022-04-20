@@ -14,26 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tvCount"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_margin="5dp"
             android:background="@drawable/circle_shape"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:padding="5dp"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="150sp"
-            android:text="D"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.058" />
+            app:layout_constraintVertical_bias="0.05" >
+        <TextView
+            android:id="@+id/letter_to_center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="2dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="150dp"
+            android:text="D"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView2"
