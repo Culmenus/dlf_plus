@@ -21,6 +21,7 @@ import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+
 import io.reactivex.Completable
 import io.reactivex.CompletableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,6 +33,7 @@ import retrofit2.Response
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
+
 class MainActivity : AppCompatActivity() {
 
     // sama og að gera
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
-    private lateinit var mStompClient: StompClient
+    //private lateinit var mStompClient: StompClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +76,6 @@ class MainActivity : AppCompatActivity() {
             userID = 1,
             username = "Danni"
         )
-
-
-
     }
 
 
@@ -122,15 +121,8 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent);
                 }
             }
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.nav_drawer_menu, menu)
-        return true
-    }
-
 }

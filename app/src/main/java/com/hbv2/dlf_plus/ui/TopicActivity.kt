@@ -44,7 +44,7 @@ class TopicActivity : AppCompatActivity() {
         //     return
         // }
 
-        // topicService.getTopicByid(thisTopicId)
+        topicService.getTopicByid(thisTopicId)
         // buinn ad na i topic, setja title og desc.
 
 

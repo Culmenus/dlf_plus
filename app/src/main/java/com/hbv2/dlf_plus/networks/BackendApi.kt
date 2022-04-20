@@ -27,7 +27,7 @@ interface BackendApi {
 
     //------------forums------------
     @GET(Constants.FORUMS_URL)
-    fun getAllForums(@Header("Authorization") token: String ) : Call<ArrayList<ForumsResponseItem>>
+    fun getAllForums() : Call<ArrayList<ForumsResponseItem>>
 
     @GET(Constants.GET_FORUM_BY_ID_URL)
     fun getForumById(@Header("Authorization") token: String ,

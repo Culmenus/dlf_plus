@@ -2,6 +2,7 @@ package com.hbv2.dlf_plus.ui.login
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.hbv2.dlf_plus.databinding.ActivityLogin3Binding
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -72,6 +74,8 @@ class LoginActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK)
                 updateUiWithUser(loginResult.success.user)
                 //Complete and destroy login activity once successful
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent);
                 finish()
             }
         })

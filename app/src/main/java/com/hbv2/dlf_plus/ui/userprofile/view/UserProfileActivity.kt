@@ -45,7 +45,6 @@ class UserProfileActivity : AppCompatActivity() {
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.navView.setNavigationItemSelectedListener {
@@ -63,6 +62,7 @@ class UserProfileActivity : AppCompatActivity() {
                     startActivity(intent);
                 }
             }
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }
