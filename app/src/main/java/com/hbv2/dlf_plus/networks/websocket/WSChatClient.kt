@@ -53,12 +53,12 @@ class WSChatClient {
         }
         compositeDisposable.dispose();
     }
-    fun subscribe(threadId: Int){ // senda skilaboð. addItem
+    fun subscribe(threadId: Int, addItem:(MessageDTO) -> Boolean){ // senda skilaboð. addItem
         val subscription = mStompClient.topic("/thread/$threadId/get")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
-                //addItem(Gson().fromJson(it.payload,MessageDTO::class.java))
+                addItem(Gson().fromJson(it.payload,MessageDTO::class.java))
             }
         compositeDisposable.add(subscription)
     }
