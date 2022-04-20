@@ -22,9 +22,6 @@ class ForumCardListViewModel : ViewModel() {
     val backendApiClient = BackendApiClient()
     // todo tengja þetta login
     // þetta er bara copy paste frá postman eins og er
-    val token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
-
 
     fun getForumsLiveData(): MutableLiveData<List<Forum>> {
         return forumsLiveData
@@ -38,7 +35,7 @@ class ForumCardListViewModel : ViewModel() {
     private fun loadForums() {
         // do an async op to fetch forums
         backendApiClient.getApi()
-            .getAllForums(StringBuilder().append("Bearer ").append(token).toString())
+            .getAllForums()
             .enqueue(object : Callback<ArrayList<ForumsResponseItem>> {
                 override fun onFailure(
                     call: Call<ArrayList<ForumsResponseItem>>,
