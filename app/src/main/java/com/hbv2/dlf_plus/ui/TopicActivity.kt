@@ -52,7 +52,8 @@ class TopicActivity() : AppCompatActivity() {
 
         topicService = TopicService(this, sessionManager)
         binding = ActivityTopicBinding.inflate(layoutInflater)
-        val textarea = binding.editGchatMessage
+        val submit = binding.buttonGchatSend
+        val text = binding.editGchatMessage
         setContentView(binding.root)
         val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
         val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
@@ -61,7 +62,11 @@ class TopicActivity() : AppCompatActivity() {
         stompClient.subscribe(_id) {
             messageListViewModel.addMessage(it)
         }
-
+        submit.setOnClickListener {
+            val msg = MessageDTO(text.text.toString(), false, currentUser.id, currentUser.username)
+            stompClient.sendMessage(_id, msg);
+            text.text.clear()
+        }
         // todo kannski trim
         // samt bara placeholder fyrir fetchid
         topic = Topic(

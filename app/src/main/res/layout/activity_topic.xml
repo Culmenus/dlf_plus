@@ -120,11 +120,12 @@
 
         <Button
             android:id="@+id/button_gchat_send"
-            android:layout_width="64dp"
+            android:layout_width="75dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:text="Send"/>
+            android:text="Send"
+            android:textColor="@color/black" />
 
     </RelativeLayout>
 
