@@ -21,7 +21,7 @@ class TopicListViewModel() : ViewModel() {
 
     // má kannski servica þetta í burtu því þetta er endurtekinn kóði
     val backendApiClient = BackendApiClient()
-
+    // TODO get rid of this shit
     val token =
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
 

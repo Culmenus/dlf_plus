@@ -13,6 +13,7 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
@@ -25,14 +26,14 @@ import retrofit2.Response
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
-
+    private lateinit var sessionManager: SessionManager
     private lateinit var forum: Forum
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        sessionManager = SessionManager(applicationContext)
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
             cover = intent.getIntExtra("FORUM_COVER_EXTRA", -1),
@@ -96,7 +97,7 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         //TODO LAGA. Verðum að leysa þetta með fetch eða local db
         // todo refactor ? ugh endurtekning
         val backendApiClient = BackendApiClient()
-        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
+        val token = sessionManager.fetchAuthedUserDetails()!!.token
         backendApiClient.getApi().getForumById(
             StringBuilder().append("Bearer ").append(token).toString(),
             forumID.toString())
