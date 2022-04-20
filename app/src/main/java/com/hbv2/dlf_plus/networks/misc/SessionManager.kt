@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.data.model.Forum
+import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 
 class SessionManager (context: Context) {
@@ -30,6 +32,12 @@ class SessionManager (context: Context) {
         if (details == "USER_DETAILS")
             return null
         return Gson().fromJson(details,LoginResponse::class.java)
+    }
+
+    fun updateFavorites(newFavs: ArrayList<ForumsResponseItem>) {
+        var details = fetchAuthedUserDetails();
+        details?.user?.favoriteForums = newFavs;
+        saveAuthedUser(details!!);
     }
 
     fun removeAuthedUser(){

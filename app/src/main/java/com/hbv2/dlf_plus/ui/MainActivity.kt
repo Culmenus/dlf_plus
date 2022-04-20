@@ -70,12 +70,6 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-        val message = MessageDTO(
-            message = "Hello world",
-            isEdited = false,
-            userID = 1,
-            username = "Danni"
-        )
     }
 
 

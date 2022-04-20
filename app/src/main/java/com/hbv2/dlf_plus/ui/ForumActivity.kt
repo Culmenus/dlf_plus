@@ -13,7 +13,9 @@ import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.services.ForumService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
@@ -27,28 +29,21 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var sessionManager: SessionManager
     private lateinit var forum: Forum
     private lateinit var user: User
+    private lateinit var forumService: ForumService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sessionManager = SessionManager(applicationContext)
-
+        forumService = ForumService(this, sessionManager)
         // its a user.
         user = sessionManager.fetchAuthedUserDetails()?.user!!
 
         //fav togglebutton
         // https://developer.android.com/guide/topics/ui/controls/togglebutton
         toggle = findViewById(R.id.fav_toggle_button)
-        toggle.setOnCheckedChangeListener { compoundButton, isChecked ->
-            if (isChecked) {
-                // The toggle is enabled
-                Log.d("ForumActivity", "Toggle enabled")
-            } else {
-                // The toggle is disabled
-                Log.d("ForumActivity", "Toggle disabled")
-            }
-        }
+
 
 
         forum = Forum(
@@ -58,7 +53,18 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             name = intent.getStringExtra("FORUM_NAME_EXTRA").toString(),
             description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
         )
-        
+
+        toggle.setOnClickListener {
+            toggle.isEnabled = false;
+            if(!toggle.isChecked) {
+                forumService.removeFromFavs(forumId = forum.id)
+            }
+            else {
+                forumService.addToFavs(forumId = forum.id)
+            }
+        }
+
+        toggle.isChecked = forumService.isForumFavorite(forum)
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
 
@@ -110,6 +116,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
 
     private fun setForum(_forum: Forum) {
         forum = _forum
+    }
+
+    fun setToggle(value: Boolean) {
+        toggle.isEnabled = true
+        toggle.isChecked = value
     }
 
     private fun forumFromID(forumID: Int) {
