@@ -13,8 +13,8 @@ object Constants {
     //forum end points
     const val FORUMS_URL = "/api/forum"
     const val GET_FORUM_BY_ID_URL = "/api/forum/{id}"
-    const val ADD_TO_FAVORITES_BY_ID_URL = "/api/favorite-forums/{id}"
-    const val DELETE_FROM_FAVORITES_BY_ID_URL = "/api/delete-favorite-forums/{id}"
+    const val ADD_TO_FAVORITES_BY_ID_URL = "/api/favorite-forums/{forumId}"
+    const val DELETE_FROM_FAVORITES_BY_ID_URL = "/api/delete-favorite-forums/{forumId}"
 
     //topic endpoints
     const val THREAD_URL = "/api/thread/{threadId}"
