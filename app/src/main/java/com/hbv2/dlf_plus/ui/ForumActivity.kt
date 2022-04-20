@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -10,13 +11,14 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 
-class ForumActivity : AppCompatActivity() {
+class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +38,10 @@ class ForumActivity : AppCompatActivity() {
         }
 
         // create topic virkni
-        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
         binding.createTopic.setOnClickListener {
-            var createTopic = CreateTopicFragment()
+            var createTopic = CreateTopicFragment.newInstance()
             createTopic.show(supportFragmentManager, "createTopic")
         }
-        // create topic virkni endar
-        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-
 
         binding.bottomNavigation.setOnItemReselectedListener { item ->
             when (item.itemId) {
@@ -107,5 +105,17 @@ class ForumActivity : AppCompatActivity() {
                 return forum
         }
         return null
+    }
+
+    override fun onTopicCreated(topic: Topic) {
+        Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
+        // Færum okkur yfir á þetta Topic:
+        val intent = Intent(this@ForumActivity, TopicActivity::class.java)
+        intent.putExtra("TOPIC_ID", topic.id)
+        intent.putExtra("TOPIC_TITLE", topic.title)
+        intent.putExtra("TOPIC_DESCRIPTION", topic.description)
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.addTopicToListView(topic)
+        startActivity(intent)
     }
 }

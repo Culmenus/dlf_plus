@@ -6,6 +6,7 @@ import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.misc.Constants
 import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
+import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
 import com.hbv2.dlf_plus.networks.responses.AllForumsResponse
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
@@ -52,7 +53,7 @@ interface BackendApi {
 
     @POST(Constants.CREATE_THREAD_BY_FORUM_ID)
     fun createTopic(@Header("Authorization") token: String,
-                     @Path("forumId") forumId : String) : Call<Topic>
+                     @Path("forumId") forumId : String, @Body topic: TopicWithoutId) : Call<Topic>
 
     @PATCH(Constants.THREAD_URL)
     fun updateTopicById(@Header("Authorization") token: String,
