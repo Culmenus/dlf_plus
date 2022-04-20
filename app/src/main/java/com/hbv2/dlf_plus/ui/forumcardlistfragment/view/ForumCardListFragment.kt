@@ -48,10 +48,8 @@ class ForumCardListFragment : Fragment(), ForumClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //TODO
         val view = inflater.inflate(R.layout.fragment_forum_card_list, container, false)
         forumRecyclerView = view.findViewById(R.id.forum_card_recyclerview) as RecyclerView
-        //application context?? setti context sem hofix
         forumRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         updateUI()
