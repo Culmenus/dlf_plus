@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.ui
 
+import android.content.Intent
 import android.os.Bundle
 
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
+import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.data.model.Message
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
@@ -19,6 +21,7 @@ import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
+import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
 
 
@@ -73,7 +76,8 @@ class TopicActivity() : AppCompatActivity() {
             editTopic.show(supportFragmentManager, "editTopic")
         }
         binding.deleteButton.setOnClickListener {
-
+            val deleteTopic = DeleteTopicFragment.newInstance()
+            deleteTopic.show(supportFragmentManager, "editTopic")
         }
 
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
@@ -111,6 +115,10 @@ class TopicActivity() : AppCompatActivity() {
         Log.d("Topic activity", topic.toString())
         binding.title.text = topic.title;
         binding.description.text = topic.description;
+    }
+
+    fun onTopicDeleted() {
+        finish()
     }
 
     fun errorFetching(str: String) {
