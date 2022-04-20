@@ -8,18 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.databinding.ActivityMyForumsBinding
+import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.ui.login.LoginActivity
 
 
 class MyForumsActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMyForumsBinding
-
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMyForumsBinding.inflate(layoutInflater)
-
+        sessionManager = SessionManager(applicationContext)
         setContentView(binding.root)
 
         initDrawer()
@@ -58,6 +60,11 @@ class MyForumsActivity : AppCompatActivity() {
                 R.id.miItem3 -> {
                     val intent = Intent(this@MyForumsActivity, UserProfileActivity::class.java)
                     startActivity(intent)
+                }
+                R.id.logout -> {
+                    val intent = Intent(this@MyForumsActivity, LoginActivity::class.java)
+                    sessionManager.removeAuthedUser()
+                    startActivity(intent);
                 }
             }
             true

@@ -69,9 +69,8 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 sessionManager.saveAuthedUser(loginResult.success)
-                updateUiWithUser(loginResult.success.user)
                 setResult(Activity.RESULT_OK)
-
+                updateUiWithUser(loginResult.success.user)
                 //Complete and destroy login activity once successful
                 finish()
             }
@@ -104,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             login.setOnClickListener {
+                hideKeyboard(it)
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
 

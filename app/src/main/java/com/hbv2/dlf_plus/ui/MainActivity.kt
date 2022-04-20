@@ -115,6 +115,11 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
                     startActivity(intent)
                 }
+                R.id.logout -> {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    sessionManager.removeAuthedUser()
+                    startActivity(intent);
+                }
             }
             true
         }

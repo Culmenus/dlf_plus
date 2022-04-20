@@ -25,4 +25,5 @@
     <string name="invalid_password">Lykilorð skal vera >1 stafur</string>
     <string name="login_failed">"Innskráning mistókst"</string>
     <string name="mustache">mustache</string>
+    <string name="logout">Útskrá</string>
 </resources>

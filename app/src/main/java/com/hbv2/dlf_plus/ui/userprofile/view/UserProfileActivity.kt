@@ -7,19 +7,22 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityUserProfileBinding
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.MainActivity
 import com.hbv2.dlf_plus.ui.MyForumsActivity
+import com.hbv2.dlf_plus.ui.login.LoginActivity
 
 
 class UserProfileActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityUserProfileBinding
-
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
+        sessionManager = SessionManager(applicationContext)
 
         setContentView(binding.root)
 
@@ -53,6 +56,11 @@ class UserProfileActivity : AppCompatActivity() {
                     startActivity(intent) }
                 R.id.miItem3 -> { val intent = Intent(this@UserProfileActivity, UserProfileActivity::class.java)
                     startActivity(intent) }
+                R.id.logout -> {
+                    val intent = Intent(this@UserProfileActivity, LoginActivity::class.java)
+                    sessionManager.removeAuthedUser()
+                    startActivity(intent);
+                }
             }
             true
         }

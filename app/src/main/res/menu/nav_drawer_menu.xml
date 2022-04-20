@@ -13,4 +13,7 @@
     <item
         android:id="@+id/miItem3"
         android:title="@string/user_profile" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"/>
 </menu>
