@@ -33,10 +33,10 @@ class TopicListViewModel : ViewModel() {
         topicsLiveData.value =topics
     }
 
-    private private fun loadTopics() {
+    private fun loadTopics() {
         // do an async op to fetch forums
         backendApiClient.getApi()
-            .getAllForums(StringBuilder().append("Bearer ").append(token).toString())
+            .getAllForums()
             .enqueue(object : Callback<ArrayList<ForumsResponseItem>> {
                 override fun onFailure(
                     call: Call<ArrayList<ForumsResponseItem>>,
