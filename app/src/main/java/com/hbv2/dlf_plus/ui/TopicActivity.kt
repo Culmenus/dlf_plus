@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Message
+import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
@@ -34,12 +35,20 @@ class TopicActivity : AppCompatActivity() {
         binding = ActivityTopicBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // mock, notum getTopicById hér
+        val topic = Topic(creator = sessionManager.fetchAuthedUserDetails()?.user, title= "yes po sir", description = "ljoti andarunginn",id = 1)
+
+        // buinn ad na i topic, setja title og desc.
+        //binding.title.text = topic.title;
+        // binding.description.text = topic.description;
+
         // edit thread byrjar
         // todo ná i topic by id, athuga hvort user hafi buid thad til, tha gera thessa takka visible
         // if (topic sem fylgir nuverandi topicactivity (get by id)
         //      er created af nuverandi user (sessionManager.fetchAuthedUserDetails().user))
         binding.editButton.visibility = View.VISIBLE
         binding.deleteButton.visibility = View.VISIBLE
+
 
         binding.editButton.setOnClickListener {
             var editTopic = EditTopicFragment.newInstance()

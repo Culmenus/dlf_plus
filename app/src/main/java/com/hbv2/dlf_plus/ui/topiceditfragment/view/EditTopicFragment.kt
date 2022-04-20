@@ -57,7 +57,7 @@ class EditTopicFragment : DialogFragment() {
                 )
                 val forumId = activity?.intent?.getIntExtra("FORUM_ID_EXTRA", -1).toString()
                 if (forumId != null && forumId != "-1") {
-                    editTopicService.editTopic(topic, forumId)
+                    editTopicService.editTopic(topic)
                 } else {
                     Toast.makeText(context, "Edit failed, no forum id.", Toast.LENGTH_SHORT).show()
                     Log.d("Edit Topic", "Edit failed, no forum id.")

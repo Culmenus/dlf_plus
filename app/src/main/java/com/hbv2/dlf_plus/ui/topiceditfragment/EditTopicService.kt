@@ -27,7 +27,7 @@ open class EditTopicService(applicationContext: Context?, editTopicFragment: Edi
         fragment = editTopicFragment
     }
 
-     fun editTopic(topicEdited: Topic, forumId: String) {
+     fun editTopic(topicEdited: Topic) {
         if(sessionManager.isUserStored()){
             val token = sessionManager.fetchAuthedUserDetails()?.token
             // val topic: TopicWithoutId = topicEdited.toTopicWithoutId()
@@ -36,20 +36,20 @@ open class EditTopicService(applicationContext: Context?, editTopicFragment: Edi
                 topicEdited, topicEdited.id.toString())
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {
-                        Log.d("Create topic",call.request().toString())
+                        Log.d("Edit topic",call.request().toString())
                         Toast.makeText(context, call.request().toString(), Toast.LENGTH_LONG).show()
                     }
                     override fun onResponse(
                         call: Call<Topic>,
                         response: Response<Topic>
                     ) {
-                        Log.d("Create topic","Request succeeded")
+                        Log.d("Edit topic","Request succeeded")
                         val topicRes: Topic? = response.body()
                         if(response.isSuccessful && topicRes != null){
                             fragment.topicEdited(topicRes)
                         } else {
                             //Error fetching
-                            Log.d("Create topic",response.toString())
+                            Log.d("Edit topic",response.toString())
                             fragment.errorFetching("An error occurred")
                         }
                     }
