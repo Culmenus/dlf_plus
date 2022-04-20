@@ -21,16 +21,18 @@ import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
+import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
+import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
 import java.time.LocalDateTime
 import java.util.*
 
 
-class TopicActivity : AppCompatActivity() {
+class TopicActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
     private lateinit var sessionManager: SessionManager
     private lateinit var topicService: TopicService
-
+    private lateinit var topic: Topic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,20 +42,10 @@ class TopicActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val thisTopicId = intent.getIntExtra("TOPIC_ID", 1)
-        // if (thisTopicId == -1) {
-        //     return
-        // }
 
         topicService.getTopicByid(thisTopicId)
-        // buinn ad na i topic, setja title og desc.
-
 
         // todo ná i topic by id, athuga hvort user hafi buid thad til, tha gera thessa takka visible
-
-        // if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
-        //     binding.editButton.visibility = View.VISIBLE
-        //     binding.deleteButton.visibility = View.VISIBLE
-        // }
 
         binding.editButton.setOnClickListener {
             var editTopic = EditTopicFragment.newInstance()
@@ -62,7 +54,6 @@ class TopicActivity : AppCompatActivity() {
         binding.deleteButton.setOnClickListener {
 
         }
-        // edit thread endar
 
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -91,16 +82,40 @@ class TopicActivity : AppCompatActivity() {
     }
 
     fun onTopicFetched(topic: Topic) {
+        this.topic = topic
         Log.d("Topic activity", topic.toString())
         binding.title.text = topic.title;
         binding.description.text = topic.description;
         if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
             binding.editButton.visibility = View.VISIBLE
             binding.deleteButton.visibility = View.VISIBLE
+            binding.toolbarCreatorOption.visibility = View.VISIBLE
         }
     }
 
-    fun errorFetching() {
+    fun onTopicEdited(topic: Topic) {
+        Log.d("Topic activity", topic.toString())
+        binding.title.text = topic.title;
+        binding.description.text = topic.description;
+    }
 
+    fun errorFetching(str: String) {
+
+    }
+
+    fun errorEditing(str: String) {
+
+    }
+
+    fun getSessionManager(): SessionManager {
+        return this.sessionManager
+    }
+
+    fun getTopicService(): TopicService {
+        return this.topicService
+    }
+
+    fun getTopicInstance(): Topic {
+        return this.topic
     }
 }

@@ -3,7 +3,6 @@ package com.hbv2.dlf_plus.ui
 import android.content.Intent
 import android.os.Bundle
 
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.*
@@ -13,7 +12,6 @@ import android.util.Log
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
-import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicEdited
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
@@ -21,7 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ForumActivity : AppCompatActivity(), OnTopicCreated, OnTopicEdited {
+class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
     private lateinit var sessionManager: SessionManager
@@ -87,6 +85,13 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated, OnTopicEdited {
         }
     }
 
+     override fun onResume() {
+         super.onResume()
+         resetTopicViewModel()
+         forumFromID(forum.id)
+     }
+
+
     private fun setForum(_forum: Forum) {
         forum = _forum
     }
@@ -145,21 +150,21 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated, OnTopicEdited {
         tm.addTopicToListView(topic)
     }
 
+    fun resetTopicViewModel() {
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.resetTopicList()
+    }
+
     override fun onTopicCreated(topic: Topic) {
         //Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
         // Færum okkur yfir á þetta Topic:
-        val intent = Intent(this@ForumActivity, TopicActivity::class.java)
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.addTopicToListView(topic)
+        val intent = Intent(this@ForumActivity, TopicActivity()::class.java)
         intent.putExtra("TOPIC_ID", topic.id)
         intent.putExtra("TOPIC_TITLE", topic.title)
         intent.putExtra("TOPIC_DESCRIPTION", topic.description)
-        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
-        tm.addTopicToListView(topic)
+
         startActivity(intent)
-    }
-
-    // todo stórlega breyta þessu og jafnvel beila á þetta fall...
-    override fun onTopicEdited(topic: Topic) {
-        Toast.makeText(this, topic.toString(), Toast.LENGTH_LONG).show()
-
     }
 }
