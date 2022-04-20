@@ -38,6 +38,10 @@ class ForumActivity : AppCompatActivity() {
             description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
         )
 
+        //
+        val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
+        forumFromID(forumID)
+
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
 
@@ -78,9 +82,6 @@ class ForumActivity : AppCompatActivity() {
             }
         }
 
-        val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
-        forumFromID(forumID)
-
         if (forum != null) {
             binding.cover.setImageResource(forum.cover)
             binding.name.text = forum.name
@@ -88,13 +89,15 @@ class ForumActivity : AppCompatActivity() {
         }
     }
 
+    private fun setForum(_forum: Forum) {
+        forum = _forum
+    }
 
     private fun forumFromID(forumID: Int) {
         //TODO LAGA. Verðum að leysa þetta með fetch eða local db
-        /* todo refactor ? ugh endurtekning
+        // todo refactor ? ugh endurtekning
         val backendApiClient = BackendApiClient()
         val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
-
         backendApiClient.getApi().getForumById(
             StringBuilder().append("Bearer ").append(token).toString(),
             forumID.toString())
@@ -119,14 +122,13 @@ class ForumActivity : AppCompatActivity() {
                             description = forumRes.description,
                             topics = forumRes.topics
                         )
-                        forum = currentForum
+                        setForum(currentForum)
+                        Log.d("forum topics", forum.toString())
                     }else{
                         //Error login
                         Log.d("Mainactivity","Failed to fetch")
                     }
                 }
             })
-
-         */
     }
 }

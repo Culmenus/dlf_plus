@@ -12,9 +12,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TopicListViewModel : ViewModel() {
+class TopicListViewModel() : ViewModel() {
 
     // má alveg fegra þetta en þetta var lowest refactor work.
+    private lateinit var forum: Forum
     val topics = ArrayList<Topic>()
     private val topicsLiveData = MutableLiveData<List<Topic>>()
 
@@ -22,7 +23,7 @@ class TopicListViewModel : ViewModel() {
     val backendApiClient = BackendApiClient()
 
     val token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzNzczNTAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.eC1OfeJ3gzkJ7PKGRyi5y2N5Q1FFdnLCxrmdwH7-yN3a3kZhMqq6KQegASktLa_thszoIj6hiOSsKoPrLvLB0A"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
 
     fun getTopicsLiveData(): MutableLiveData<List<Topic>> {
         return topicsLiveData
@@ -30,41 +31,47 @@ class TopicListViewModel : ViewModel() {
 
     fun addTopic( topic: Topic ) {
         topics.add(topic)
-        topicsLiveData.value =topics
+        topicsLiveData.value = topics
     }
 
-    private private fun loadTopics() {
+    private fun loadTopic(topicID: Int) {
         // do an async op to fetch forums
         backendApiClient.getApi()
-            .getAllForums(StringBuilder().append("Bearer ").append(token).toString())
-            .enqueue(object : Callback<ArrayList<ForumsResponseItem>> {
+            .getTopicById(
+                StringBuilder().append("Bearer ").append(token).toString(),
+                topicID.toString()
+            )
+            .enqueue(object : Callback<Topic> {
                 override fun onFailure(
-                    call: Call<ArrayList<ForumsResponseItem>>,
+                    call: Call<Topic>,
                     t: Throwable
                 ) {
                     Log.d("Mainactivity", call.request().toString())
                 }
 
                 override fun onResponse(
-                    call: Call<ArrayList<ForumsResponseItem>>,
-                    response: Response<ArrayList<ForumsResponseItem>>
+                    call: Call<Topic>,
+                    response: Response<Topic>
                 ) {
                     Log.d("Mainactivity", "Request succeeded")
-                    val allForums = response.body()
-                    if (response.isSuccessful && allForums != null) {
-
-                        allTopics.forEach { item ->
-                            val temp = Topic(
-                                id = item.id,
-                                title = item.
-                            )
-                            addTopic(temp)
-                        }
-                        //Log.d("Mainactivity",allForums.toString())
+                    val topicRes = response.body()
+                    if (response.isSuccessful && topicRes != null) {
+                        Log.d("Mainactivity",topicRes.toString())
+                        val _topic = Topic(
+                            id = topicRes.id,
+                            title = topicRes.title,
+                            description = topicRes.description
+                        )
+                        addTopic(_topic)
                     } else {
                         //Error login
                         Log.d("Mainactivity", "Failed to fetch")
                     }
                 }
             })
+    }
+
+    init {
+
+    }
 }
