@@ -57,7 +57,7 @@ class TopicListFragment : Fragment(), TopicClickListener {
         val intent = Intent(context, TopicActivity::class.java)
         // todo redirect to this forum
         //intent.putExtra("FORUM_ID", topic.forumId)
-        //intent.putExtra("TOPIC_ID", topic.id)
+        intent.putExtra("TOPIC_ID", topic.id)
         //intent.putExtra("TOPIC_ID", 1)
         //intent.putExtra("TOPIC_TITLE", topic.title)
         //intent.putExtra("TOPIC_DESCRIPTION", topic.description)
