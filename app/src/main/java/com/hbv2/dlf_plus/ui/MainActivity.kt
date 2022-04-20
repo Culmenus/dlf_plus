@@ -122,15 +122,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent);
                 }
             }
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.nav_drawer_menu, menu)
-        return true
-    }
 
 }
