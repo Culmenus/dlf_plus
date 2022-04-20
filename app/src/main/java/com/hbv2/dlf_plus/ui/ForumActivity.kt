@@ -25,7 +25,7 @@ import retrofit2.Response
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
-    
+
     private lateinit var forum: Forum
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
         )
 
-        //
+        // fix
         val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
         forumFromID(forumID)
 
@@ -122,7 +122,17 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
                             topics = forumRes.topics
                         )
                         setForum(currentForum)
+
+                        currentForum.topics.forEach { topic ->
+                            val tempTopic = Topic(
+                                id = topic.id,
+                                title = topic.title,
+                                description = topic.description
+                            )
+                            addTopicToViewModel(tempTopic)
+                        }
                         Log.d("forum topics", forum.toString())
+
                     }else{
                         //Error login
                         Log.d("Mainactivity","Failed to fetch")
@@ -131,8 +141,13 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             })
     }
 
+    fun addTopicToViewModel(topic: Topic) {
+        val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
+        tm.addTopicToListView(topic)
+    }
+
     override fun onTopicCreated(topic: Topic) {
-        Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
         // Færum okkur yfir á þetta Topic:
         val intent = Intent(this@ForumActivity, TopicActivity::class.java)
         intent.putExtra("TOPIC_ID", topic.id)

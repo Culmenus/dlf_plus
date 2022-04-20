@@ -76,9 +76,6 @@ class MainActivity : AppCompatActivity() {
             userID = 1,
             username = "Danni"
         )
-
-
-
     }
 
 
@@ -127,12 +124,4 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
-    // ??
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.nav_drawer_menu, menu)
-        return true
-    }*/
-
 }
