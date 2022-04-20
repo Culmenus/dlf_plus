@@ -23,7 +23,7 @@ class ForumCardListViewModel : ViewModel() {
     // todo tengja þetta login
     // þetta er bara copy paste frá postman eins og er
     val token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzNzczNTAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.eC1OfeJ3gzkJ7PKGRyi5y2N5Q1FFdnLCxrmdwH7-yN3a3kZhMqq6KQegASktLa_thszoIj6hiOSsKoPrLvLB0A"
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
 
 
     fun getForumsLiveData(): MutableLiveData<List<Forum>> {

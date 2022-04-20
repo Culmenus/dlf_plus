@@ -1,27 +1,42 @@
 package com.hbv2.dlf_plus.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.annotations.SerializedName
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
+import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ForumActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
 
+    private lateinit var forum: Forum
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        forum = Forum(
+            id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
+            cover = intent.getIntExtra("FORUM_COVER_EXTRA", -1),
+            courseId = intent.getStringExtra("FORUM_COURSEID_EXTRA").toString(),
+            name = intent.getStringExtra("FORUM_NAME_EXTRA").toString(),
+            description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
+        )
 
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
@@ -64,7 +79,7 @@ class ForumActivity : AppCompatActivity() {
         }
 
         val forumID = intent.getIntExtra("FORUM_ID_EXTRA", -1)
-        val forum = forumFromID(forumID)
+        forumFromID(forumID)
 
         if (forum != null) {
             binding.cover.setImageResource(forum.cover)
@@ -74,38 +89,44 @@ class ForumActivity : AppCompatActivity() {
     }
 
 
-    private fun forumFromID(forumID: Int): Forum? {
+    private fun forumFromID(forumID: Int) {
         //TODO LAGA. Verðum að leysa þetta með fetch eða local db
-        //placeholder, verður leyst betur
-        val mockforums = mutableListOf<Forum>()
-        // temp mock data
-        val mforum1 = Forum(
-            1,
-            R.drawable.pallas,
-            "Tol999",
-            "Forritun",
-        )
-        mockforums += mforum1
+        /* todo refactor ? ugh endurtekning
+        val backendApiClient = BackendApiClient()
+        val token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOjEsImlzcyI6InRoZUJveXMiLCJpYXQiOjE2NTAzOTQ2NzAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdfQ.MTj0LwlJJnX1lxyloAzZvg2vi8F6OxDbgn_-Jp6J5XAmr8knCoYsHOp2WF6b8hIjDHW9nezDLTVa7Iqmdh8vLw"
 
-        val mforum2 = Forum(
-            2,
-            R.drawable.pallasblue,
-            "Stæ999",
-            "Stærðfræði",
-        )
-        mockforums += mforum2
-        val mforum3 = Forum(
-            3,
-            R.drawable.img,
-            "Cov19",
-            "Veikur",
-        )
-        mockforums += mforum3
+        backendApiClient.getApi().getForumById(
+            StringBuilder().append("Bearer ").append(token).toString(),
+            forumID.toString())
+            .enqueue(object : Callback<Forum> {
+                override fun onFailure(call: Call<Forum>, t: Throwable) {
+                    Log.d("Mainactivity",call.request().toString())
+                }
 
-        for (forum in mockforums) {
-            if (forum.id == forumID)
-                return forum
-        }
-        return null
+                override fun onResponse(
+                    call: Call<Forum>,
+                    response: Response<Forum>
+                ) {
+                    Log.d("Mainactivity","Request succeeded")
+                    val forumRes = response.body()
+                    if(response.isSuccessful && forumRes != null){
+                        Log.d("Mainactivity",forumRes.toString())
+                        val currentForum = Forum(
+                            id = forumRes.id,
+                            cover = R.drawable.pallas,
+                            courseId = forumRes.courseId,
+                            name = forumRes.name,
+                            description = forumRes.description,
+                            topics = forumRes.topics
+                        )
+                        forum = currentForum
+                    }else{
+                        //Error login
+                        Log.d("Mainactivity","Failed to fetch")
+                    }
+                }
+            })
+
+         */
     }
 }

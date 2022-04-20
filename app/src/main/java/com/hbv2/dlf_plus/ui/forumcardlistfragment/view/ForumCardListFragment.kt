@@ -71,10 +71,26 @@ class ForumCardListFragment : Fragment(), ForumClickListener {
     }
      */
 
+    fun getTopicIds(forum: Forum): ArrayList<Int> {
+        val idArray = arrayListOf<Int>()
+        forum.topics.forEach { topic ->
+            idArray.add(topic.id)
+        }
+        return idArray
+    }
+
     override fun onClick(forum: Forum) {
         val intent = Intent(context, ForumActivity::class.java)
         //laga string value
         intent.putExtra("FORUM_ID_EXTRA", forum.id)
+        intent.putExtra("FORUM_COVER_EXTRA", forum.cover)
+        intent.putExtra("FORUM_COURSEID_EXTRA", forum.courseId)
+        intent.putExtra("FORUM_NAME_EXTRA", forum.name)
+        intent.putExtra("FORUM_DESC_EXTRA", forum.description)
+        val topicIds = getTopicIds(forum)
+        intent.putExtra("FORUM_TOPICS_EXTRA", topicIds)
+        Log.d("bruh", topicIds.toString())
+
         startActivity(intent)
     }
 
