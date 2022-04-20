@@ -2,6 +2,8 @@ package com.hbv2.dlf_plus.networks.misc
 
 object Constants {
 
+    //WS url
+    const val WS_URL = "ws://10.0.2.2:8080/thread/websocket"
     // Endpoints
     const val BASE_URL = "http://10.0.2.2:8080/"
     //user endpoints
@@ -17,6 +19,9 @@ object Constants {
     //topic endpoints
     const val THREAD_URL = "/api/thread/{threadId}"
     const val CREATE_THREAD_BY_FORUM_ID = "/api/forum/{forumId}"
+
+    //messages
+    const val MESSAGE_URL = "/api/message/{messageId}"
 
 
 }

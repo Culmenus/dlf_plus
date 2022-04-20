@@ -1,6 +1,7 @@
 package com.hbv2.dlf_plus.networks
 
 import com.hbv2.dlf_plus.data.model.Forum
+import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.misc.Constants
 import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
@@ -63,5 +64,22 @@ interface BackendApi {
     fun deleteTopicById(@Header("Authorization") token: String,
                         @Path("threadId") threadId: String) : Call<Boolean>
 
+
+    //---------------Messages---------------------------------------------
+    @POST(Constants.THREAD_URL)
+    fun createMessageByThreadId(@Header("Authorization") token: String,
+                                @Path("threadId") threadId: String,
+                                @Body message: MessageDTO
+    )
+
+    @PATCH(Constants.MESSAGE_URL)
+    fun updateMessageByID(@Header("Authorization") token: String,
+                          @Path("messageId") messageId: String,
+                          @Body message: MessageDTO
+    )
+
+    @DELETE(Constants.MESSAGE_URL)
+    fun deleteMessageById(@Header("Authoization") token: String,
+                          @Path("messageId") messageId: String)
 
 }
