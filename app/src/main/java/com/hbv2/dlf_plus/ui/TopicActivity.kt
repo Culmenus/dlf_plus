@@ -1,7 +1,10 @@
 package com.hbv2.dlf_plus.ui
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.se.omapi.Session
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +14,10 @@ import com.hbv2.dlf_plus.data.model.Message
 import com.hbv2.dlf_plus.data.model.User
 
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
+import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
+import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
 import java.time.LocalDateTime
 import java.util.*
 
@@ -19,12 +25,30 @@ import java.util.*
 class TopicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
+    private lateinit var sessionManager: SessionManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sessionManager = SessionManager(this)
         binding = ActivityTopicBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // edit thread byrjar
+        // todo ná i topic by id, athuga hvort user hafi buid thad til, tha gera thessa takka visible
+        // if (topic sem fylgir nuverandi topicactivity (get by id)
+        //      er created af nuverandi user (sessionManager.fetchAuthedUserDetails().user))
+        binding.editButton.visibility = View.VISIBLE
+        binding.deleteButton.visibility = View.VISIBLE
+
+        binding.editButton.setOnClickListener {
+            var editTopic = EditTopicFragment.newInstance()
+            editTopic.show(supportFragmentManager, "editTopic")
+        }
+        binding.deleteButton.setOnClickListener {
+
+        }
+        // edit thread endar
 
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)

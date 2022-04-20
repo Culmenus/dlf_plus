@@ -37,6 +37,7 @@ class EditTopicFragment : DialogFragment() {
             dismiss()
         }
 
+        // todo endurskrifa thetta vel (dha)
         binding.editButton.setOnClickListener {
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
