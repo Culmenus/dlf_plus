@@ -1,10 +1,10 @@
 package com.hbv2.dlf_plus.ui
 
-import android.content.Intent
 import android.os.Bundle
 
 import android.util.Log
 import android.view.View
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.data.model.Message
+import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
@@ -29,7 +31,7 @@ class TopicActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
     private lateinit var sessionManager: SessionManager
-
+    private lateinit var stompClient : WSChatClient
     private var adapter: MessageListAdapter? = null
 
     private val messageListViewModel: MessageListViewModel  by lazy {
@@ -43,18 +45,28 @@ class TopicActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(this)
-
+        stompClient = WSChatClient()
+        stompClient.connect()
         // nsfw
-        currentUser = sessionManager.fetchAuthedUserDetails()?.user as User
+        currentUser = sessionManager.fetchAuthedUserDetails()?.user!!
 
         topicService = TopicService(this, sessionManager)
         binding = ActivityTopicBinding.inflate(layoutInflater)
+        val submit = binding.buttonGchatSend
+        val text = binding.editGchatMessage
         setContentView(binding.root)
-
         val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
         val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
         val _desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
 
+        stompClient.subscribe(_id) {
+            messageListViewModel.addMessage(it)
+        }
+        submit.setOnClickListener {
+            val msg = MessageDTO(text.text.toString(), false, currentUser.id, currentUser.username)
+            stompClient.sendMessage(_id, msg);
+            text.text.clear()
+        }
         // todo kannski trim
         // samt bara placeholder fyrir fetchid
         topic = Topic(
@@ -65,8 +77,9 @@ class TopicActivity() : AppCompatActivity() {
 
         messageListViewModel
             .getMessagesLiveData()
-            .observe(this, Observer<List<Message>> { msg ->
+            .observe(this, Observer<List<MessageDTO>> {
                 updateUI()
+                binding.recyclerGchat.scrollToPosition(it.size -1)
             })
 
         topicService.getTopicByid(_id)
@@ -85,8 +98,8 @@ class TopicActivity() : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        val _messages = messageListViewModel.getMessages()
-        adapter = MessageListAdapter(_messages, currentUser.id)
+        val messages = messageListViewModel.getMessages()
+        adapter = MessageListAdapter(messages, currentUser.id)
         msgRecyclerView.adapter = adapter
     }
 
@@ -140,5 +153,10 @@ class TopicActivity() : AppCompatActivity() {
     fun getTopicInstance(): Topic {
         return this.topic
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stompClient.closeConnection()
     }
 }

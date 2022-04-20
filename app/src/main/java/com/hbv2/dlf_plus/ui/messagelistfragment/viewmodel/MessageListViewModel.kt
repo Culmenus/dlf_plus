@@ -1,21 +1,29 @@
 package com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hbv2.dlf_plus.data.model.Message
+import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.websocket.WSChatClient
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MessageListViewModel : ViewModel() {
-    private val messages = ArrayList<Message>()
-    private val messagesLiveData = MutableLiveData<List<Message>>()
+    private val messages = ArrayList<MessageDTO>()
+    private val messagesLiveData = MutableLiveData<List<MessageDTO>>()
 
-    private val backendApiClient = BackendApiClient()
+    fun getMessagesLiveData(): MutableLiveData<List<MessageDTO>> = messagesLiveData
 
-    fun getMessagesLiveData(): MutableLiveData<List<Message>> = messagesLiveData
-
-    fun getMessages(): ArrayList<Message> = messages
+    fun getMessages(): ArrayList<MessageDTO> = messages
 
     fun addMessage( message: Message ) {
+        val msg = MessageDTO(message)
+        messages.add(msg)
+        messagesLiveData.value = messages
+    }
+    fun addMessage(message: MessageDTO) {
         messages.add(message)
         messagesLiveData.value = messages
     }
