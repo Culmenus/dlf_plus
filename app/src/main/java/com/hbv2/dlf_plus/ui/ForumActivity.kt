@@ -2,20 +2,18 @@ package com.hbv2.dlf_plus.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
+
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.google.gson.annotations.SerializedName
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
+import android.util.Log
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel.ForumCardListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicEdited
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
@@ -23,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ForumActivity : AppCompatActivity(), OnTopicCreated {
+class ForumActivity : AppCompatActivity(), OnTopicCreated, OnTopicEdited {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityForumBinding
     private lateinit var sessionManager: SessionManager
@@ -34,6 +32,7 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sessionManager = SessionManager(applicationContext)
+
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
             cover = intent.getIntExtra("FORUM_COVER_EXTRA", -1),
@@ -157,5 +156,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
         tm.addTopicToListView(topic)
         startActivity(intent)
+    }
+
+    // todo stórlega breyta þessu og jafnvel beila á þetta fall...
+    override fun onTopicEdited(topic: Topic) {
+        Toast.makeText(this, topic.toString(), Toast.LENGTH_LONG).show()
+
     }
 }

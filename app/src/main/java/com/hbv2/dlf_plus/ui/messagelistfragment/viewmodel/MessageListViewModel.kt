@@ -11,7 +11,9 @@ class MessageListViewModel : ViewModel() {
 
     private val backendApiClient = BackendApiClient()
 
-    fun getTopicsLiveData(): MutableLiveData<List<Message>> = messagesLiveData
+    fun getMessagesLiveData(): MutableLiveData<List<Message>> = messagesLiveData
+
+    fun getMessages(): ArrayList<Message> = messages
 
     fun addMessage( message: Message ) {
         messages.add(message)
