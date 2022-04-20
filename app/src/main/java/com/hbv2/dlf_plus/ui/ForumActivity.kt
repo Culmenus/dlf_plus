@@ -9,6 +9,7 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
+import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
@@ -21,16 +22,34 @@ import retrofit2.Response
 
 
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ToggleButton
     private lateinit var binding: ActivityForumBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var forum: Forum
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sessionManager = SessionManager(applicationContext)
+
+        // its a user.
+        user = sessionManager.fetchAuthedUserDetails()?.user!!
+
+        //fav togglebutton
+        // https://developer.android.com/guide/topics/ui/controls/togglebutton
+        toggle = findViewById(R.id.fav_toggle_button)
+        toggle.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked) {
+                // The toggle is enabled
+                Log.d("ForumActivity", "Toggle enabled")
+            } else {
+                // The toggle is disabled
+                Log.d("ForumActivity", "Toggle disabled")
+            }
+        }
+
 
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
