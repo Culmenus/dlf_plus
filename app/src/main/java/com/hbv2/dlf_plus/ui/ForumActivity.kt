@@ -31,6 +31,7 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sessionManager = SessionManager(applicationContext)
+
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
             cover = intent.getIntExtra("FORUM_COVER_EXTRA", -1),

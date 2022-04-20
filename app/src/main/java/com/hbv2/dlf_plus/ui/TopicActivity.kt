@@ -1,13 +1,12 @@
 package com.hbv2.dlf_plus.ui
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.se.omapi.Session
+
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.R
@@ -18,38 +17,59 @@ import com.hbv2.dlf_plus.data.model.User
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
+import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
-import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
-import com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel.TopicListViewModel
-import java.time.LocalDateTime
-import java.util.*
 
 
 class TopicActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
     private lateinit var sessionManager: SessionManager
+
+    private var adapter: MessageListAdapter? = null
+
+    private val messageListViewModel: MessageListViewModel  by lazy {
+        ViewModelProvider(this).get(MessageListViewModel::class.java)
+    }
+
     private lateinit var topicService: TopicService
     private lateinit var topic: Topic
+    private lateinit var currentUser: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(this)
+
+        // nsfw
+        currentUser = sessionManager.fetchAuthedUserDetails()?.user as User
+
         topicService = TopicService(this, sessionManager)
         binding = ActivityTopicBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val thisTopicId = intent.getIntExtra("TOPIC_ID", -1)
-        Log.d("TopicActivity", "topic ID: $thisTopicId")
+        val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
+        val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
+        val _desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
 
-        topicService.getTopicByid(thisTopicId)
+        // todo kannski trim
+        // samt bara placeholder fyrir fetchid
+        topic = Topic(
+            id = _id,
+            title = _title.toString(),
+            description = _desc.toString()
+        )
 
-        // todo ná i topic by id, athuga hvort user hafi buid thad til, tha gera thessa takka visible
+        messageListViewModel
+            .getMessagesLiveData()
+            .observe(this, Observer<List<Message>> { msg ->
+                updateUI()
+            })
+
+        topicService.getTopicByid(_id)
 
         binding.editButton.setOnClickListener {
-            var editTopic = EditTopicFragment.newInstance()
+            val editTopic = EditTopicFragment.newInstance()
             editTopic.show(supportFragmentManager, "editTopic")
         }
         binding.deleteButton.setOnClickListener {
@@ -58,33 +78,26 @@ class TopicActivity() : AppCompatActivity() {
 
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
+    }
 
-        // mock
-        val mockmsg = mutableListOf<Message>()
-        val users = arrayOf<User>(
-            User("jon@hi.is", username = "Jon", id = 1),
-            User( "danni@hi.is", username = "Danni", id = 2)
-        )
-
-        //mock
-        for(i in 1..20) {
-            mockmsg.add(
-                Message(
-                    message = "msg ${i}",
-                    createdAt = Date(),
-                    isEdited = false,
-                    sentBy = users[i % 2]
-                )
-            )
-        }
-
-        val adapter = MessageListAdapter(mockmsg)
+    private fun updateUI() {
+        val _messages = messageListViewModel.getMessages()
+        adapter = MessageListAdapter(_messages, currentUser.id)
         msgRecyclerView.adapter = adapter
     }
 
-    fun onTopicFetched(topic: Topic) {
-        this.topic = topic
+    private fun addMessageToViewModel(message: Message) {
+        messageListViewModel.addMessage(message)
+    }
+
+    fun onTopicFetched(_topic: Topic) {
         Log.d("Topic activity", topic.toString())
+        topic = _topic
+
+        topic.messages.forEach { msg ->
+            addMessageToViewModel(msg)
+        }
+
         binding.title.text = topic.title;
         binding.description.text = topic.description;
         if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
@@ -118,5 +131,6 @@ class TopicActivity() : AppCompatActivity() {
 
     fun getTopicInstance(): Topic {
         return this.topic
+
     }
 }
