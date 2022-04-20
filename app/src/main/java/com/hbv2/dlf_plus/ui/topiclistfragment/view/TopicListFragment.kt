@@ -62,6 +62,7 @@ class TopicListFragment : Fragment(), TopicClickListener {
     override fun onClick(topic: Topic) {
         val intent = Intent(context, TopicActivity::class.java)
         // todo redirect to this forum
+        //intent.putExtra("FORUM_ID", topic.forumId)
         //intent.putExtra("TOPIC_ID", topic.id)
         //intent.putExtra("TOPIC_ID", 1)
         //intent.putExtra("TOPIC_TITLE", topic.title)
@@ -74,6 +75,10 @@ class TopicListFragment : Fragment(), TopicClickListener {
         val topics = topicListViewModel.topics
         adapter = TopicAdapter(topics, this@TopicListFragment)
         topicRecyclerView.adapter = adapter
+    }
+
+    fun addTopicToListView(topic: Topic) {
+        topicListViewModel.addTopic(topic)
     }
 
 

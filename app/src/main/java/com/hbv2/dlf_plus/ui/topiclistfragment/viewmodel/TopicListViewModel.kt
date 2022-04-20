@@ -1,7 +1,10 @@
 package com.hbv2.dlf_plus.ui.topiclistfragment.viewmodel
 
 import android.util.Log
+<<<<<<< HEAD
 import androidx.lifecycle.MutableLiveData
+=======
+>>>>>>> 93f0c06a572ff1eabdbe18a9fc31672650c5dcff
 import androidx.lifecycle.ViewModel
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Forum
@@ -33,6 +36,7 @@ class TopicListViewModel() : ViewModel() {
         topics.add(topic)
         topicsLiveData.value = topics
     }
+
 
     private fun loadTopic(topicID: Int) {
         // do an async op to fetch forums
@@ -74,4 +78,6 @@ class TopicListViewModel() : ViewModel() {
     init {
 
     }
+
+
 }
