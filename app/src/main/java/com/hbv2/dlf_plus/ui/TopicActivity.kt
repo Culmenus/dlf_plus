@@ -18,6 +18,7 @@ import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
 
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
+import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
@@ -25,6 +26,9 @@ import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class TopicActivity() : AppCompatActivity() {
@@ -41,14 +45,18 @@ class TopicActivity() : AppCompatActivity() {
     private lateinit var topicService: TopicService
     private lateinit var topic: Topic
     private lateinit var currentUser: User
+    private lateinit var backendApiClient: BackendApiClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sessionManager = SessionManager(this)
+        sessionManager = SessionManager(applicationContext)
+        backendApiClient = BackendApiClient()
         stompClient = WSChatClient()
         stompClient.connect()
         // nsfw
-        currentUser = sessionManager.fetchAuthedUserDetails()?.user!!
+        val userDetails = sessionManager.fetchAuthedUserDetails()
+        currentUser = userDetails?.user!!
+        val token = userDetails.token
 
         topicService = TopicService(this, sessionManager)
         binding = ActivityTopicBinding.inflate(layoutInflater)
@@ -65,6 +73,28 @@ class TopicActivity() : AppCompatActivity() {
         submit.setOnClickListener {
             val msg = MessageDTO(text.text.toString(), false, currentUser.id, currentUser.username)
             stompClient.sendMessage(_id, msg);
+            backendApiClient.getApi().createMessageByThreadId(
+                StringBuilder().append("Bearer ").append(token).toString(),
+                _id.toString(),
+                msg).enqueue(object : Callback<MessageDTO> {
+                override fun onFailure(call: Call<MessageDTO>, t: Throwable) {
+                    Log.d("Mainactivity",call.request().toString())
+                }
+
+                override fun onResponse(
+                    call: Call<MessageDTO>,
+                    response: Response<MessageDTO>
+                ) {
+                    Log.d("Mainactivity","Request succeeded")
+                    val message = response.body()
+                    if(response.isSuccessful && message != null){
+                        Log.d("Mainactivity",message.toString())
+                    }else{
+                        //Error login
+                        Log.d("Mainactivity","Failed to fetch")
+                    }
+                }
+            })
             text.text.clear()
         }
         // todo kannski trim
