@@ -15,4 +15,15 @@
     <string name="cancel">Cancel</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Netfang</string>
+    <string name="prompt_password">Lykilorð</string>
+    <string name="action_sign_in">Skrá inn notanda</string>
+    <string name="action_sign_in_short">Innskráning</string>
+    <string name="welcome">"Velkomin/n!"</string>
+    <string name="invalid_username">Ekki viðurkennt netfang</string>
+    <string name="invalid_password">Lykilorð skal vera >1 stafur</string>
+    <string name="login_failed">"Innskráning mistókst"</string>
+    <string name="mustache">mustache</string>
+    <string name="logout">Útskrá</string>
 </resources>

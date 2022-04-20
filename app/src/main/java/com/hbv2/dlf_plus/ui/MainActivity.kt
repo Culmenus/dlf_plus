@@ -15,6 +15,7 @@ import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.ui.login.LoginActivity
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import com.hbv2.dlf_plus.networks.websocket.WSChatClient
@@ -31,8 +32,6 @@ import retrofit2.Response
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
-
-
 class MainActivity : AppCompatActivity() {
 
     // sama og að gera
@@ -46,7 +45,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sessionManager = SessionManager(applicationContext)
+        Log.d("SessionManager", sessionManager.isUserStored().toString())
+        if(!sessionManager.isUserStored()){
+            val loginIntent = Intent(this@MainActivity, LoginActivity::class.java);
+            startActivity(loginIntent);
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -110,6 +114,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.miItem3 -> {
                     val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
                     startActivity(intent)
+                }
+                R.id.logout -> {
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    sessionManager.removeAuthedUser()
+                    startActivity(intent);
                 }
             }
             true
