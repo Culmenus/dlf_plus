@@ -21,5 +21,6 @@ class TopicListViewModel() : ViewModel() {
 
     fun resetTopicList() {
         topics.clear()
+        topicsLiveData.value = topics
     }
 }
