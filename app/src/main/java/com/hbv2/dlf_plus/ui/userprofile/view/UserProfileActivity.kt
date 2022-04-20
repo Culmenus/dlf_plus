@@ -23,8 +23,14 @@ class UserProfileActivity : AppCompatActivity() {
 
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
         sessionManager = SessionManager(applicationContext)
-
+        val user = sessionManager.fetchAuthedUserDetails()?.user!!
+        val username = binding.username;
+        val email = binding.email;
+        val letter = binding.letterToCenter;
         setContentView(binding.root)
+        username.text = user.username;
+        email.text = user.email;
+        letter.text = user.username[0].toString();
 
         initDrawer()
 

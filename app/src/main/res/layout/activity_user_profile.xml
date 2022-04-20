@@ -5,10 +5,6 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
     tools:context=".ui.userprofile.view.UserProfileActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,31 +29,29 @@
             android:paddingStart="2dp"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="150dp"
-            android:text="D"/>
+            android:textSize="150sp"
+            />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Danni"
             android:textSize="50sp"
             app:layout_constraintTop_toBottomOf="@+id/tvCount"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:textSize="30sp"
-            android:text="danni@danni.is"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/username"
             tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
