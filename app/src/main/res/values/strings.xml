@@ -28,4 +28,7 @@
     <string name="login_failed">"Innskráning mistókst"</string>
     <string name="mustache">mustache</string>
     <string name="logout">Útskrá</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="confirm">Confirm</string>
+    <string name="no_undo">Deleting this topic can not be undone.</string>
 </resources>
