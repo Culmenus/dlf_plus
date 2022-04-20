@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.logout -> {
                     val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     sessionManager.removeAuthedUser()
                     startActivity(intent);
                 }
