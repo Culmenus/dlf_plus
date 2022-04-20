@@ -37,13 +37,11 @@ interface BackendApi {
 
     @POST(Constants.ADD_TO_FAVORITES_BY_ID_URL)
     fun addToFavorites(@Header("Authorization") token: String,
-                       @Path("id") userid : String,
-                       @Body forum : Forum) : Call<ArrayList<ForumsResponseItem>>
+                       @Path("forumId") forumId : String) : Call<ArrayList<ForumsResponseItem>>
 
     @POST(Constants.DELETE_FROM_FAVORITES_BY_ID_URL) //untested, ætti að virka eins og add to favorites
     fun removeFromFavorites(@Header("Authorization") token: String,
-                       @Path("id") userid : String,
-                       @Body forum : Forum) : Call<ArrayList<ForumsResponseItem>>
+                       @Path("forumId") forumId : String) : Call<ArrayList<ForumsResponseItem>>
 
     //-----------------Topics(threads)-------
 
