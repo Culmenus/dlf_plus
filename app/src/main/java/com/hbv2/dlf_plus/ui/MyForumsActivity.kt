@@ -61,12 +61,7 @@ class MyForumsActivity : AppCompatActivity() {
                     val intent = Intent(this@MyForumsActivity, UserProfileActivity::class.java)
                     startActivity(intent)
                 }
-                R.id.logout -> {
-                    val intent = Intent(this@MyForumsActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    sessionManager.removeAuthedUser()
-                    startActivity(intent);
-                }
+
             }
             binding.drawerLayout.closeDrawer(binding.navView)
             true
