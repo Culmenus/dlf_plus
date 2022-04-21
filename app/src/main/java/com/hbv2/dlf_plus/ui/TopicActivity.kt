@@ -104,7 +104,6 @@ class TopicActivity() : AppCompatActivity() {
             text.text.clear()
         }
 
-
         // todo kannski trim
         // samt bara placeholder fyrir fetchid
         topic = Topic(
