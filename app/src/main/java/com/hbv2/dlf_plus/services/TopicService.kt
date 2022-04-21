@@ -70,20 +70,20 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
             )
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {
-                        Log.d("Create topic", call.request().toString())
+                        Log.d("Edit topic", call.request().toString())
                     }
 
                     override fun onResponse(
                         call: Call<Topic>,
                         response: Response<Topic>
                     ) {
-                        Log.d("Create topic", "Request succeeded")
+                        Log.d("Edit topic", "Request succeeded")
                         val topicRes: Topic? = response.body()
                         if (response.isSuccessful && topicRes != null) {
                             fragment.onTopicEdited(topicRes)
                         } else {
                             //Error fetching
-                            Log.d("Create topic", response.toString())
+                            Log.d("Edit topic", response.toString())
                             fragment.errorEditing("An error occurred")
                         }
                     }
@@ -103,20 +103,20 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
             )
                 .enqueue(object : Callback<Boolean> {
                     override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                        Log.d("Create topic", call.request().toString())
+                        Log.d("Edit topic", call.request().toString())
                     }
 
                     override fun onResponse(
                         call: Call<Boolean>,
                         response: Response<Boolean>
                     ) {
-                        Log.d("Create topic", "Request succeeded")
+                        Log.d("Edit topic", "Request succeeded")
                         val topicRes: Boolean? = response.body()
                         if (response.isSuccessful && topicRes == true) {
                             fragment.onTopicDeleted()
                         } else {
                             //Error fetching
-                            Log.d("Create topic", response.toString())
+                            Log.d("Edit topic", response.toString())
                             fragment.errorDeleting("An error occurred")
                         }
                     }
