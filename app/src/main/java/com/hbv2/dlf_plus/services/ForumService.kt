@@ -25,7 +25,7 @@ open class ForumService(activity: ForumActivity, sessionManager: SessionManager)
     fun isForumFavorite(forum: Forum): Boolean{
         if(!sessionManager.isUserStored()) return false;
         val tmpForum = ForumsResponseItem(forum.courseId, forum.description, forum.id, forum.name)
-        return sessionManager.fetchAuthedUserDetails()?.user?.favoriteForums?.contains(tmpForum)!!;
+        return sessionManager.fetchAuthedUserDetails()?.favoriteForums?.contains(tmpForum)!!;
     }
 
     fun addToFavs(forumId: Int){
