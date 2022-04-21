@@ -13,7 +13,6 @@ class ForumCardViewHolder(
         cardCellBinding.cover.setImageResource(forum.cover)
         cardCellBinding.name.text = forum.name
         cardCellBinding.courseId.text = forum.courseId
-
         cardCellBinding.cardView.setOnClickListener {
             clickListener.onClick(forum)
         }
