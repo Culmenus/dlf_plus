@@ -66,6 +66,9 @@ class TopicActivity() : AppCompatActivity() {
         val submit = binding.buttonGchatSend
         val text = binding.editGchatMessage
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
         val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
         val _desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
@@ -179,6 +182,11 @@ class TopicActivity() : AppCompatActivity() {
         Log.d("Topic activity", topic.toString())
         binding.title.text = topic.title;
         binding.description.text = topic.description;
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     fun onTopicDeleted() {

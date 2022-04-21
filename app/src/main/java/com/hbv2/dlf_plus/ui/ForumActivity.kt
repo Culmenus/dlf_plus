@@ -36,6 +36,8 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         sessionManager = SessionManager(applicationContext)
         forumService = ForumService(this, sessionManager)
         // its a user.
@@ -122,6 +124,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
     fun setToggle(value: Boolean) {
         toggle.isEnabled = true
         toggle.isChecked = value
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun forumFromID(forumID: Int) {
