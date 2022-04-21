@@ -56,41 +56,11 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_baseline_settings_24"
-                app:iconTint="@color/teal_200"
                 android:layout_gravity="end"
                 android:layout_marginRight="20dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:contentDescription="@string/show_creator_options"
                 android:background="@android:color/transparent"/>
-            <!--<Spinner
-                android:id="@+id/spinner_topic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:visibility="gone"/>
-
-
-            <Button
-                android:id="@+id/edit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edit_topic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="20dp"
-                android:padding="10dp"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete_topic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="20dp"
-                android:padding="10dp"
-                android:visibility="gone"/>-->
-
         </androidx.appcompat.widget.Toolbar>
 
 

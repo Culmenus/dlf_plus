@@ -7,6 +7,7 @@ import com.hbv2.dlf_plus.networks.misc.Constants
 import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
 import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
+import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutMessages
 import com.hbv2.dlf_plus.networks.responses.AllForumsResponse
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
@@ -55,7 +56,7 @@ interface BackendApi {
 
     @PATCH(Constants.THREAD_URL)
     fun updateTopicById(@Header("Authorization") token: String,
-                        @Body topic: Topic,
+                        @Body topic: TopicWithoutMessages,
                         @Path("threadId") threadId: String) : Call<Topic>
 
     @DELETE(Constants.THREAD_URL)
