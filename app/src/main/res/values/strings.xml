@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">dlf_plus</string>
+    <string name="app_name">DLF+</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="cover">Course Cover</string>
@@ -27,7 +27,7 @@
     <string name="invalid_password">Lykilorð skal vera >1 stafur</string>
     <string name="login_failed">"Innskráning mistókst"</string>
     <string name="mustache">mustache</string>
-    <string name="logout">Útskrá</string>
+    <string name="logout">Log out</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="confirm">Confirm</string>
     <string name="no_undo">Deleting this topic can not be undone.</string>
