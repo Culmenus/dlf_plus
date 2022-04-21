@@ -45,7 +45,10 @@ class EditTopicFragment : DialogFragment() {
             val title = binding.titleInput.text;
             val desc = binding.descriptionInput.text;
 
-            if (desc?.length?.compareTo(254)?: -1 > 0) {
+            if (title.toString() == topic.title && desc.toString() == topic.description) {
+                // no change
+                dismiss()
+            } else if (desc?.length?.compareTo(254)?: -1 > 0) {
                 Toast.makeText(context, "Description too long", Toast.LENGTH_LONG).show()
                 setNotLoad()
             } else {

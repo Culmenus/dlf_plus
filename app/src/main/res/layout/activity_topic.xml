@@ -8,8 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:animateLayoutChanges="true"
-    tools:context=".ui.TopicActivity"
-    >
+    tools:context=".ui.TopicActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_group_chat"
@@ -67,7 +66,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="80dp"
                 android:contentDescription="@string/show_creator_options"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:visibility="gone"/>
         </androidx.appcompat.widget.Toolbar>
 
 

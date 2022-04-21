@@ -4,6 +4,7 @@
     android:layout_height="100dp"
     android:background="@color/primaryVariant">
 
+
     <TextView
         android:id="@+id/user_greeting"
         android:layout_width="match_parent"
