@@ -31,6 +31,12 @@ class UserProfileActivity : AppCompatActivity() {
         username.text = user.username;
         email.text = user.email;
         letter.text = user.username[0].toString();
+        binding.logoutBtn.setOnClickListener {
+            val intent = Intent(this@UserProfileActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            sessionManager.removeAuthedUser()
+            startActivity(intent);
+        }
 
         initDrawer()
 
@@ -50,7 +56,7 @@ class UserProfileActivity : AppCompatActivity() {
             R.string.close
         )
         binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+            toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.navView.setNavigationItemSelectedListener {
@@ -61,12 +67,7 @@ class UserProfileActivity : AppCompatActivity() {
                     startActivity(intent) }
                 R.id.miItem3 -> { val intent = Intent(this@UserProfileActivity, UserProfileActivity::class.java)
                     startActivity(intent) }
-                R.id.logout -> {
-                    val intent = Intent(this@UserProfileActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    sessionManager.removeAuthedUser()
-                    startActivity(intent);
-                }
+
             }
             binding.drawerLayout.closeDrawer(binding.navView)
             true
