@@ -34,6 +34,8 @@ interface BackendApi {
     fun getForumById(@Header("Authorization") token: String ,
                      @Path("id") id: String) : Call<Forum>
 
+    @GET(Constants.GET_FAVORITES)
+    fun getFavoriteForums(@Header("Authorization") token: String) : Call<ArrayList<ForumsResponseItem>>
 
 
     @POST(Constants.ADD_TO_FAVORITES_BY_ID_URL)
