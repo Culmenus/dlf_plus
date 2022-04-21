@@ -159,7 +159,7 @@ class TopicActivity() : AppCompatActivity() {
     fun onTopicFetched(_topic: Topic) {
         Log.d("Topic activity", topic.toString())
         topic = _topic
-
+        binding.topicCreatorName.text = topic.creator?.username
         topic.messages.forEach { msg ->
             addMessageToViewModel(msg)
         }
