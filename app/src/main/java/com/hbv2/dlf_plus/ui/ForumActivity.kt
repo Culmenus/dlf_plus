@@ -9,6 +9,7 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
+import android.widget.CheckBox
 import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
@@ -24,7 +25,7 @@ import retrofit2.Response
 
 
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
-    private lateinit var toggle: ToggleButton
+    private lateinit var toggle: CheckBox
     private lateinit var binding: ActivityForumBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var forum: Forum
