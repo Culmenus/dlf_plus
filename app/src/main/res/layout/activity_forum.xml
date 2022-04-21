@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="none"
         android:singleLine="false"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         app:layout_constrainedWidth="true"
         android:text="@string/title_placeholder_text"
@@ -57,14 +57,14 @@
         android:textSize="15sp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:maxLines = "4"
+        android:maxLines = "3"
         app:layout_constraintTop_toBottomOf="@id/courseId"/>
 
     <Button
         android:id="@+id/create_topic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:text="@string/create_topic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,15 +87,8 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         app:layout_constraintTop_toBottomOf="@id/create_topic"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/bottom_navigation_menu"
-        app:layout_constraintBottom_toBottomOf="@id/constraintLayout"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
