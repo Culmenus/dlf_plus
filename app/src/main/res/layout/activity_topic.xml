@@ -5,7 +5,11 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.TopicActivity">
+    android:clickable="true"
+    android:focusable="true"
+    android:animateLayoutChanges="true"
+    tools:context=".ui.TopicActivity"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/layout_group_chat"
@@ -16,58 +20,58 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_creator_option"
+            android:id="@+id/toolbar_topic"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:theme="@style/Widget.AppCompat.Toolbar"
             app:popupTheme="@style/Theme.AppCompat.Light"
-            android:visibility="invisible">
-            <Button
-                android:id="@+id/edit_button"
+            android:visibility="visible"
+            android:padding="5dp">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_topic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="20dp"
-                android:padding="10dp"
-                android:visibility="gone"/>
-            <Button
-                android:id="@+id/delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete_topic"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginLeft="20dp"
-                android:padding="10dp"
-                android:visibility="gone"/>
+                android:orientation="vertical">
 
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:maxWidth="360dp"
+                    android:text="@string/title"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:maxWidth="360dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginStart="10dp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/show_creator_options"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_settings_24"
+                android:layout_gravity="end"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="80dp"
+                android:contentDescription="@string/show_creator_options"
+                android:background="@android:color/transparent"/>
         </androidx.appcompat.widget.Toolbar>
+
+
     </com.google.android.material.appbar.AppBarLayout>
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title"
-        android:textColor="@color/purple_700"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:translationZ="200dp"/>
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textColor="@color/purple_500"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:translationZ="200dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_gchat"
@@ -101,7 +105,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <EditText
             android:layout_marginStart="16dp"
             android:id="@+id/edit_gchat_message"
@@ -117,16 +120,12 @@
 
         <Button
             android:id="@+id/button_gchat_send"
-            android:layout_width="64dp"
+            android:layout_width="75dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:text="Send"/>
+            android:text="Send"
+            android:textColor="@color/black" />
 
     </RelativeLayout>
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

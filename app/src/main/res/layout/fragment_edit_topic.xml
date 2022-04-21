@@ -30,15 +30,14 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/border_top_purple">
-
-
+            android:background="@drawable/border_top">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_input"
                 android:hint="@string/title"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
+                android:maxHeight="95dp"
                 android:layout_marginTop="10dp"/>
 
         </LinearLayout>
@@ -47,14 +46,12 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_input"
                 android:hint="@string/description"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
+                android:maxHeight="95dp"
                 android:layout_marginTop="10dp"/>
 
         </LinearLayout>

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -34,6 +35,8 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
 
     // sama og að gera
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
-    //private lateinit var mStompClient: StompClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initDrawer()
-        Log.d("MainActivity","Hello world!!")
+
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards)
 
@@ -70,15 +73,24 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-        val message = MessageDTO(
-            message = "Hello world",
-            isEdited = false,
-            userID = 1,
-            username = "Danni"
-        )
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "resumed")
+        resetForumViewModel()
+        loadForumViewModel()
+    }
 
+    fun resetForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.resetForumList()
+    }
+
+    fun loadForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.loadForumList()
+    }
 
     // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -100,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.miItem1 -> {
@@ -114,12 +127,7 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
                     startActivity(intent)
                 }
-                R.id.logout -> {
-                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    sessionManager.removeAuthedUser()
-                    startActivity(intent);
-                }
+
             }
             binding.drawerLayout.closeDrawer(binding.navView)
             true

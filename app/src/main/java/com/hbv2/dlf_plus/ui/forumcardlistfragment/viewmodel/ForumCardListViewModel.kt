@@ -1,5 +1,6 @@
 package com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel
 
+import android.nfc.Tag
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,21 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Forum
+import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.BackendApiClient
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ForumCardListViewModel : ViewModel() {
+private const val TAG = "ForumCardListViewModel"
+
+class ForumCardListViewModel() : ViewModel() {
 
     val forums = ArrayList<Forum>()
     private val forumsLiveData = MutableLiveData<List<Forum>>()
 
     val backendApiClient = BackendApiClient()
-    // todo tengja þetta login
-    // þetta er bara copy paste frá postman eins og er
 
     fun getForumsLiveData(): MutableLiveData<List<Forum>> {
         return forumsLiveData
@@ -32,7 +35,64 @@ class ForumCardListViewModel : ViewModel() {
         forumsLiveData.value = forums
     }
 
-    private fun loadForums() {
+    fun resetForumList() {
+        Log.d(TAG, "resettriggered")
+        forums.clear()
+        forumsLiveData.value = forums
+    }
+
+    fun loadForums(fetchCondition: Int, sessionManager: SessionManager) {
+        when (fetchCondition) {
+            0 -> fetchAllForums()
+            1 -> fetchMyForums(sessionManager)
+            else -> Log.d(TAG, "Invalid fetch condition")
+        }
+    }
+
+    private fun fetchMyForums(sessionManager: SessionManager) {
+        if(sessionManager.isUserStored()){
+            val token = sessionManager.fetchAuthedUserDetails()?.token
+            backendApiClient.getApi().getFavoriteForums(StringBuilder().append("Bearer ").append(token).toString())
+                .enqueue(object : Callback<ArrayList<ForumsResponseItem>> {
+                    override fun onFailure(
+                        call: Call<ArrayList<ForumsResponseItem>>,
+                        t: Throwable
+                    ) {
+                        Log.d(TAG, call.request().toString())
+                    }
+
+                    override fun onResponse(
+                        call: Call<ArrayList<ForumsResponseItem>>,
+                        response: Response<ArrayList<ForumsResponseItem>>
+                    ) {
+                        Log.d(TAG, "Request succeeded")
+                        val forums = response.body()
+                        if (response.isSuccessful && forums != null) {
+
+                            forums.forEach { item ->
+                                val tempForum = Forum(
+                                    id = item.id,
+                                    cover = R.drawable.pallas,
+                                    courseId = item.courseId,
+                                    name = item.name,
+                                    description = item.description
+                                )
+                                addForum(tempForum)
+                            }
+                            //Log.d("Mainactivity",allForums.toString())
+                        } else {
+                            //Error login
+                            Log.d("Mainactivity", "Failed to fetch")
+                        }
+                    }
+                })
+        } else {
+            //User not logged in
+            // Toast.makeText(context, "User must be logged in", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun fetchAllForums() {
         // do an async op to fetch forums
         backendApiClient.getApi()
             .getAllForums()
@@ -49,10 +109,10 @@ class ForumCardListViewModel : ViewModel() {
                     response: Response<ArrayList<ForumsResponseItem>>
                 ) {
                     Log.d("Mainactivity", "Request succeeded")
-                    val allForums = response.body()
-                    if (response.isSuccessful && allForums != null) {
+                    val forums = response.body()
+                    if (response.isSuccessful && forums != null) {
 
-                        allForums.forEach { item ->
+                        forums.forEach { item ->
                             val tempForum = Forum(
                                 id = item.id,
                                 cover = R.drawable.pallas,
@@ -70,9 +130,4 @@ class ForumCardListViewModel : ViewModel() {
                 }
             })
     }
-
-    init {
-        loadForums()
-    }
-
 }

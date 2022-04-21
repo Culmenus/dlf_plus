@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".ui.topiccreatefragment.view.CreateTopicFragment"
+    tools:context=".ui.topiccreatefragment.view.EditTopicFragment"
     >
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/create_topic"
+            android:text="@string/are_you_sure"
             android:textSize="26sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,40 +31,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/border_top">
-
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/title_input"
-                android:hint="@string/title"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/description_input"
-                android:hint="@string/description"
-                android:layout_width="280dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="@string/no_undo"
+                android:textSize="20sp"
+                android:textAlignment="center"/>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/create_button"
+            android:id="@+id/confirm_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/create"
+            android:text="@string/confirm"
             android:layout_marginBottom="30dp"
             android:visibility="visible"/>
         <ProgressBar

@@ -2,16 +2,20 @@ package com.hbv2.dlf_plus.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.databinding.ActivityMyForumsBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
 import com.hbv2.dlf_plus.ui.login.LoginActivity
+import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
-
+private const val TAG = "MyForumActivity"
 class MyForumsActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMyForumsBinding
@@ -26,6 +30,34 @@ class MyForumsActivity : AppCompatActivity() {
 
         initDrawer()
 
+        val currentFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards)
+
+        if (currentFragment == null) {
+            val fragment = ForumCardListFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container_forum_cards, fragment)
+                .commit()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "resumed")
+        resetForumViewModel()
+        loadForumViewModel()
+    }
+
+    fun resetForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.resetForumList()
+    }
+
+    fun loadForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.loadForumList()
     }
 
     // Drawer
@@ -61,12 +93,7 @@ class MyForumsActivity : AppCompatActivity() {
                     val intent = Intent(this@MyForumsActivity, UserProfileActivity::class.java)
                     startActivity(intent)
                 }
-                R.id.logout -> {
-                    val intent = Intent(this@MyForumsActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    sessionManager.removeAuthedUser()
-                    startActivity(intent);
-                }
+
             }
             binding.drawerLayout.closeDrawer(binding.navView)
             true

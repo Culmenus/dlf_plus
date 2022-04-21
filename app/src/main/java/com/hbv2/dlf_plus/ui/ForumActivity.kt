@@ -9,10 +9,14 @@ import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
+import android.widget.CheckBox
+import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
+import com.hbv2.dlf_plus.services.ForumService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
+import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
@@ -21,16 +25,29 @@ import retrofit2.Response
 
 
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
-    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: CheckBox
     private lateinit var binding: ActivityForumBinding
     private lateinit var sessionManager: SessionManager
     private lateinit var forum: Forum
+    private lateinit var user: User
+    private lateinit var forumService: ForumService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForumBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         sessionManager = SessionManager(applicationContext)
+        forumService = ForumService(this, sessionManager)
+        // its a user.
+        user = sessionManager.fetchAuthedUserDetails()?.user!!
+
+        //fav togglebutton
+        // https://developer.android.com/guide/topics/ui/controls/togglebutton
+        toggle = findViewById(R.id.fav_toggle_button)
+
+
 
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
@@ -39,7 +56,18 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             name = intent.getStringExtra("FORUM_NAME_EXTRA").toString(),
             description = intent.getStringExtra("FORUM_DESC_EXTRA").toString()
         )
-        
+
+        toggle.setOnClickListener {
+            toggle.isEnabled = false;
+            if(!toggle.isChecked) {
+                forumService.removeFromFavs(forumId = forum.id)
+            }
+            else {
+                forumService.addToFavs(forumId = forum.id)
+            }
+        }
+
+        toggle.isChecked = forumService.isForumFavorite(forum)
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_forum)
 
@@ -58,29 +86,12 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             createTopic.show(supportFragmentManager, "createTopic")
         }
 
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when (item.itemId) {
-                R.id.botItem1 -> {
-                    // Respond to navigation item 1 click
-                    true
-                }
-                R.id.botItem2 -> {
-                    // Respond to navigation item 2 click
-                    true
-                }
-                R.id.botItem3 -> {
-                    // Respond to navigation item 2 click
-                    true
-                }
-                else -> false
-            }
-        }
 
-        if (forum != null) {
-            binding.cover.setImageResource(forum.cover)
-            binding.name.text = forum.name
-            binding.courseId.text = forum.courseId
-        }
+        binding.cover.setImageResource(forum.cover)
+        binding.name.text = forum.name
+        binding.courseId.text = forum.courseId
+        binding.descriptionOfCourse.text = forum.description
+
     }
 
      override fun onResume() {
@@ -91,6 +102,16 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
 
     private fun setForum(_forum: Forum) {
         forum = _forum
+    }
+
+    fun setToggle(value: Boolean) {
+        toggle.isEnabled = true
+        toggle.isChecked = value
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun forumFromID(forumID: Int) {
