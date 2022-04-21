@@ -30,8 +30,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
@@ -55,6 +53,18 @@
                     app:layout_constraintTop_toBottomOf="@+id/title"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginStart="10dp" />
+                <TextView
+                    android:id="@+id/topic_creator_name"
+                    android:layout_width="wrap_content"
+                    android:maxWidth="360dp"
+                    android:layout_height="30dp"
+                    android:text="@string/creator"
+                    android:textColor="@color/white"
+                    android:textStyle="italic"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:padding="5dp"
+                    android:layout_marginStart="10dp" />
             </LinearLayout>
 
             <ImageButton
@@ -64,7 +74,7 @@
                 android:src="@drawable/ic_baseline_settings_24"
                 android:layout_gravity="end"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="110dp"
                 android:contentDescription="@string/show_creator_options"
                 android:background="@android:color/transparent"
                 android:visibility="gone"/>
