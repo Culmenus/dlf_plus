@@ -4,6 +4,7 @@ import android.os.Bundle
 
 import android.util.Log
 import android.view.View
+import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -28,6 +29,9 @@ import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+//
+
+//
 
 
 class TopicActivity() : AppCompatActivity() {
@@ -38,7 +42,7 @@ class TopicActivity() : AppCompatActivity() {
     private var adapter: MessageListAdapter? = null
 
     private val messageListViewModel: MessageListViewModel  by lazy {
-        ViewModelProvider(this).get(MessageListViewModel::class.java)
+        ViewModelProvider(this)[MessageListViewModel::class.java]
     }
 
     private lateinit var topicService: TopicService
@@ -96,6 +100,8 @@ class TopicActivity() : AppCompatActivity() {
             })
             text.text.clear()
         }
+
+
         // todo kannski trim
         // samt bara placeholder fyrir fetchid
         topic = Topic(
@@ -113,17 +119,29 @@ class TopicActivity() : AppCompatActivity() {
 
         topicService.getTopicByid(_id)
 
-        binding.editButton.setOnClickListener {
-            val editTopic = EditTopicFragment.newInstance()
-            editTopic.show(supportFragmentManager, "editTopic")
-        }
-        binding.deleteButton.setOnClickListener {
-            val deleteTopic = DeleteTopicFragment.newInstance()
-            deleteTopic.show(supportFragmentManager, "editTopic")
-        }
-
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun showCreatorOptions(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.topic_creator_options, popupMenu.menu)
+        popupMenu.show()
+
+        popupMenu.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.edit_menu_button -> {
+                    val editTopic = EditTopicFragment.newInstance()
+                    editTopic.show(supportFragmentManager, "editTopic")
+                }
+                R.id.delete_menu_button -> {
+                    val deleteTopic = DeleteTopicFragment.newInstance()
+                    deleteTopic.show(supportFragmentManager, "deleteTopic")
+                }
+            }
+            true
+        }
     }
 
     private fun updateUI() {
@@ -147,11 +165,15 @@ class TopicActivity() : AppCompatActivity() {
         binding.title.text = topic.title;
         binding.description.text = topic.description;
         if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
-            binding.editButton.visibility = View.VISIBLE
-            binding.deleteButton.visibility = View.VISIBLE
-            binding.toolbarCreatorOption.visibility = View.VISIBLE
+            // binding.editButton.visibility = View.VISIBLE
+            // binding.deleteButton.visibility = View.VISIBLE
+            binding.showCreatorOptions.visibility = View.VISIBLE
+            binding.showCreatorOptions.setOnClickListener {
+                showCreatorOptions(it)
+            }
         }
     }
+
 
     fun onTopicEdited(topic: Topic) {
         Log.d("Topic activity", topic.toString())
