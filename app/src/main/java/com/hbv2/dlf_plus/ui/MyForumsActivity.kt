@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -75,6 +77,11 @@ class MyForumsActivity : AppCompatActivity() {
             R.string.close
         )
         binding.drawerLayout.addDrawerListener(toggle)
+        val headerView: View = binding.navView.getHeaderView(0)
+        val textView : TextView = headerView.findViewById(R.id.user_greeting)
+        if(sessionManager.isUserStored()){
+            textView.text = sessionManager.fetchAuthedUserDetails()?.user?.username
+        }
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

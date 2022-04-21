@@ -1,39 +1,22 @@
 package com.hbv2.dlf_plus.ui
 
 //import com.hbv2.dlf_plus.networks.SessionManager
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import com.hbv2.dlf_plus.R
-import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.ui.login.LoginActivity
-import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
-import com.hbv2.dlf_plus.networks.responses.LoginResponse
-import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
+import com.hbv2.dlf_plus.ui.login.LoginActivity
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
-
-import io.reactivex.Completable
-import io.reactivex.CompletableTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ua.naiksoftware.stomp.Stomp
-import ua.naiksoftware.stomp.StompClient
-import ua.naiksoftware.stomp.dto.LifecycleEvent
 
 private const val TAG = "MainActivity"
 
@@ -57,9 +40,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(loginIntent);
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-
         initDrawer()
 
         val currentFragment =
@@ -108,6 +89,11 @@ class MainActivity : AppCompatActivity() {
             R.string.close
         )
         binding.drawerLayout.addDrawerListener(toggle)
+        val headerView: View = binding.navView.getHeaderView(0)
+        val textView : TextView = headerView.findViewById(R.id.user_greeting)
+        if(sessionManager.isUserStored()){
+            textView.text = sessionManager.fetchAuthedUserDetails()?.user?.username
+        }
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
