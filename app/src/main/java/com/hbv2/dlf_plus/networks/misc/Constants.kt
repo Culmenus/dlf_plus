@@ -3,9 +3,9 @@ package com.hbv2.dlf_plus.networks.misc
 object Constants {
 
     //WS url
-    const val WS_URL = "ws://10.0.2.2:8080/thread/websocket"
+    const val WS_URL = "wss://dlfplus.herokuapp.com/thread/websocket"
     // Endpoints
-    const val BASE_URL = "http://10.0.2.2:8080/"
+    const val BASE_URL = "https://dlfplus.herokuapp.com/"
     //user endpoints
     const val LOGIN_URL = "/login"
 
