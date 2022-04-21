@@ -2,7 +2,6 @@ package com.hbv2.dlf_plus.data.model
 
 import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
 import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
-import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutMessages
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -19,15 +18,6 @@ data class Topic(
 )
 
 fun Topic.toTopicWithoutId() = TopicWithoutId(
-    creator = creator,
-    description = description,
-    lastUpdated = lastUpdated,
-    messages = messages,
-    title = title,
-)
-
-fun Topic.toTopicWithoutMessages() = TopicWithoutMessages(
-    id = id,
     creator = creator,
     description = description,
     lastUpdated = lastUpdated,

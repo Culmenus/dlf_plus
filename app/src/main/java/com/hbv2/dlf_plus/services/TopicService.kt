@@ -5,7 +5,6 @@ import android.util.Log
 import android.widget.Toast
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.toTopicWithoutId
-import com.hbv2.dlf_plus.data.model.toTopicWithoutMessages
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
@@ -64,11 +63,10 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
     fun editTopic(topicEdited: Topic, fragment: EditTopicFragment) {
         if (sessionManager.isUserStored()) {
             topicEdited.lastUpdated = null
-            val topicWithoutMessages = topicEdited.toTopicWithoutMessages()
             val token = sessionManager.fetchAuthedUserDetails()?.token
             backendApiClient.getApi().updateTopicById(
                 StringBuilder().append("Bearer ").append(token).toString(),
-                topicWithoutMessages, topicEdited.id.toString()
+                topicEdited.title, topicEdited.description, topicEdited.id.toString()
             )
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {
