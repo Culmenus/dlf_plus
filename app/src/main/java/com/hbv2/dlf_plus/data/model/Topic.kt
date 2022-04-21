@@ -21,6 +21,5 @@ fun Topic.toTopicWithoutId() = TopicWithoutId(
     creator = creator,
     description = description,
     lastUpdated = lastUpdated,
-    messages = messages,
     title = title,
 )

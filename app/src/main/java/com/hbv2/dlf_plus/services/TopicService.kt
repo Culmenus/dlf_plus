@@ -66,7 +66,7 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
             val token = sessionManager.fetchAuthedUserDetails()?.token
             backendApiClient.getApi().updateTopicById(
                 StringBuilder().append("Bearer ").append(token).toString(),
-                topicEdited, topicEdited.id.toString()
+                topicEdited.title, topicEdited.description, topicEdited.id.toString()
             )
                 .enqueue(object : Callback<Topic> {
                     override fun onFailure(call: Call<Topic>, t: Throwable) {

@@ -4,10 +4,8 @@ import com.hbv2.dlf_plus.data.model.Forum
 import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.misc.Constants
-import com.hbv2.dlf_plus.networks.requestBody.ForumWithoutId
 import com.hbv2.dlf_plus.networks.requestBody.LoginRequestBody
 import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
-import com.hbv2.dlf_plus.networks.responses.AllForumsResponse
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
 import com.hbv2.dlf_plus.networks.responses.LoginResponse
 import retrofit2.Call
@@ -55,9 +53,10 @@ interface BackendApi {
     fun createTopic(@Header("Authorization") token: String,
                      @Path("forumId") forumId : String, @Body topic: TopicWithoutId) : Call<Topic>
 
-    @PATCH(Constants.THREAD_URL)
+    @PATCH(Constants.THREAD_PATCH_URL)
     fun updateTopicById(@Header("Authorization") token: String,
-                        @Body topic: Topic,
+                        @Path("newTitle") newTitle: String,
+                        @Path("newDescription") newDesc: String,
                         @Path("threadId") threadId: String) : Call<Topic>
 
     @DELETE(Constants.THREAD_URL)

@@ -19,6 +19,7 @@ object Constants {
 
     //topic endpoints
     const val THREAD_URL = "/api/thread/{threadId}"
+    const val THREAD_PATCH_URL = "/api/thread/{threadId}/title/{newTitle}/desc/{newDescription}"
     const val CREATE_THREAD_BY_FORUM_ID = "/api/forum/{forumId}"
 
     //messages
