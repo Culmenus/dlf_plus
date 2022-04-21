@@ -36,7 +36,7 @@ class SessionManager (context: Context) {
 
     fun updateFavorites(newFavs: ArrayList<ForumsResponseItem>) {
         var details = fetchAuthedUserDetails();
-        details?.user?.favoriteForums = newFavs;
+        details?.favoriteForums = newFavs;
         saveAuthedUser(details!!);
     }
 

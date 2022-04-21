@@ -7,5 +7,4 @@ data class User(
     val id: Int,
     val userRole: String = "ROLE_USER",
     val username: String,
-    var favoriteForums: ArrayList<ForumsResponseItem>,
 )
