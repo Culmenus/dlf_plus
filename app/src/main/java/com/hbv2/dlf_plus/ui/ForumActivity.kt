@@ -96,11 +96,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             }
         }
 
-        if (forum != null) {
-            binding.cover.setImageResource(forum.cover)
-            binding.name.text = forum.name
-            binding.courseId.text = forum.courseId
-        }
+        binding.cover.setImageResource(forum.cover)
+        binding.name.text = forum.name
+        binding.courseId.text = forum.courseId
+        binding.descriptionOfCourse.text = forum.description
+
     }
 
      override fun onResume() {
