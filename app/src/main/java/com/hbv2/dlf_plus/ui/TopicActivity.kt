@@ -23,9 +23,9 @@ import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.websocket.WSChatClient
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
-import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
+import com.hbv2.dlf_plus.services.TopicService
+import com.hbv2.dlf_plus.ui.topicdeletefragment.view.DeleteTopicFragment
+import com.hbv2.dlf_plus.ui.topiceditfragment.view.EditTopicFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -119,7 +119,7 @@ class TopicActivity() : AppCompatActivity() {
                 binding.recyclerGchat.scrollToPosition(it.size -1)
             })
 
-        topicService.getTopicByid(_id)
+        topicService.getTopicById(_id)
 
         msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
