@@ -1,22 +1,24 @@
 package com.hbv2.dlf_plus.ui
 
+//import com.hbv2.dlf_plus.networks.SessionManager
+
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.recyclerview.widget.GridLayoutManager
-import com.hbv2.dlf_plus.*
-import com.hbv2.dlf_plus.data.model.*
-import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.adapter.ForumCardAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.databinding.ActivityMainBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
-import com.hbv2.dlf_plus.networks.SessionManager
-import com.hbv2.dlf_plus.ui.forumcardlistfragment.ForumClickListener
+import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
+import com.hbv2.dlf_plus.ui.login.LoginActivity
+import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,13 +30,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var backendApiClient: BackendApiClient
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sessionManager = SessionManager(applicationContext)
+        Log.d("SessionManager", sessionManager.isUserStored().toString())
+        if(!sessionManager.isUserStored()){
+            val loginIntent = Intent(this@MainActivity, LoginActivity::class.java);
+            startActivity(loginIntent);
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-
         initDrawer()
 
         val currentFragment =
@@ -50,6 +56,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "resumed")
+        resetForumViewModel()
+        loadForumViewModel()
+    }
+
+    fun resetForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.resetForumList()
+    }
+
+    fun loadForumViewModel() {
+        val tm: ForumCardListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum_cards) as ForumCardListFragment
+        tm.loadForumList()
+    }
 
     // Drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -67,9 +89,15 @@ class MainActivity : AppCompatActivity() {
             R.string.close
         )
         binding.drawerLayout.addDrawerListener(toggle)
+        val headerView: View = binding.navView.getHeaderView(0)
+        val textView : TextView = headerView.findViewById(R.id.user_greeting)
+        if(sessionManager.isUserStored()){
+            textView.text = sessionManager.fetchAuthedUserDetails()?.user?.username
+        }
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -85,16 +113,10 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this@MainActivity, UserProfileActivity::class.java)
                     startActivity(intent)
                 }
+
             }
+            binding.drawerLayout.closeDrawer(binding.navView)
             true
         }
     }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.nav_drawer_menu, menu)
-        return true
-    }
-
 }

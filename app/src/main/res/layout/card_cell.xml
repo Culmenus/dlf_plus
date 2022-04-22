@@ -36,6 +36,8 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:lines="2"
+
+                android:ellipsize="end"
                 android:textStyle="bold"/>
 
             <TextView

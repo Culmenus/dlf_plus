@@ -1,3 +1,7 @@
 package com.hbv2.dlf_plus.networks.responses
 
-class AllForumsResponse : ArrayList<AllForumsResponseItem>()
+import com.hbv2.dlf_plus.data.model.Forum
+
+class AllForumsResponse : ArrayList<ForumsResponseItem>()
+
+

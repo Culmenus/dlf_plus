@@ -1,0 +1,30 @@
+backendApiClient = BackendApiClient()
+        sessionManager = SessionManager(applicationContext)
+        if(sessionManager.isUserStored()){
+            val token = sessionManager.fetchAuthedUserDetails()?.token
+            val id = "1" //dæmi
+            backendApiClient.getApi().getForumById(
+                StringBuilder().append("Bearer ").append(token).toString(),
+                id)
+                .enqueue(object : Callback<Forum> {
+                    override fun onFailure(call: Call<Forum>, t: Throwable) {
+                        Log.d("Mainactivity",call.request().toString())
+                    }
+
+                    override fun onResponse(
+                        call: Call<Forum>,
+                        response: Response<Forum>
+                    ) {
+                        Log.d("Mainactivity","Request succeeded")
+                        val allForums = response.body()
+                        if(response.isSuccessful && allForums != null){
+                            Log.d("Mainactivity",allForums.toString())
+                        }else{
+                            //Error login
+                            Log.d("Mainactivity","Failed to fetch")
+                        }
+                    }
+                })
+        }else{
+            //User not logged in do something..
+        }
