@@ -3,26 +3,25 @@ package com.hbv2.dlf_plus.ui
 import android.content.Intent
 import android.os.Bundle
 
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
 import android.widget.CheckBox
-import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.services.ForumService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
-import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+private const val TAG = "ForumActivity"
 
 class ForumActivity : AppCompatActivity(), OnTopicCreated {
     private lateinit var toggle: CheckBox
@@ -118,17 +117,17 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
             forumID.toString())
             .enqueue(object : Callback<Forum> {
                 override fun onFailure(call: Call<Forum>, t: Throwable) {
-                    Log.d("Mainactivity",call.request().toString())
+                    Log.d(TAG, call.request().toString())
                 }
 
                 override fun onResponse(
                     call: Call<Forum>,
                     response: Response<Forum>
                 ) {
-                    Log.d("Mainactivity","Request succeeded")
+                    Log.d(TAG,"Request succeeded")
                     val forumRes = response.body()
                     if(response.isSuccessful && forumRes != null){
-                        Log.d("Mainactivity",forumRes.toString())
+                        Log.d(TAG, forumRes.toString())
                         val currentForum = Forum(
                             id = forumRes.id,
                             cover = R.drawable.pallas,
@@ -147,11 +146,11 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
                             )
                             addTopicToViewModel(tempTopic)
                         }
-                        Log.d("forum topics", forum.toString())
+                        Log.d("Forum topics", forum.toString())
 
                     }else{
                         //Error login
-                        Log.d("Mainactivity","Failed to fetch")
+                        Log.d(TAG ,"Failed to fetch")
                     }
                 }
             })

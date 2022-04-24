@@ -1,30 +1,22 @@
-package com.hbv2.dlf_plus.ui.topiccreatefragment
-
+package com.hbv2.dlf_plus.services
 
 import android.util.Log
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.TopicActivity
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
+import com.hbv2.dlf_plus.ui.topicdeletefragment.view.DeleteTopicFragment
+import com.hbv2.dlf_plus.ui.topiceditfragment.view.EditTopicFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class TopicService(activity: TopicActivity, sessionManager: SessionManager) {
-    private lateinit var activity: TopicActivity
-    private lateinit var sessionManager: SessionManager
+open class TopicService(private var activity: TopicActivity,
+                        private var sessionManager: SessionManager
+) {
     private var backendApiClient: BackendApiClient = BackendApiClient()
 
-    init {
-        if (activity != null) {
-            this.activity = activity
-            this.sessionManager = sessionManager
-        }
-    }
-
-    fun getTopicByid(topicId: Int) {
+    fun getTopicById(topicId: Int) {
         if(sessionManager.isUserStored()){
             val token = sessionManager.fetchAuthedUserDetails()?.token
             backendApiClient.getApi().getTopicById(StringBuilder().append("Bearer ").append(token).toString(),
