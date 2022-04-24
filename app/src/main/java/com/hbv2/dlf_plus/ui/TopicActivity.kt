@@ -1,13 +1,10 @@
 package com.hbv2.dlf_plus.ui
 
 import android.os.Bundle
-
 import android.util.Log
 import android.view.View
-import android.widget.*
-
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,25 +13,25 @@ import com.hbv2.dlf_plus.data.model.Message
 import com.hbv2.dlf_plus.data.model.MessageDTO
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.data.model.User
-
 import com.hbv2.dlf_plus.databinding.ActivityTopicBinding
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.websocket.WSChatClient
+import com.hbv2.dlf_plus.services.TopicService
 import com.hbv2.dlf_plus.ui.messagelistfragment.adapter.MessageListAdapter
 import com.hbv2.dlf_plus.ui.messagelistfragment.viewmodel.MessageListViewModel
-import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
-import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
+import com.hbv2.dlf_plus.ui.topicdeletefragment.view.DeleteTopicFragment
+import com.hbv2.dlf_plus.ui.topiceditfragment.view.EditTopicFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-//
 
 //
 
+//
 
-class TopicActivity() : AppCompatActivity() {
+
+class TopicActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
     private lateinit var msgRecyclerView: RecyclerView
     private lateinit var sessionManager: SessionManager
@@ -69,59 +66,57 @@ class TopicActivity() : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
-        val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
-        val _desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
+        val topicId = intent.getIntExtra("TOPIC_ID", -1)
+        val topicTitle = intent.getStringExtra("TOPIC_TITLE")
+        val topicDesc = intent.getStringExtra("TOPIC_DESCRIPTION")
 
-        stompClient.subscribe(_id) {
+        stompClient.subscribe(topicId) {
             messageListViewModel.addMessage(it)
         }
         submit.setOnClickListener {
             val msg = MessageDTO(text.text.toString(), false, currentUser.id, currentUser.username)
-            stompClient.sendMessage(_id, msg);
+            stompClient.sendMessage(topicId, msg)
             backendApiClient.getApi().createMessageByThreadId(
                 StringBuilder().append("Bearer ").append(token).toString(),
-                _id.toString(),
+                topicId.toString(),
                 msg).enqueue(object : Callback<MessageDTO> {
                 override fun onFailure(call: Call<MessageDTO>, t: Throwable) {
-                    Log.d("Mainactivity",call.request().toString())
+                    Log.d("MainActivity",call.request().toString())
                 }
 
                 override fun onResponse(
                     call: Call<MessageDTO>,
                     response: Response<MessageDTO>
                 ) {
-                    Log.d("Mainactivity","Request succeeded")
+                    Log.d("MainActivity","Request succeeded")
                     val message = response.body()
                     if(response.isSuccessful && message != null){
-                        Log.d("Mainactivity",message.toString())
+                        Log.d("MainActivity",message.toString())
                     }else{
                         //Error login
-                        Log.d("Mainactivity","Failed to fetch")
+                        Log.d("MainActivity","Failed to fetch")
                     }
                 }
             })
             text.text.clear()
         }
 
-        // todo kannski trim
-        // samt bara placeholder fyrir fetchid
         topic = Topic(
-            id = _id,
-            title = _title.toString(),
-            description = _desc.toString()
+            id = topicId,
+            title = topicTitle.toString(),
+            description = topicDesc.toString()
         )
 
         messageListViewModel
             .getMessagesLiveData()
-            .observe(this, Observer<List<MessageDTO>> {
+            .observe(this) {
                 updateUI()
-                binding.recyclerGchat.scrollToPosition(it.size -1)
-            })
+                binding.recyclerGchat.scrollToPosition(it.size - 1)
+            }
 
-        topicService.getTopicByid(_id)
+        topicService.getTopicById(topicId)
 
-        msgRecyclerView = findViewById<RecyclerView>(R.id.recycler_gchat)
+        msgRecyclerView = findViewById(R.id.recycler_gchat)
         msgRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
@@ -164,11 +159,9 @@ class TopicActivity() : AppCompatActivity() {
             addMessageToViewModel(msg)
         }
 
-        binding.title.text = topic.title;
-        binding.description.text = topic.description;
-        if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
-            // binding.editButton.visibility = View.VISIBLE
-            // binding.deleteButton.visibility = View.VISIBLE
+        binding.title.text = topic.title
+        binding.description.text = topic.description
+        if (topic.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
             binding.showCreatorOptions.visibility = View.VISIBLE
             binding.showCreatorOptions.setOnClickListener {
                 showCreatorOptions(it)
@@ -179,8 +172,8 @@ class TopicActivity() : AppCompatActivity() {
 
     fun onTopicEdited(topic: Topic) {
         Log.d("Topic activity", topic.toString())
-        binding.title.text = topic.title;
-        binding.description.text = topic.description;
+        binding.title.text = topic.title
+        binding.description.text = topic.description
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -193,11 +186,7 @@ class TopicActivity() : AppCompatActivity() {
     }
 
     fun errorFetching(str: String) {
-
-    }
-
-    fun errorEditing(str: String) {
-
+        Log.d("Topic Activity", str)
     }
 
     fun getSessionManager(): SessionManager {

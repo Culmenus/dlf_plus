@@ -1,4 +1,4 @@
-package com.hbv2.dlf_plus.ui.topiccreatefragment.view
+package com.hbv2.dlf_plus.ui.topiceditfragment.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,8 @@ import androidx.fragment.app.DialogFragment
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.FragmentEditTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.ui.ForumActivity
 import com.hbv2.dlf_plus.ui.TopicActivity
-import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
+import com.hbv2.dlf_plus.services.TopicService
 
 class EditTopicFragment : DialogFragment() {
     private lateinit var topicService: TopicService
@@ -42,8 +41,8 @@ class EditTopicFragment : DialogFragment() {
 
         binding.editButton.setOnClickListener {
             setLoad()
-            val title = binding.titleInput.text;
-            val desc = binding.descriptionInput.text;
+            val title = binding.titleInput.text
+            val desc = binding.descriptionInput.text
 
             if (title.toString() == topic.title && desc.toString() == topic.description) {
                 // no change

@@ -3,20 +3,17 @@ package com.hbv2.dlf_plus.ui
 import android.content.Intent
 import android.os.Bundle
 
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.hbv2.dlf_plus.*
 import com.hbv2.dlf_plus.data.model.*
 import com.hbv2.dlf_plus.databinding.ActivityForumBinding
 import android.util.Log
 import android.widget.CheckBox
-import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.services.ForumService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.OnTopicCreated
-import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.CreateTopicFragment
 import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 import retrofit2.Call
