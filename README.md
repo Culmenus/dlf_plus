@@ -24,4 +24,4 @@ Team 7: \
 Daníel Helgi Ágústsson, dha7@hi.is \
 Jón Gunnar Hannesson, jgh12@hi.is  \
 Natanel Demissew Ketema, ndk1@hi.is \
-Oddur Áskell Thoroddsen, oat3@hi.is \
+Oddur Áskell Thoroddsen, oat3@hi.is
