@@ -20,8 +20,8 @@ username: admin@user.is     password: pword2
 
 For the hand-in we changed the endpoint of the backend server to localhost from heroku, since heroku wipes the database regularly.
 
-Team 7:
-Daníel Helgi Ágústsson, dha7@hi.is
-Jón Gunnar Hannesson, jgh12@hi.is
-Natanel Demissew Ketema, ndk1@hi.is
-Oddur Áskell Thoroddsen, oat3@hi.is
+Team 7: \
+Daníel Helgi Ágústsson, dha7@hi.is \
+Jón Gunnar Hannesson, jgh12@hi.is  \
+Natanel Demissew Ketema, ndk1@hi.is \
+Oddur Áskell Thoroddsen, oat3@hi.is \
