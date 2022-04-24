@@ -1,8 +1,7 @@
 package com.hbv2.dlf_plus.services
 
-import android.util.Log
+
 import com.hbv2.dlf_plus.data.model.Forum
-import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem

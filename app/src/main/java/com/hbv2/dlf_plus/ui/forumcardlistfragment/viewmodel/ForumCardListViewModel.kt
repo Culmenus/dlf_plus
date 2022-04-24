@@ -1,18 +1,13 @@
 package com.hbv2.dlf_plus.ui.forumcardlistfragment.viewmodel
 
-import android.nfc.Tag
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.data.model.Forum
-import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.networks.responses.ForumsResponseItem
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,16 +74,14 @@ class ForumCardListViewModel() : ViewModel() {
                                 )
                                 addForum(tempForum)
                             }
-                            //Log.d("Mainactivity",allForums.toString())
                         } else {
                             //Error login
-                            Log.d("Mainactivity", "Failed to fetch")
+                            Log.d(TAG, "Failed to fetch")
                         }
                     }
                 })
         } else {
             //User not logged in
-            // Toast.makeText(context, "User must be logged in", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -101,14 +94,14 @@ class ForumCardListViewModel() : ViewModel() {
                     call: Call<ArrayList<ForumsResponseItem>>,
                     t: Throwable
                 ) {
-                    Log.d("Mainactivity", call.request().toString())
+                    Log.d(TAG, call.request().toString())
                 }
 
                 override fun onResponse(
                     call: Call<ArrayList<ForumsResponseItem>>,
                     response: Response<ArrayList<ForumsResponseItem>>
                 ) {
-                    Log.d("Mainactivity", "Request succeeded")
+                    Log.d(TAG, "Request succeeded")
                     val forums = response.body()
                     if (response.isSuccessful && forums != null) {
 
@@ -122,10 +115,9 @@ class ForumCardListViewModel() : ViewModel() {
                             )
                             addForum(tempForum)
                         }
-                        //Log.d("Mainactivity",allForums.toString())
                     } else {
                         //Error login
-                        Log.d("Mainactivity", "Failed to fetch")
+                        Log.d(TAG, "Failed to fetch")
                     }
                 }
             })

@@ -29,10 +29,8 @@ import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-//
 
-//
-
+private const val TAG = "TopicActivity"
 
 class TopicActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityTopicBinding
@@ -69,9 +67,9 @@ class TopicActivity() : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val _id = intent.getIntExtra("TOPIC_ID", -1) // ehv svona // fra danna?? passar.
-        val _title = intent.getStringExtra("TOPIC_TITLE") // fra danna??
-        val _desc = intent.getStringExtra("TOPIC_DESCRIPTION") // fra danna??
+        val _id = intent.getIntExtra("TOPIC_ID", -1)
+        val _title = intent.getStringExtra("TOPIC_TITLE")
+        val _desc = intent.getStringExtra("TOPIC_DESCRIPTION")
 
         stompClient.subscribe(_id) {
             messageListViewModel.addMessage(it)
@@ -84,28 +82,26 @@ class TopicActivity() : AppCompatActivity() {
                 _id.toString(),
                 msg).enqueue(object : Callback<MessageDTO> {
                 override fun onFailure(call: Call<MessageDTO>, t: Throwable) {
-                    Log.d("Mainactivity",call.request().toString())
+                    Log.d(TAG ,call.request().toString())
                 }
 
                 override fun onResponse(
                     call: Call<MessageDTO>,
                     response: Response<MessageDTO>
                 ) {
-                    Log.d("Mainactivity","Request succeeded")
+                    Log.d(TAG,"Request succeeded")
                     val message = response.body()
                     if(response.isSuccessful && message != null){
-                        Log.d("Mainactivity",message.toString())
+                        Log.d(TAG ,message.toString())
                     }else{
                         //Error login
-                        Log.d("Mainactivity","Failed to fetch")
+                        Log.d(TAG ,"Failed to fetch")
                     }
                 }
             })
             text.text.clear()
         }
 
-        // todo kannski trim
-        // samt bara placeholder fyrir fetchid
         topic = Topic(
             id = _id,
             title = _title.toString(),
@@ -157,7 +153,7 @@ class TopicActivity() : AppCompatActivity() {
     }
 
     fun onTopicFetched(_topic: Topic) {
-        Log.d("Topic activity", topic.toString())
+        Log.d(TAG , topic.toString())
         topic = _topic
         binding.topicCreatorName.text = topic.creator?.username
         topic.messages.forEach { msg ->
@@ -167,8 +163,6 @@ class TopicActivity() : AppCompatActivity() {
         binding.title.text = topic.title;
         binding.description.text = topic.description;
         if (topic?.creator?.email == sessionManager.fetchAuthedUserDetails()?.user?.email) {
-            // binding.editButton.visibility = View.VISIBLE
-            // binding.deleteButton.visibility = View.VISIBLE
             binding.showCreatorOptions.visibility = View.VISIBLE
             binding.showCreatorOptions.setOnClickListener {
                 showCreatorOptions(it)
@@ -178,7 +172,7 @@ class TopicActivity() : AppCompatActivity() {
 
 
     fun onTopicEdited(topic: Topic) {
-        Log.d("Topic activity", topic.toString())
+        Log.d(TAG , topic.toString())
         binding.title.text = topic.title;
         binding.description.text = topic.description;
     }

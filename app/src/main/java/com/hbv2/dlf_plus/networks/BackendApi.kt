@@ -18,7 +18,6 @@ import retrofit2.http.POST
 interface BackendApi {
 
     //-----------user------------- //logout virkni ætti bara að vera sharedPreferences.
-    //update/delete user bætist ef við ætlum að utfæra það..
     @POST(Constants.LOGIN_URL)
     fun login(@Body loginReq: LoginRequestBody): Call<LoginResponse>
 

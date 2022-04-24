@@ -1,6 +1,5 @@
 package com.hbv2.dlf_plus.ui.topiclistfragment.viewholder
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.ListItemTopicBinding

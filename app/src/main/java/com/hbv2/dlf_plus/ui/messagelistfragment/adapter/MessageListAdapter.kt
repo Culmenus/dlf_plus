@@ -23,7 +23,6 @@ class MessageListAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val msg = messages[position]
-        //breyta í current user í staðinn fyrir 1
         if (msg.userID == userID) {
             return VIEW_TYPE_MESSAGE_SENT
         }
@@ -44,7 +43,6 @@ class MessageListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val msg = messages[position]
-        //kotlin switch ?? veit ekki hversu hratt þó
         when (holder.itemViewType) {
             1 -> (holder as SentMessageHolder).bind(msg)
             2 -> (holder as ReceivedMessageHolder).bind(msg)

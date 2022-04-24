@@ -7,7 +7,6 @@ import kotlin.collections.ArrayList
 
 val TOPIC_ID_EXTRA = "threadExtra"
 
-//eyða default values seinna þegar kerfið er integrated
 data class Topic(
     val creator: User? = null,
     var description: String = "",

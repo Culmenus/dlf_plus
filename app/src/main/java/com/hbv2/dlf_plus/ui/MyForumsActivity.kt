@@ -8,14 +8,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.hbv2.dlf_plus.R
 import com.hbv2.dlf_plus.ui.userprofile.view.UserProfileActivity
 import com.hbv2.dlf_plus.databinding.ActivityMyForumsBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
 import com.hbv2.dlf_plus.ui.forumcardlistfragment.view.ForumCardListFragment
-import com.hbv2.dlf_plus.ui.login.LoginActivity
-import com.hbv2.dlf_plus.ui.topiclistfragment.view.TopicListFragment
 
 private const val TAG = "MyForumActivity"
 class MyForumsActivity : AppCompatActivity() {

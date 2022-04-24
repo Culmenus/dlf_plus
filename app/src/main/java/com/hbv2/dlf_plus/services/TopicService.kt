@@ -1,13 +1,10 @@
 package com.hbv2.dlf_plus.ui.topiccreatefragment
 
-import android.content.Context
+
 import android.util.Log
-import android.widget.Toast
 import com.hbv2.dlf_plus.data.model.Topic
-import com.hbv2.dlf_plus.data.model.toTopicWithoutId
 import com.hbv2.dlf_plus.networks.BackendApiClient
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
 import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.DeleteTopicFragment
 import com.hbv2.dlf_plus.ui.topiccreatefragment.view.EditTopicFragment
@@ -56,7 +53,6 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
                 })
         } else {
             //User not logged in
-            // Toast.makeText(context, "User must be logged in", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -90,7 +86,6 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
                 })
         } else {
             //User not logged in
-
         }
     }
 
@@ -123,7 +118,6 @@ open class TopicService(activity: TopicActivity, sessionManager: SessionManager)
                 })
         } else {
             //User not logged in
-
         }
     }
 }

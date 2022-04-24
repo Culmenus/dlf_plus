@@ -40,14 +40,10 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
 
         sessionManager = SessionManager(applicationContext)
         forumService = ForumService(this, sessionManager)
+
         // its a user.
         user = sessionManager.fetchAuthedUserDetails()?.user!!
-
-        //fav togglebutton
-        // https://developer.android.com/guide/topics/ui/controls/togglebutton
         toggle = findViewById(R.id.fav_toggle_button)
-
-
 
         forum = Forum(
             id = intent.getIntExtra("FORUM_ID_EXTRA", -1),
@@ -115,8 +111,6 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
     }
 
     private fun forumFromID(forumID: Int) {
-        //TODO LAGA. Verðum að leysa þetta með fetch eða local db
-        // todo refactor ? ugh endurtekning
         val backendApiClient = BackendApiClient()
         val token = sessionManager.fetchAuthedUserDetails()!!.token
         backendApiClient.getApi().getForumById(
@@ -178,7 +172,6 @@ class ForumActivity : AppCompatActivity(), OnTopicCreated {
     }
 
     override fun onTopicCreated(topic: Topic) {
-        //Toast.makeText(this, "yabba dabba doooo" + topic.toString(), Toast.LENGTH_LONG).show()
         // Færum okkur yfir á þetta Topic:
         val tm: TopicListFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_forum) as TopicListFragment
         tm.addTopicToListView(topic)

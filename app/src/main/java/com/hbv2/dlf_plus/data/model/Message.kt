@@ -1,7 +1,5 @@
 package com.hbv2.dlf_plus.data.model
 
-import com.google.gson.annotations.SerializedName
-import com.hbv2.dlf_plus.networks.requestBody.TopicWithoutId
 import java.util.*
 
 data class Message(

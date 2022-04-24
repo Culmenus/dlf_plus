@@ -1,7 +1,5 @@
 package com.hbv2.dlf_plus.ui
 
-//import com.hbv2.dlf_plus.networks.SessionManager
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,9 +20,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-    // sama og að gera
-    //      var toggle: ActionBarDrawerToggle? = null
-    // nema að þetta þarf fult af null checks
+
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding
     private lateinit var sessionManager: SessionManager

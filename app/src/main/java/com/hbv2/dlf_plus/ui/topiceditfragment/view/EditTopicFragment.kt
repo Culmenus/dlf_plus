@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment
 import com.hbv2.dlf_plus.data.model.Topic
 import com.hbv2.dlf_plus.databinding.FragmentEditTopicBinding
 import com.hbv2.dlf_plus.networks.misc.SessionManager
-import com.hbv2.dlf_plus.ui.ForumActivity
 import com.hbv2.dlf_plus.ui.TopicActivity
 import com.hbv2.dlf_plus.ui.topiccreatefragment.TopicService
 
